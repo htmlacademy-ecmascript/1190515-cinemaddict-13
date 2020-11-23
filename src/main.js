@@ -15,14 +15,14 @@ const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
 };
 
-const siteStatusElement = document.querySelector(`.header__profile`);
-render(siteStatusElement, createUserStatusTemplate(), `beforeend`);
+const siteStatusElement = document.querySelector(`.header`);
+render(siteStatusElement, createUserStatusTemplate(), `beforeEnd`);
 
-const mainListElement = document.querySelector(`.main`);
-const mainNavigationElement = mainListElement.querySelector(`.main-navigation`);
+const mainListElements = document.querySelector(`.main`);
+const mainNavigationElement = mainListElements.querySelector(`.main-navigation`);
 render(mainNavigationElement, createSiteMenuTemplate(), `beforeend`);
 
-const createFiltersElement = mainListElement.querySelector(`.sort`);
+const createFiltersElement = mainListElements.querySelector(`.sort`);
 render(createFiltersElement, createFiltersTemplate(), `beforeend`);
 
 const filmsListElement = document.querySelector(`.films-list`);
