@@ -1,7 +1,7 @@
 # Проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Evgeniy Reva](https://up.htmlacademy.ru/ecmascript/13/user/1190515).
-* Наставник: `Неизвестно`.
+* Наставник: `Евгений Лепешкин`.
 
 ---
 
