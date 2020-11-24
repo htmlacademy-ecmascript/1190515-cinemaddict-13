@@ -1,4 +1,3 @@
-
 import {createUserStatusTemplate} from "./view/user-status.js";
 import {createSiteMenuTemplate} from "./view/site-menu.js";
 import {createFiltersTemplate} from "./view/filters.js";
@@ -36,27 +35,18 @@ for (let i = 0; i < CARD_COUNT; i++) {
 const filmsListElement = document.querySelector(`.films-list`);
 render(filmsListElement, createLoadMoreButtonTemplate(), `beforeend`);
 
-const filmsElement = document.querySelector(`films`);
-const filmsListExtra = filmsElement.querySelectorAll(`.films-list--extra`);
-// eslint-disable-next-line no-console
-console.log(filmsListExtra);
-filmsListExtra.forEach((element) => {
-  // filmsListContainerElement = element.querySelector(`.films-list__container`);
-  if (element[0]) {
-    for (let i = 0; i < EXTRA_CARD_COUNT; i++) {
-      render(filmsListContainerElement, createTopRatedTemplate(), `afterbegin`);
-    }
-  }
-  if (element[filmsListExtra.length - 1]) {
-    for (let i = 0; i < EXTRA_CARD_COUNT; i++) {
-      render(filmsListContainerElement, createMostCommentedTemplate(), `afterbegin`);
-    }
-  }
-  return filmsListContainerElement;
-});
+const filmsElement = document.querySelector(`.films`);
+const filmsContainer = filmsElement.querySelectorAll(`.films-list--extra > .films-list__container`);
+for (let i = 0; i < EXTRA_CARD_COUNT; i++) {
+  render(filmsContainer[0], createTopRatedTemplate(), `afterbegin`);
+  render(filmsContainer[1], createMostCommentedTemplate(), `afterbegin`);
+}
 
 const footerStatisticsElement = document.querySelector(`.footer__statistics`);
 render(footerStatisticsElement, createStatisticsTemplate(), `beforeend`);
 
 const footerElement = document.querySelector(`.footer`);
 render(footerElement, createPopupTemplate(), `afterend`);
+
+const popup = document.querySelector(`.film-details`);
+popup.classList.add(`visually-hidden`);
