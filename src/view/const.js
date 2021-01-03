@@ -3,5 +3,5 @@ export const RATING = {
   11: `Fan`,
   21: `Movie Buff`,
 };
-export const CARD_COUNT_PER_STEP = 5;
+export const CARD_COUNT_STEP = 5;
 export const EXTRA_CARD_COUNT = 2;

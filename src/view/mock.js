@@ -3,78 +3,85 @@ import {getRandomInteger} from "../utils.js";
 const generateServerFilm = () => {
   const serverFilms = [
     {
-      `title`: generateTitle(),
-      `poster`: generatePoster(),
-      `description`: generateDescription(),
-      `comments`: generateComments(),
-      `date`: generateDate(),
-      raiting,
-      `genres`: generateGenre(),
-      duration
+      title: generateTitle(),
+      poster: generatePoster(),
+      description: generateDescription(),
+      comments: generateComments(),
+      date: generateDate(),
+      rating,
+      year,
+      genre: generateGenre(),
+      runtime
     },
     {
-      `title`: generateTitle(),
-      `poster`: generatePoster(),
-      `description`: generateDescription(),
-      `comments`: generateComments(),
-      `date`: generateDate(),
-      raiting,
-      `genres`: generateGenre(),
-      duration
+      title: generateTitle(),
+      poster: generatePoster(),
+      description: generateDescription(),
+      comments: generateComments(),
+      date: generateDate(),
+      rating,
+      year,
+      genre: generateGenre(),
+      runtime
     },
     {
-      `title`: generateTitle(),
-      `poster`: generatePoster(),
-      `description`: generateDescription(),
-      `comments`: generateComments(),
-      `date`: generateDate(),
-      raiting,
-      `genres`: generateGenre(),
-      duration
+      title: generateTitle(),
+      poster: generatePoster(),
+      description: generateDescription(),
+      comments: generateComments(),
+      date: generateDate(),
+      rating,
+      year,
+      genre: generateGenre(),
+      runtime
     },
     {
-      `title`: generateTitle(),
-      `poster`: generatePoster(),
-      `description`: generateDescription(),
-      `comments`: generateComments(),
-      `date`: generateDate(),
-      raiting,
-      `genres`: generateGenre(),
-      duration
+      title: generateTitle(),
+      poster: generatePoster(),
+      description: generateDescription(),
+      comments: generateComments(),
+      date: generateDate(),
+      rating,
+      year,
+      genre: generateGenre(),
+      runtime
     },
     {
-      `title`: generateTitle(),
-      `poster`: generatePoster(),
-      `description`: generateDescription(),
-      `comments`: generateComments(),
-      `date`: generateDate(),
-      raiting,
-      `genres`: generateGenre(),
-      duration
+      title: generateTitle(),
+      poster: generatePoster(),
+      description: generateDescription(),
+      comments: generateComments(),
+      date: generateDate(),
+      rating,
+      year,
+      genre: generateGenre(),
+      runtime
     },
     {
-      `title`: generateTitle(),
-      `poster`: generatePoster(),
-      `description`: generateDescription(),
-      `comments`: generateComments(),
-      `date`: generateDate(),
-      raiting,
-      `genres`: generateGenre(),
-      duration
+      title: generateTitle(),
+      poster: generatePoster(),
+      description: generateDescription(),
+      comments: generateComments(),
+      date: generateDate(),
+      rating,
+      year,
+      genre: generateGenre(),
+      runtime
     },
     {
-      `title`: generateTitle(),
-      `poster`: generatePoster(),
-      `description`: generateDescription(),
-      `comments`: generateComments(),
-      `date`: generateDate(),
-      raiting,
-      `genres`: generateGenre(),
-      duration
+      title: generateTitle(),
+      poster: generatePoster(),
+      description: generateDescription(),
+      comments: generateComments(),
+      date: generateDate(),
+      rating,
+      year,
+      genre: generateGenre(),
+      runtime
     }
   ];
-    const randomIndex = getRandomInteger(0, serverFilms.length - 1);
-    return serverFilms[randomIndex];
+  const randomIndex = getRandomInteger(0, serverFilms.length - 1);
+  return serverFilms[randomIndex];
 };
 
 const generateTitle = () => {
@@ -158,10 +165,10 @@ const generateComments = () => {
   for (let i = 0; i < commentsCount; i++) {
     comments.push(
         {
-          `autor`: getRandomInteger(0, autors.length - 1),
-          `text`: getRandomInteger(0, texts.length - 1),
-          `emotions`: EMOTIONS[getRandomInteger(0, EMOTIONS.length - 1)],
-          `date`: generateDate(),
+          autor: getRandomInteger(0, autors.length - 1),
+          text: getRandomInteger(0, texts.length - 1),
+          emotions: EMOTIONS[getRandomInteger(0, EMOTIONS.length - 1)],
+          date: generateDate(),
         }
     );
   }
@@ -192,19 +199,21 @@ const generateGenre = () => {
     `Action`,
     `Adventure`,
   ];
+  return genres[getRandomInteger(0, genres.length - 1)];
+};
 
 export const generateServerFilmCard = () => {
-  const film = generateServerFilm();
-  const {`title`, `poster`, `description`, `comments`, `date`, raiting, year, `genres`, duration} = film;
+  const cardFilm = generateServerFilm();
+  const {title, poster, description, comments, date, rating, year, genre, runtime} = cardFilm;
   return {
-    `title`: generateTitle(),
-    `poster`: generatePoster(),
-    `description`: generateDescription(),
-    `comments`: generateComments(),
-    `date`: generateDate(),
-    raiting,
+    title: generateTitle(),
+    poster: generatePoster(),
+    description: generateDescription(),
+    comments: generateComments(),
+    date: generateDate(),
+    rating,
     year,
-    `genres`: generateGenre(),
-    duration
+    genre: generateGenre(),
+    runtime
   };
 };
