@@ -3,87 +3,108 @@ import {getRandomInteger} from "../utils.js";
 const generateServerFilm = () => {
   const serverFilms = [
     {
-      'title': `Film1`,
-      'poster': `./images/posters/made-for-each-other.png`,
-      'description': generateDescription(),
-      'comments': generateComments(),
-      'date': generateDate(),
+      `title`: generateTitle(),
+      `poster`: generatePoster(),
+      `description`: generateDescription(),
+      `comments`: generateComments(),
+      `date`: generateDate(),
       raiting,
-      year,
-      genre,
+      `genres`: generateGenre(),
       duration
     },
     {
-      'title': `Film2`,
-      'poster': `./images/posters/popeye-meets-sinbad.png`,
-      'description': generateDescription(),
-      'comments': generateComments(),
-      'date': generateDate(),
+      `title`: generateTitle(),
+      `poster`: generatePoster(),
+      `description`: generateDescription(),
+      `comments`: generateComments(),
+      `date`: generateDate(),
       raiting,
-      year,
-      genre,
+      `genres`: generateGenre(),
       duration
     },
     {
-      'title': `Film3`,
-      'poster': `./images/posters/sagebrush-trail.jpg`,
-      'description': generateDescription(),
-      'comments': generateComments(),
-      'date': generateDate(),
+      `title`: generateTitle(),
+      `poster`: generatePoster(),
+      `description`: generateDescription(),
+      `comments`: generateComments(),
+      `date`: generateDate(),
       raiting,
-      year,
-      genre,
+      `genres`: generateGenre(),
       duration
     },
     {
-      'title': `Film4`,
-      'poster': `./images/posters/santa-claus-conquers-the-martians.jpg`,
-      'description': generateDescription(),
-      'comments': generateComments(),
-      'date': generateDate(),
+      `title`: generateTitle(),
+      `poster`: generatePoster(),
+      `description`: generateDescription(),
+      `comments`: generateComments(),
+      `date`: generateDate(),
       raiting,
-      year,
-      genre,
+      `genres`: generateGenre(),
       duration
     },
     {
-      'title': `Film5`,
-      'poster': `./images/posters/the-dance-of-life.jpg`,
-      'description': generateDescription(),
-      'comments': generateComments(),
-      'date': generateDate(),
+      `title`: generateTitle(),
+      `poster`: generatePoster(),
+      `description`: generateDescription(),
+      `comments`: generateComments(),
+      `date`: generateDate(),
       raiting,
-      year,
-      genre,
+      `genres`: generateGenre(),
       duration
     },
     {
-      'title': `Film6`,
-      'poster': `./images/posters/the-great-flamarion.jpg`,
-      'description': generateDescription(),
-      'comments': generateComments(),
-      'date': generateDate(),
+      `title`: generateTitle(),
+      `poster`: generatePoster(),
+      `description`: generateDescription(),
+      `comments`: generateComments(),
+      `date`: generateDate(),
       raiting,
-      year,
-      genre,
+      `genres`: generateGenre(),
       duration
     },
     {
-      'title': `Film7`,
-      'poster': `./images/posters/the-man-with-the-golden-arm.jpg`,
-      'description': generateDescription(),
-      'comments': generateComments(),
-      'date': generateDate(),
+      `title`: generateTitle(),
+      `poster`: generatePoster(),
+      `description`: generateDescription(),
+      `comments`: generateComments(),
+      `date`: generateDate(),
       raiting,
-      year,
-      genre,
+      `genres`: generateGenre(),
       duration
     }
   ];
-  const randomIndex = getRandomInteger(0, serverFilms.length - 1);
-  return serverFilms[randomIndex];
+    const randomIndex = getRandomInteger(0, serverFilms.length - 1);
+    return serverFilms[randomIndex];
 };
 
+const generateTitle = () => {
+  const titles = [
+    `Made for each other`,
+    `Popeye meets sinbad`,
+    `Sagebrush trail`,
+    `Santa claus conquers the martians`,
+    `The dance of life`,
+    `The great flamarion`,
+    `The man with the golden arm`
+  ];
+
+  return titles[getRandomInteger(0, titles.length - 1)];
+};
+
+const generatePoster = () => {
+  const posters = [
+    `./images/posters/made-for-each-other.png`,
+    `./images/posters/popeye-meets-sinbad.png`,
+    `./images/posters/sagebrush-trail.jpg`,
+    `./images/posters/santa-claus-conquers-the-martians.jpg`,
+    `./images/posters/the-dance-of-life.jpg`,
+    `./images/posters/the-great-flamarion.jpg`,
+    `./images/posters/the-man-with-the-golden-arm.jpg`
+  ];
+
+  return posters[getRandomInteger(0, posters.length - 1)];
+
+};
 
 const generateDescription = () => {
   const descriptions = [
@@ -117,7 +138,7 @@ const generateComments = () => {
     `Greate!`,
   ];
 
-  const emoutions = [
+  const EMOTIONS = [
     `smile`,
     `sleeping`,
     `puke`,
@@ -137,10 +158,10 @@ const generateComments = () => {
   for (let i = 0; i < commentsCount; i++) {
     comments.push(
         {
-          autor: getRandomInteger(0, autors.length - 1),
-          text: getRandomInteger(0, texts.length - 1),
-          emoution: getRandomInteger(0, emoutions.length - 1),
-          date: generateDate(),
+          `autor`: getRandomInteger(0, autors.length - 1),
+          `text`: getRandomInteger(0, texts.length - 1),
+          `emotions`: EMOTIONS[getRandomInteger(0, EMOTIONS.length - 1)],
+          `date`: generateDate(),
         }
     );
   }
@@ -161,21 +182,29 @@ const generateDate = () => {
   return new Date(currentDate);
 };
 
+const generateGenre = () => {
+  const genres = [
+    `Сomedy`,
+    `Romcom`,
+    `Sci-Fi`,
+    `Horror`,
+    `Documentary`,
+    `Action`,
+    `Adventure`,
+  ];
+
 export const generateServerFilmCard = () => {
   const film = generateServerFilm();
-  const {title, poster, raiting, year, genre} = film;
-  const description = generateDescription();
-  const comments = generateComments();
-  const date = generateDate();
+  const {`title`, `poster`, `description`, `comments`, `date`, raiting, year, `genres`, duration} = film;
   return {
-    title,
-    poster,
-    description,
-    comments,
-    date,
+    `title`: generateTitle(),
+    `poster`: generatePoster(),
+    `description`: generateDescription(),
+    `comments`: generateComments(),
+    `date`: generateDate(),
     raiting,
     year,
-    genre,
+    `genres`: generateGenre(),
     duration
   };
 };

@@ -1,16 +1,20 @@
+import {generateServerFilmCard} from "./mock/film-card.js";
+import {CARD_COUNT_PER_STEP, EXTRA_CARD_COUNT, RATING} from "./mock/const.js";
 import {createUserStatusTemplate} from "./view/user-status.js";
 import {createSiteMenuTemplate} from "./view/site-menu.js";
 import {createFiltersTemplate} from "./view/filters.js";
 import {createFilmsContainerTemplate} from "./view/films-container.js";
-import {createCardAddTemplate} from "./view/card-add.js";
+import {createCardTemplate} from "./view/card-add.js";
+// import {createFilmDescriptionTemplate} from "./view/card-add.js";
 import {createLoadMoreButtonTemplate} from "./view/load-more-button.js";
 import {createTopRatedTemplate} from "./view/top-rated-cards.js";
 import {createMostCommentedTemplate} from "./view/most-commented-cards.js";
 import {createStatisticsTemplate} from "./view/statistics.js";
 import {createPopupTemplate} from "./view/popup.js";
 
-const CARD_COUNT = 5;
-const EXTRA_CARD_COUNT = 2;
+const CARD_COUNT = 17;
+
+const cardsFilms = new Array(CARD_COUNT).fill().map(generateServerFilmCard);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -28,10 +32,31 @@ render(mainNavigationsElements, createFiltersTemplate(), `afterend`);
 render(mainListElements, createFilmsContainerTemplate(), `beforeend`);
 
 const filmsListContainerElement = document.querySelector(`.films-list__container`);
-for (let i = 0; i < CARD_COUNT; i++) {
-  render(filmsListContainerElement, createCardAddTemplate(), `afterbegin`);
+for (let i = 0; i <= Math.min(cardsFilms.length, CARD_COUNT_PER_STEP); i++) {
+  render(filmsListContainerElement, createCardTemplate(cardsFilms[i]));
 }
 
+if (cardsFilms.length > CARD_COUNT_PER_STEP) {
+  render(filmsListContainerElement, createLoadMoreButtonTemplate(), `beforeend`);
+
+  let renderedFilmsCount = CARD_COUNT_PER_STEP;
+  const ShowMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
+
+  const onShowMore = (evt) => {
+    evt.preventDefault();
+    cardsFilms
+      .slice(renderedFilmsCount, renderedFilmsCount + CARD_COUNT_PER_STEP)
+      .forEach((cardFilm) => render(filmsListContainerElement, createCardTemplate(cardFilm)));
+
+    renderedFilmsCount += CARD_COUNT_PER_STEP;
+
+    if (renderedFilmsCount >= cardsFilms.length) {
+      ShowMoreButton.remove();
+    }
+  };
+
+  ShowMoreButton.addEventListener(`click`, onShowMore);
+  
 const filmsListElement = document.querySelector(`.films-list`);
 render(filmsListElement, createLoadMoreButtonTemplate(), `beforeend`);
 

@@ -5,14 +5,14 @@ export const createFilmDescriptionTemplate = () => {
       : description;
   };
 
-  export const createCardAddTemplate = (cardFilm) => {
-    const {title,poster, description, comments, date, raiting, year, genre} = cardFilm;
+  export const createCardTemplate = (cardFilm) => {
+    const {title,poster, description, comments, date, raiting, genre, duration} = cardFilm;
     const descriptionLength = getDescriptionLength(description);
   return `<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
           <p class="film-card__rating">${raiting}</p>
           <p class="film-card__info">
-            <span class="film-card__year">${year}</span>
+            <span class="film-card__year">${date}</span>
             <span class="film-card__duration">${duration}</span>
             <span class="film-card__genre">${genre}</span>
           </p>
