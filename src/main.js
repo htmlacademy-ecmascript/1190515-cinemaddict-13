@@ -15,8 +15,8 @@ import {createPopupTemplate} from "./view/popup.js";
 const CARD_COUNT = 17;
 
 const cardsFilms = new Array(CARD_COUNT).fill().map(generateServerFilmCard);
-const filters = generateFilters(cardsFilms);
-const profile = generateProfile();
+// const filters = generateFilters(cardsFilms);
+// const profile = generateProfile();
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);

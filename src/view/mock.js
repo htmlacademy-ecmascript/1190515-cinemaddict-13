@@ -5,79 +5,107 @@ const generateServerFilm = () => {
     {
       title: generateTitle(),
       poster: generatePoster(),
+      age: getRandomInteger(0, 18) + `+`,
       description: generateDescription(),
       comments: generateComments(),
       date: generateDate(),
-      rating,
-      year,
+      rating: generateRating(),
+      year: generateDate(),
       genre: generateGenre(),
-      runtime
+      runtime: generateDuration(),
+      isWatchlist: Boolean(getRandomInteger(0, 1)),
+      isWatched: Boolean(getRandomInteger(0, 1)),
+      isFavorite: Boolean(getRandomInteger(0, 1)),
     },
     {
       title: generateTitle(),
       poster: generatePoster(),
+      age: getRandomInteger(0, 18) + `+`,
       description: generateDescription(),
       comments: generateComments(),
       date: generateDate(),
-      rating,
-      year,
+      rating: generateRating(),
+      year: generateDate(),
       genre: generateGenre(),
-      runtime
+      runtime: generateDuration(),
+      isWatchlist: Boolean(getRandomInteger(0, 1)),
+      isWatched: Boolean(getRandomInteger(0, 1)),
+      isFavorite: Boolean(getRandomInteger(0, 1)),
     },
     {
       title: generateTitle(),
       poster: generatePoster(),
+      age: getRandomInteger(0, 18) + `+`,
       description: generateDescription(),
       comments: generateComments(),
       date: generateDate(),
-      rating,
-      year,
+      rating: generateRating(),
+      year: generateDate(),
       genre: generateGenre(),
-      runtime
+      runtime: generateDuration(),
+      isWatchlist: Boolean(getRandomInteger(0, 1)),
+      isWatched: Boolean(getRandomInteger(0, 1)),
+      isFavorite: Boolean(getRandomInteger(0, 1)),
     },
     {
       title: generateTitle(),
       poster: generatePoster(),
+      age: getRandomInteger(0, 18) + `+`,
       description: generateDescription(),
       comments: generateComments(),
       date: generateDate(),
-      rating,
-      year,
+      rating: generateRating(),
+      year: generateDate(),
       genre: generateGenre(),
-      runtime
+      runtime: generateDuration(),
+      isWatchlist: Boolean(getRandomInteger(0, 1)),
+      isWatched: Boolean(getRandomInteger(0, 1)),
+      isFavorite: Boolean(getRandomInteger(0, 1)),
     },
     {
       title: generateTitle(),
       poster: generatePoster(),
+      age: getRandomInteger(0, 18) + `+`,
       description: generateDescription(),
       comments: generateComments(),
       date: generateDate(),
-      rating,
-      year,
+      rating: generateRating(),
+      year: generateDate(),
       genre: generateGenre(),
-      runtime
+      runtime: generateDuration(),
+      isWatchlist: Boolean(getRandomInteger(0, 1)),
+      isWatched: Boolean(getRandomInteger(0, 1)),
+      isFavorite: Boolean(getRandomInteger(0, 1)),
     },
     {
       title: generateTitle(),
       poster: generatePoster(),
+      age: getRandomInteger(0, 18) + `+`,
       description: generateDescription(),
       comments: generateComments(),
       date: generateDate(),
-      rating,
-      year,
+      rating: generateRating(),
+      year: generateDate(),
       genre: generateGenre(),
-      runtime
+      runtime: generateDuration(),
+      isWatchlist: Boolean(getRandomInteger(0, 1)),
+      isWatched: Boolean(getRandomInteger(0, 1)),
+      isFavorite: Boolean(getRandomInteger(0, 1)),
     },
     {
       title: generateTitle(),
       poster: generatePoster(),
+      age: getRandomInteger(0, 18) + `+`,
       description: generateDescription(),
       comments: generateComments(),
       date: generateDate(),
-      rating,
-      year,
+      rating: generateRating(),
+      year: generateDate(),
       genre: generateGenre(),
-      runtime
+      runtime: generateDuration(),
+      isWatchlist: Boolean(getRandomInteger(0, 1)),
+      isWatched: Boolean(getRandomInteger(0, 1)),
+      isFavorite: Boolean(getRandomInteger(0, 1)),
     }
   ];
   const randomIndex = getRandomInteger(0, serverFilms.length - 1);
@@ -189,6 +217,14 @@ const generateDate = () => {
   return new Date(currentDate);
 };
 
+const generateRating = () => {
+  return getRandomFloat(1, 10, 1);
+};
+
+const generateDuration = () => {
+  return getRandomFloat(1, 2);
+};
+
 const generateGenre = () => {
   const genres = [
     `Сomedy`,
@@ -199,21 +235,89 @@ const generateGenre = () => {
     `Action`,
     `Adventure`,
   ];
-  return genres[getRandomInteger(0, genres.length - 1)];
+
+  const randomCount = getRandomInteger(1, 3);
+
+  let genre = [];
+
+  for (let i = 0; i < randomCount; i++) {
+    genre.push(genres[getRandomInteger(0, genres.length - 1)]);
+  }
+  return genre;
+};
+
+const generateDirector = () => {
+  const directors = [
+    `Steven Spielberg`,
+    `Alfred Hitchcock`,
+    `Martin Scorsese`,
+    `Christopher Nolan`,
+    `James Cameron`
+  ];
+  return directors[getRandomInteger(0, directors.length - 1)];
+};
+
+const generateCountry = () => {
+  const countrys = [
+    `USA`,
+    `Canada`,
+    `India`,
+    `Germany`
+  ];
+  return countrys[getRandomInteger(0, countrys.length - 1)];
+};
+
+
+const generateWriters = () => {
+  const allWriters = [
+    `Anne Wigton`,
+    `Heinz Herald`,
+    `Richard Weil`,
+  ];
+
+  const randomCount = getRandomInteger(1, 3);
+
+  let writers = ``;
+
+
+  for (let i = 0; i < randomCount; i++) {
+    writers += allWriters[getRandomInteger(0, allWriters.length - 1)] + (i < randomCount - 1 ? `, ` : ``);
+  }
+  return writers;
+};
+
+const generateActors = () => {
+  const allActors = [
+    `Johnny Depp`,
+    `Al Pacino`,
+    `Robert De Niro`,
+  ];
+
+  const randomCount = getRandomInteger(1, 3);
+
+  let actors = ``;
+  for (let i = 0; i < randomCount; i++) {
+    actors += allActors[getRandomInteger(0, allActors.length - 1)] + (i < randomCount - 1 ? `, ` : ``);
+  }
+  return actors;
 };
 
 export const generateServerFilmCard = () => {
   const cardFilm = generateServerFilm();
-  const {title, poster, description, comments, date, rating, year, genre, runtime} = cardFilm;
+  const {title, poster, age, description, comments, date, rating, year, genre, runtime} = cardFilm;
   return {
     title: generateTitle(),
     poster: generatePoster(),
+    age: getRandomInteger(0, 18) + `+`,
     description: generateDescription(),
     comments: generateComments(),
     date: generateDate(),
-    rating,
-    year,
+    rating: generateRating(),
+    year: generateDate(),
     genre: generateGenre(),
-    runtime
+    runtime: generateDuration(),
+    isWatchlist: Boolean(getRandomInteger(0, 1)),
+    isWatched: Boolean(getRandomInteger(0, 1)),
+    isFavorite: Boolean(getRandomInteger(0, 1)),
   };
 };
