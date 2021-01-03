@@ -1,77 +1,83 @@
-
 import {getRandomInteger} from "../utils.js";
 
-const generateFilm = () => {
+const generateServerFilm = () => {
   const serverFilms = [
     {
-      title: `Film1`,
-      poster: `./images/posters/made-for-each-other.png`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
+      'title': `Film1`,
+      'poster': `./images/posters/made-for-each-other.png`,
+      'description': generateDescription(),
+      'comments': generateComments(),
+      'date': generateDate(),
       raiting,
       year,
-      genre
+      genre,
+      duration
     },
     {
-      title: `Film2`,
-      poster: `./images/posters/popeye-meets-sinbad.png`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
+      'title': `Film2`,
+      'poster': `./images/posters/popeye-meets-sinbad.png`,
+      'description': generateDescription(),
+      'comments': generateComments(),
+      'date': generateDate(),
       raiting,
       year,
-      genre
+      genre,
+      duration
     },
     {
-      title: `Film3`,
-      poster: `./images/posters/sagebrush-trail.jpg`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
+      'title': `Film3`,
+      'poster': `./images/posters/sagebrush-trail.jpg`,
+      'description': generateDescription(),
+      'comments': generateComments(),
+      'date': generateDate(),
       raiting,
       year,
-      genre
+      genre,
+      duration
     },
     {
-      title: `Film4`,
-      poster: `./images/posters/santa-claus-conquers-the-martians.jpg`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
+      'title': `Film4`,
+      'poster': `./images/posters/santa-claus-conquers-the-martians.jpg`,
+      'description': generateDescription(),
+      'comments': generateComments(),
+      'date': generateDate(),
       raiting,
       year,
-      genre
+      genre,
+      duration
     },
     {
-      title: `Film5`,
-      poster: `./images/posters/the-dance-of-life.jpg`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
+      'title': `Film5`,
+      'poster': `./images/posters/the-dance-of-life.jpg`,
+      'description': generateDescription(),
+      'comments': generateComments(),
+      'date': generateDate(),
       raiting,
       year,
-      genre
+      genre,
+      duration
     },
     {
-      title: `Film6`,
-      poster: `./images/posters/the-great-flamarion.jpg`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
+      'title': `Film6`,
+      'poster': `./images/posters/the-great-flamarion.jpg`,
+      'description': generateDescription(),
+      'comments': generateComments(),
+      'date': generateDate(),
       raiting,
       year,
-      genre
+      genre,
+      duration
     },
     {
-      title: `Film7`,
-      poster: `./images/posters/the-man-with-the-golden-arm.jpg`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
+      'title': `Film7`,
+      'poster': `./images/posters/the-man-with-the-golden-arm.jpg`,
+      'description': generateDescription(),
+      'comments': generateComments(),
+      'date': generateDate(),
       raiting,
       year,
-      genre
+      genre,
+      duration
     }
   ];
   const randomIndex = getRandomInteger(0, serverFilms.length - 1);
@@ -156,7 +162,7 @@ const generateDate = () => {
 };
 
 export const generateServerFilmCard = () => {
-  const film = generateFilm();
+  const film = generateServerFilm();
   const {title, poster, raiting, year, genre} = film;
   const description = generateDescription();
   const comments = generateComments();
@@ -169,6 +175,7 @@ export const generateServerFilmCard = () => {
     date,
     raiting,
     year,
-    genre
+    genre,
+    duration
   };
 };
