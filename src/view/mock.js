@@ -155,7 +155,7 @@ const generateDate = () => {
   return new Date(currentDate);
 };
 
-export const generateFilmCard = () => {
+export const generateServerFilmCard = () => {
   const film = generateFilm();
   const {title, poster, raiting, year, genre} = film;
   const description = generateDescription();
@@ -166,5 +166,9 @@ export const generateFilmCard = () => {
     poster,
     description,
     comments,
+    date,
+    raiting,
+    year,
+    genre
   };
 };
