@@ -1,4 +1,5 @@
 import {getRandomInteger, getRandomFloat} from "../utils.js";
+import dayjs from "dayjs";
 
 const generateServerFilm = () => {
   const serverFilms = [
@@ -12,6 +13,9 @@ const generateServerFilm = () => {
       date: generateDate(),
       director: generateDirector(),
       rating: generateRating(),
+      writers: generateWriters(),
+      actors: generateActors(),
+      country: generateCountry(),
       year: generateDate(),
       genre: generateGenre(),
       runtime: generateDuration(),
@@ -115,10 +119,8 @@ const generateDate = () => {
 
   const maxDaysGap = 7;
   const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
-  const currentDate = new Date();
-  currentDate.setHours(23, 59, 59, 999);
-  currentDate.setDate(currentDate.getDate() + daysGap);
-  return new Date(currentDate);
+
+  return dayjs().add(daysGap, `day`).toDate();
 };
 
 const generateRating = () => {
@@ -209,23 +211,23 @@ export const generateServerFilmCard = () => {
   const cardFilm = generateServerFilm();
   const {title, poster, original, age, description, comments, date, director, rating, writers, actors, country, year, genre, runtime, isWatchlist, isWatched, isFavorite} = cardFilm;
   return {
-    title: generateTitle(),
-    poster: generatePoster(),
+    title,
+    poster,
     original,
-    age: getRandomInteger(0, 18) + `+`,
-    description: generateDescription(),
-    comments: generateComments(),
-    date: generateDate(),
-    director: generateDirector(),
-    rating: generateRating(),
-    writers: generateWriters(),
-    actors: generateActors(),
-    country: generateCountry(),
-    year: generateDate(),
-    genre: generateGenre(),
-    runtime: generateDuration(),
-    isWatchlist: Boolean(getRandomInteger(0, 1)),
-    isWatched: Boolean(getRandomInteger(0, 1)),
-    isFavorite: Boolean(getRandomInteger(0, 1)),
+    age,
+    description,
+    comments,
+    date,
+    director,
+    rating,
+    writers,
+    actors,
+    country,
+    year,
+    genre,
+    runtime,
+    isWatchlist,
+    isWatched,
+    isFavorite
   };
 };
