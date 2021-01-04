@@ -1,5 +1,5 @@
 export const createFilmTemplate = (cardFilm) => {
-  const {title, original, poster, age, description, comments, rating, date, runtime, genre, director, writers, actors, country, isWatchlist, isWatched, isFavorite} = cardFilm;
+  const {title, poster, original, age, description, comments, rating, date, director, runtime, genre, writers, actors, country, isWatchlist, isWatched, isFavorite} = cardFilm;
   const genresTemplate = genre
     .map((genre, index) => createGenreTemplate(genre, index === 0))
     .join(``);
@@ -19,7 +19,7 @@ export const createFilmTemplate = (cardFilm) => {
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
               <h3 class="film-details__title">${title}</h3>
-              <p class="film-details__title-original">Original: ${original}</p>
+              <p class="film-details__title-original">Original:${original}</p>
             </div>
             <div class="film-details__rating">
               <p class="film-details__total-rating">${rating}</p>
@@ -51,7 +51,7 @@ export const createFilmTemplate = (cardFilm) => {
               <td class="film-details__cell">${country}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">${genres.lenght === 1 ? `Genre` : `Genres`}</td>
+              <td class="film-details__term">${genre.lenght === 1 ? `Genre` : `Genres`}</td>
               <td class="film-details__cell">
                 ${genresTemplate}
               </td>
@@ -123,7 +123,7 @@ const createCommentTemplate = (comment) => {
   );
 };
 
-const createGanreTemplate = (genre) => {
+const createGenreTemplate = (genre) => {
   return (
     `<span class="film-details__genre">${genre}</span>`
   );

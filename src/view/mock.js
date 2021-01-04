@@ -1,104 +1,16 @@
-import {getRandomInteger} from "../utils.js";
+import {getRandomInteger, getRandomFloat} from "../utils.js";
 
 const generateServerFilm = () => {
   const serverFilms = [
     {
       title: generateTitle(),
       poster: generatePoster(),
+      original,
       age: getRandomInteger(0, 18) + `+`,
       description: generateDescription(),
       comments: generateComments(),
       date: generateDate(),
-      rating: generateRating(),
-      year: generateDate(),
-      genre: generateGenre(),
-      runtime: generateDuration(),
-      isWatchlist: Boolean(getRandomInteger(0, 1)),
-      isWatched: Boolean(getRandomInteger(0, 1)),
-      isFavorite: Boolean(getRandomInteger(0, 1)),
-    },
-    {
-      title: generateTitle(),
-      poster: generatePoster(),
-      age: getRandomInteger(0, 18) + `+`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
-      rating: generateRating(),
-      year: generateDate(),
-      genre: generateGenre(),
-      runtime: generateDuration(),
-      isWatchlist: Boolean(getRandomInteger(0, 1)),
-      isWatched: Boolean(getRandomInteger(0, 1)),
-      isFavorite: Boolean(getRandomInteger(0, 1)),
-    },
-    {
-      title: generateTitle(),
-      poster: generatePoster(),
-      age: getRandomInteger(0, 18) + `+`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
-      rating: generateRating(),
-      year: generateDate(),
-      genre: generateGenre(),
-      runtime: generateDuration(),
-      isWatchlist: Boolean(getRandomInteger(0, 1)),
-      isWatched: Boolean(getRandomInteger(0, 1)),
-      isFavorite: Boolean(getRandomInteger(0, 1)),
-    },
-    {
-      title: generateTitle(),
-      poster: generatePoster(),
-      age: getRandomInteger(0, 18) + `+`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
-      rating: generateRating(),
-      year: generateDate(),
-      genre: generateGenre(),
-      runtime: generateDuration(),
-      isWatchlist: Boolean(getRandomInteger(0, 1)),
-      isWatched: Boolean(getRandomInteger(0, 1)),
-      isFavorite: Boolean(getRandomInteger(0, 1)),
-    },
-    {
-      title: generateTitle(),
-      poster: generatePoster(),
-      age: getRandomInteger(0, 18) + `+`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
-      rating: generateRating(),
-      year: generateDate(),
-      genre: generateGenre(),
-      runtime: generateDuration(),
-      isWatchlist: Boolean(getRandomInteger(0, 1)),
-      isWatched: Boolean(getRandomInteger(0, 1)),
-      isFavorite: Boolean(getRandomInteger(0, 1)),
-    },
-    {
-      title: generateTitle(),
-      poster: generatePoster(),
-      age: getRandomInteger(0, 18) + `+`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
-      rating: generateRating(),
-      year: generateDate(),
-      genre: generateGenre(),
-      runtime: generateDuration(),
-      isWatchlist: Boolean(getRandomInteger(0, 1)),
-      isWatched: Boolean(getRandomInteger(0, 1)),
-      isFavorite: Boolean(getRandomInteger(0, 1)),
-    },
-    {
-      title: generateTitle(),
-      poster: generatePoster(),
-      age: getRandomInteger(0, 18) + `+`,
-      description: generateDescription(),
-      comments: generateComments(),
-      date: generateDate(),
+      director: generateDirector(),
       rating: generateRating(),
       year: generateDate(),
       genre: generateGenre(),
@@ -122,7 +34,6 @@ const generateTitle = () => {
     `The great flamarion`,
     `The man with the golden arm`
   ];
-
   return titles[getRandomInteger(0, titles.length - 1)];
 };
 
@@ -136,9 +47,7 @@ const generatePoster = () => {
     `./images/posters/the-great-flamarion.jpg`,
     `./images/posters/the-man-with-the-golden-arm.jpg`
   ];
-
   return posters[getRandomInteger(0, posters.length - 1)];
-
 };
 
 const generateDescription = () => {
@@ -187,7 +96,6 @@ const generateComments = () => {
   ];
 
   const commentsCount = getRandomInteger(0, 5);
-
   const comments = [];
 
   for (let i = 0; i < commentsCount; i++) {
@@ -200,7 +108,6 @@ const generateComments = () => {
         }
     );
   }
-
   return comments;
 };
 
@@ -209,11 +116,8 @@ const generateDate = () => {
   const maxDaysGap = 7;
   const daysGap = getRandomInteger(-maxDaysGap, maxDaysGap);
   const currentDate = new Date();
-
   currentDate.setHours(23, 59, 59, 999);
-
   currentDate.setDate(currentDate.getDate() + daysGap);
-
   return new Date(currentDate);
 };
 
@@ -279,7 +183,6 @@ const generateWriters = () => {
 
   let writers = ``;
 
-
   for (let i = 0; i < randomCount; i++) {
     writers += allWriters[getRandomInteger(0, allWriters.length - 1)] + (i < randomCount - 1 ? `, ` : ``);
   }
@@ -304,15 +207,20 @@ const generateActors = () => {
 
 export const generateServerFilmCard = () => {
   const cardFilm = generateServerFilm();
-  const {title, poster, age, description, comments, date, rating, year, genre, runtime} = cardFilm;
+  const {title, poster, original, age, description, comments, date, director, rating, writers, actors, country, year, genre, runtime, isWatchlist, isWatched, isFavorite} = cardFilm;
   return {
     title: generateTitle(),
     poster: generatePoster(),
+    original,
     age: getRandomInteger(0, 18) + `+`,
     description: generateDescription(),
     comments: generateComments(),
     date: generateDate(),
+    director: generateDirector(),
     rating: generateRating(),
+    writers: generateWriters(),
+    actors: generateActors(),
+    country: generateCountry(),
     year: generateDate(),
     genre: generateGenre(),
     runtime: generateDuration(),
