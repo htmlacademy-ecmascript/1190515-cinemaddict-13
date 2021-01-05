@@ -1,32 +1,29 @@
-import {generateServerFilmCard} from "./mock/film-card.js";
-import {CARD_COUNT_STEP, EXTRA_CARD_COUNT} from "./mock/const.js";
-import {createUserStatusTemplate} from "./view/user-status.js";
-import {createSiteMenuTemplate} from "./view/navigation.js";
-import {createSortTemplate} from "./view/sort.js";
-import {createFilmsContainerTemplate} from "./view/films-container.js";
-import {createCardTemplate} from "./view/card-film.js";
-// import {createFilmDescriptionTemplate} from "./view/card-add.js";
-import {createLoadMoreButtonTemplate} from "./view/load-more-button.js";
-import {createTopRatedTemplate} from "./view/top-rated-cards.js";
-import {createMostCommentedTemplate} from "./view/most-commented-cards.js";
-import {createStatisticsTemplate} from "./view/statistics.js";
-import {createFilmDetailsTemplate} from "./view/detail-film.js";
+import {render} from "./utils";
+import {extraListsTitles} from "./const";
+import {createUserStatusTemplate} from "./view/user-status";
+import {createNavigationTemplate} from "./view/navigation";
+import {createSortTemplate} from "./view/sort";
+import {createFilmTemplate} from "./view/card-film";
+import {showMoreButtonTemplate} from "./view/load-more-button";
+import {createStatisticsTemplate} from "./view/statistics";
+import {createFilmDetailsTemplate} from "./view/detail-film";
+import {generateFilm} from "./mock/card-film";
+import {generateFilters} from './mock/filter';
+import {generateUserRank} from './mock/user-rank';
+import {generateExtraLists} from './mock/extra';
 
 const CARD_COUNT = 17;
+const CARDS_COUNT_PER_STEP = 5;
 
-const cardsFilms = new Array(CARD_COUNT).fill().map(generateServerFilmCard);
+const cardsFilms = new Array(CARD_COUNT).fill().map(generateFilm);
 // const filters = generateFilters(cardsFilms);
 // const profile = generateProfile();
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 const siteStatusElement = document.querySelector(`.header`);
 render(siteStatusElement, createUserStatusTemplate(), `beforeEnd`);
 
 const mainListElements = document.querySelector(`.main`);
-render(mainListElements, createSiteMenuTemplate(), `afterbegin`);
+render(mainListElements, createNavigationTemplate(), `afterbegin`);
 
 const mainNavigationsElements = document.querySelector(`.main-navigation`);
 render(mainNavigationsElements, createSortTemplate(), `afterend`);
@@ -35,11 +32,11 @@ render(mainListElements, createFilmsContainerTemplate(), `beforeend`);
 
 const filmsListContainerElement = document.querySelector(`.films-list__container`);
 for (let i = 0; i <= Math.min(cardsFilms.length, CARD_COUNT_STEP); i++) {
-  render(filmsListContainerElement, createCardTemplate(cardsFilms[i]));
+  render(filmsListContainerElement, createFilmTemplate(cardsFilms[i]));
 }
 
 if (cardsFilms.length > CARD_COUNT_STEP) {
-  render(filmsListContainerElement, createLoadMoreButtonTemplate(), `beforeend`);
+  render(filmsListContainerElement, showMoreButtonTemplate(), `beforeend`);
 
   let renderedFilmsCount = CARD_COUNT_STEP;
   const ShowMoreButton = filmsListElement.querySelector(`.films-list__show-more`);
@@ -48,7 +45,7 @@ if (cardsFilms.length > CARD_COUNT_STEP) {
     evt.preventDefault();
     cardsFilms
       .slice(renderedFilmsCount, renderedFilmsCount + CARD_COUNT_STEP)
-      .forEach((cardFilm) => render(filmsListContainerElement, createCardTemplate(cardFilm)));
+      .forEach((cardFilm) => render(filmsListContainerElement, createFilmTemplate(cardFilm)));
 
     renderedFilmsCount += CARD_COUNT_STEP;
 
@@ -60,7 +57,7 @@ if (cardsFilms.length > CARD_COUNT_STEP) {
   ShowMoreButton.addEventListener(`click`, onShowMore);
 
   const filmsListElement = document.querySelector(`.films-list`);
-  render(filmsListElement, createLoadMoreButtonTemplate(), `beforeend`);
+  render(filmsListElement, showMoreButtonTemplate(), `beforeend`);
 
   const filmsElement = document.querySelector(`.films`);
   const filmsContainer = filmsElement.querySelectorAll(`.films-list--extra > .films-list__container`);

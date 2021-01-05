@@ -91,7 +91,7 @@ export const createFilmDetailsTemplate = ({
               Comments <span class="film-details__comments-count">${comments.length}</span>
             </h3>
             <ul class="film-details__comments-list">
-              ${comments.map((comment) => createCommentTemplate(comment)).join(``)}
+              ${comments.map((comment) => createDetailsCommentTemplate(comment)).join(``)}
             </ul>
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>
@@ -123,7 +123,7 @@ export const createFilmDetailsTemplate = ({
   );
 };
 
-export const createCommentTemplate = ({
+export const createDetailsCommentTemplate = ({
   emotion,
   text,
   author,
