@@ -1,4 +1,4 @@
-import {getRandomArrayItem, getRandomDate} from '../utils';
+import {getRandomArrayItem, getRandomDate} from "../utils";
 
 const authors = [
   `Tim`,

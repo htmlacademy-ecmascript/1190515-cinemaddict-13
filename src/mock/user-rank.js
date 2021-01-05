@@ -1,4 +1,4 @@
-import {userRankStrings} from '../const';
+import {userRankStrings} from "../const";
 
 const getUserRank = (count) => {
   if (count > 0 && count <= 10) {

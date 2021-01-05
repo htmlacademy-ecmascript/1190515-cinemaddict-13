@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 export const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -34,7 +34,7 @@ export const truncateString = (value, length) => {
   return value.length > length ? `${value.slice(0, length)}...` : value;
 };
 
-export const humanizeDate = (date) => {
-  return date.toLocaleString(`en-GB`, {day: `numeric`, month: `long`, year: `numeric`});
+export const humanizeDate = (dueDate) => {
+  return dayjs(dueDate).format(`D/M/YYYY`).toDate;
 };
 

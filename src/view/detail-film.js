@@ -1,11 +1,12 @@
-import { commentDate(date)} from "../utils.js";
+import dayjs from "dayjs";
+import {humanizeDate} from "../utils";
 
 export const createFilmDetailsTemplate = ({
   title = ``,
   poster = ``,
   description = ``,
   rating = 0,
-  date = ``,
+  dueDate = dayjs(),
   duration = ``,
   filmDetails: {
     originalTitle = ``,
@@ -13,7 +14,6 @@ export const createFilmDetailsTemplate = ({
     writers = [],
     actors = [],
     country = ``,
-    rating = 0,
     genres = [],
   },
   comments = [],
@@ -35,7 +35,7 @@ export const createFilmDetailsTemplate = ({
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${title}</h3>
-                  <p class="film-details__title-original">Original: ${title}</p>
+                  <p class="film-details__title-original">Original: ${originalTitle}</p>
                 </div>
                 <div class="film-details__rating">
                   <p class="film-details__total-rating">${rating}</p>
@@ -56,7 +56,7 @@ export const createFilmDetailsTemplate = ({
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${date}</td>
+                  <td class="film-details__cell">${humanizeDate(dueDate)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
@@ -127,7 +127,7 @@ export const createCommentTemplate = ({
   emotion,
   text,
   author,
-  date,
+  dueDate,
 }) => {
   return (
     `<li class="film-details__comment">
@@ -138,7 +138,7 @@ export const createCommentTemplate = ({
         <p class="film-details__comment-text">${text}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${author}</span>
-          <span class="film-details__comment-day">${commentDate(date)}</span>
+          <span class="film-details__comment-day">${humanizeDate(dueDate)}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>
@@ -146,18 +146,4 @@ export const createCommentTemplate = ({
   );
 };
 
-export const createGenreTemplate = (genre) => {
-  return (
-    `<span class="film-details__genre">${genre}</span>`
-  );
-};
 
-export const createCommentsTemplate = (comments) => {
-
-  return (
-    `<h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
-      <ul class="film-details__comments-list">
-        ${commentTemplate}
-      </ul>`
-  );
-};

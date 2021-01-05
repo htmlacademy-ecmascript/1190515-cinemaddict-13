@@ -31,13 +31,6 @@ const generateDuration = () => {
     m: getRandomInteger(0, 60),
   };
 
-
-  // export const commentDate = (dueDate) => {
-  //   const duration = dueDate !== null
-  //     ? dayjs(dueDate).format(`h: mm A`)
-  //     : ``;
-  // };
-
   return Object.entries(duration)
     .map(([key, value]) => value ? `${value}${key}` : ``)
     .filter(Boolean)
@@ -47,7 +40,6 @@ const generateDuration = () => {
 export const generateFilm = () => {
   return {
     title: getRandomArrayItem(filmsMockData.titles),
-    originalTitle: 
     poster: getRandomArrayItem(filmsMockData.posters),
     description: generateDescription(),
     rating: generateRating(),
