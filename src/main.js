@@ -12,7 +12,7 @@ import {createFilmDetailsTemplate} from "./view/detail-film";
 import {generateFilm} from "./mock/card-film";
 import {generateFilters} from './mock/filter';
 import {generateUserRank} from './mock/user-rank';
-import {generateExtraLists} from './mock/extra';
+import {generateExtraLists} from './mock/extra-list';
 
 const CARD_COUNT = 17;
 const CARDS_COUNT_PER_STEP = 5;
@@ -87,19 +87,3 @@ render(statisticsContainer, createStatisticsTemplate(films.length), `beforeend`)
 
 render(footerElement, createFilmDetailsTemplate(films[0]), `afterend`);
 
-//   const filmsElement = document.querySelector(`.films`);
-//   const filmsContainer = filmsElement.querySelectorAll(`.films-list--extra > .films-list__container`);
-//   for (let i = 0; i < EXTRA_CARD_COUNT; i++) {
-//     render(filmsContainer[0], createTopRatedTemplate(), `afterbegin`);
-//     render(filmsContainer[1], createMostCommentedTemplate(), `afterbegin`);
-//   }
-
-//   const footerStatisticsElement = document.querySelector(`.footer__statistics`);
-//   render(footerStatisticsElement, createStatisticsTemplate(), `beforeend`);
-
-//   const siteFooterElement = document.querySelector(`.footer`);
-//   render(siteFooterElement, createFilmDetailsTemplate(), `afterend`);
-
-//   const popup = document.querySelector(`.film-details`);
-//   popup.classList.add(`visually-hidden`);
-// }
