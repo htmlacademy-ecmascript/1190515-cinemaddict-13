@@ -10,7 +10,7 @@ const filmToFilterMap = {
 export const generateFilters = (films) => {
   return Object.entries(filmToFilterMap).map(([filterTypeKey, getCount]) => {
     return {
-      label: filterTypes[filterTypeKey].label,
+      signature: filterTypes[filterTypeKey].signature,
       link: filterTypes[filterTypeKey].link,
       count: getCount(films),
     };

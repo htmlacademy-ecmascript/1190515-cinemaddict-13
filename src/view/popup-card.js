@@ -5,7 +5,7 @@ export const createFilmDetailsTemplate = ({
   poster = ``,
   description = ``,
   rating = 0,
-  date = dayjs(date),
+  date = ``,
   duration = ``,
   filmDetails: {
     originalTitle = ``,
@@ -13,7 +13,7 @@ export const createFilmDetailsTemplate = ({
     writers = [],
     actors = [],
     country = ``,
-    contentRating = 0,
+    rating = 0,
     genres = [],
   },
   comments = [],
@@ -29,13 +29,13 @@ export const createFilmDetailsTemplate = ({
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="${poster}" alt="">
-              <p class="film-details__age">${contentRating}+</p>
+              <p class="film-details__age">${rating}+</p>
             </div>
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${title}</h3>
-                  <p class="film-details__title-original">Original: ${originalTitle}</p>
+                  <p class="film-details__title-original">Original: ${title}</p>
                 </div>
                 <div class="film-details__rating">
                   <p class="film-details__total-rating">${rating}</p>
@@ -56,7 +56,7 @@ export const createFilmDetailsTemplate = ({
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${humanizeDate(date)}</td>
+                  <td class="film-details__cell">${date}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
@@ -138,7 +138,7 @@ export const createCommentTemplate = ({
         <p class="film-details__comment-text">${text}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${author}</span>
-          <span class="film-details__comment-day">${CommentDate(date)}</span>
+          <span class="film-details__comment-day">${commentDate(date)}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>

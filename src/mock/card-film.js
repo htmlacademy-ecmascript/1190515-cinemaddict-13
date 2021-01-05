@@ -47,6 +47,7 @@ const generateDuration = () => {
 export const generateFilm = () => {
   return {
     title: getRandomArrayItem(filmsMockData.titles),
+    originalTitle: 
     poster: getRandomArrayItem(filmsMockData.posters),
     description: generateDescription(),
     rating: generateRating(),
