@@ -3,17 +3,17 @@ import {
   getRandomInteger,
   getRandomDate,
   getSeveralRandomArrayItems
-} from '../utils';
+} from "../utils";
 
 import {
   LOREM_TEXT_PLACEHOLDER,
   DESCRIPTION_MAX_LENGTH,
   MAX_RATING_IN_PERCENTS,
   filmsMockData,
-} from '../const';
+} from "../const";
 
-import {generateComments} from './comments';
-import {generateFilmDetails} from './filmDetails';
+import {generateComments} from "./comments";
+import {generateFilmDetails} from "./detail-card-film";
 
 const generateDescription = () => {
   const loremSentences = LOREM_TEXT_PLACEHOLDER.split(`. `);
@@ -31,6 +31,13 @@ const generateDuration = () => {
     m: getRandomInteger(0, 60),
   };
 
+
+  // export const commentDate = (dueDate) => {
+  //   const duration = dueDate !== null
+  //     ? dayjs(dueDate).format(`h: mm A`)
+  //     : ``;
+  // };
+
   return Object.entries(duration)
     .map(([key, value]) => value ? `${value}${key}` : ``)
     .filter(Boolean)
@@ -43,7 +50,7 @@ export const generateFilm = () => {
     poster: getRandomArrayItem(filmsMockData.posters),
     description: generateDescription(),
     rating: generateRating(),
-    date: getRandomDate(),
+    dueDate: getRandomDate(),
     duration: generateDuration(),
     genre: getRandomArrayItem(filmsMockData.genres),
     filmDetails: generateFilmDetails(),

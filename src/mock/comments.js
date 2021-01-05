@@ -12,7 +12,7 @@ const comments = [
   `Greate!`
 ];
 
-const emojies = [
+const emotion = [
   `./images/emoji/smile.png`,
   `./images/emoji/puke.png`,
   `./images/emoji/angry.png`,
@@ -21,10 +21,10 @@ const emojies = [
 
 const generateComment = () => {
   return {
-    reaction: getRandomArrayItem(emojies),
+    emotion: getRandomArrayItem(emotion),
     author: getRandomArrayItem(authors),
     text: getRandomArrayItem(comments),
-    postedDate: getRandomDate(),
+    commentDate: getRandomDate(),
   };
 };
 

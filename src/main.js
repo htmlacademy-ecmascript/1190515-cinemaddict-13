@@ -2,7 +2,7 @@ import {generateServerFilmCard} from "./mock/film-card.js";
 import {CARD_COUNT_STEP, EXTRA_CARD_COUNT} from "./mock/const.js";
 import {createUserStatusTemplate} from "./view/user-status.js";
 import {createSiteMenuTemplate} from "./view/site-menu.js";
-import {createFiltersTemplate} from "./view/sort.js";
+import {createSortTemplate} from "./view/sort.js";
 import {createFilmsContainerTemplate} from "./view/films-container.js";
 import {createCardTemplate} from "./view/card-add.js";
 // import {createFilmDescriptionTemplate} from "./view/card-add.js";
@@ -10,7 +10,7 @@ import {createLoadMoreButtonTemplate} from "./view/load-more-button.js";
 import {createTopRatedTemplate} from "./view/top-rated-cards.js";
 import {createMostCommentedTemplate} from "./view/most-commented-cards.js";
 import {createStatisticsTemplate} from "./view/statistics.js";
-import {createPopupTemplate} from "./view/popup.js";
+import {createFilmDetailsTemplate} from "./view/popup-card.js";
 
 const CARD_COUNT = 17;
 
@@ -29,7 +29,7 @@ const mainListElements = document.querySelector(`.main`);
 render(mainListElements, createSiteMenuTemplate(), `afterbegin`);
 
 const mainNavigationsElements = document.querySelector(`.main-navigation`);
-render(mainNavigationsElements, createFiltersTemplate(), `afterend`);
+render(mainNavigationsElements, createSortTemplate(), `afterend`);
 
 render(mainListElements, createFilmsContainerTemplate(), `beforeend`);
 
@@ -73,7 +73,7 @@ if (cardsFilms.length > CARD_COUNT_STEP) {
   render(footerStatisticsElement, createStatisticsTemplate(), `beforeend`);
 
   const footerElement = document.querySelector(`.footer`);
-  render(footerElement, createPopupTemplate(), `afterend`);
+  render(footerElement, createFilmDetailsTemplate(), `afterend`);
 
   const popup = document.querySelector(`.film-details`);
   popup.classList.add(`visually-hidden`);

@@ -1,3 +1,4 @@
+export default {createCardTemplate};
 export const createFilmDescriptionTemplate = () => {
   const getDescriptionView = (description) => {
     return description.length > 140
@@ -5,9 +6,8 @@ export const createFilmDescriptionTemplate = () => {
       : description;
   };
 
-  export const createCardTemplate = (cardFilm) => {
-    const {title, poster, description, comments, date, rating, genre, runtime, isWatchlist, isWatched, isFavorite} = cardFilm;
-    const descriptionView = getDescriptionView(description);
+  const createCardTemplate = (cardFilm) => {
+
     return (`<article class="film-card">
           <h3 class="film-card__title">${title}</h3>
             <p class="film-card__rating">${rating}</p>
@@ -26,4 +26,5 @@ export const createFilmDescriptionTemplate = () => {
           </div>
         </article>`
     );
-  }
+  };
+};
