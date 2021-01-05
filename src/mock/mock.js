@@ -6,7 +6,6 @@ const generateServerFilm = () => {
     {
       title: generateTitle(),
       poster: generatePoster(),
-      original,
       age: getRandomInteger(0, 18) + `+`,
       description: generateDescription(),
       comments: generateComments(),
