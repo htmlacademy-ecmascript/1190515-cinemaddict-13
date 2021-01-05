@@ -1,4 +1,4 @@
-import { EXTRA_LIST_TOP_RATED_KEY, EXTRA_LIST_MOST_COMMENTED_KEY } from '../const';
+import {EXTRA_LIST_TOP_RATED_KEY, EXTRA_LIST_MOST_COMMENTED_KEY} from '../const';
 
 const getTopRatedFilms = (films) => {
   return [...films].sort((a, b) => b.rating - a.rating).slice(0, 2);
