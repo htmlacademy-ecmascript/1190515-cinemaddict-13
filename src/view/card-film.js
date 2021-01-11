@@ -4,14 +4,14 @@ import {truncateString} from "../utils";
 const MAX_DESCRIPTION_LENGTH = 140;
 
 export const createFilmTemplate = ({
-  title = ``,
-  poster = ``,
-  description = ``,
-  rating = 0,
+  title,
+  poster,
+  description,
+  rating,
   dueDate = dayjs(),
-  duration = ``,
-  genre = ``,
-  comments = [],
+  duration,
+  genre,
+  comments,
   isInWatchlist,
   isWatched,
   isFavorite,
@@ -36,7 +36,7 @@ export const createFilmTemplate = ({
             </p>
           <img src="${poster}" alt="" class="film-card__poster">
           <p class="film-card__description">${truncatedDescription}</p>
-          <a class="film-card__comments">${comments.length}</a>
+          <a class="film-card__comments">${comments.length} comments</a>
           <div class="film-card__controls">
             <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${watchlistClassname}">Add to watchlist</button>
             <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${watchedClassname}">Mark as watched</button>

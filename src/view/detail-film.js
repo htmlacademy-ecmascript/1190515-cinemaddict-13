@@ -1,27 +1,27 @@
-import dayjs from "dayjs";
-import {humanizeDate} from "../utils";
+import {getRandomInteger, humanizeDate} from "../utils";
 
 export const createFilmDetailsTemplate = ({
-  title = ``,
-  poster = ``,
-  description = ``,
-  rating = 0,
-  dueDate = dayjs(),
-  duration = ``,
+  title,
+  poster,
+  description,
+  rating,
+  dueDate,
+  duration,
   filmDetails: {
-    originalTitle = ``,
-    director = ``,
-    writers = [],
-    actors = [],
-    country = ``,
-    genres = [],
+    originalTitle,
+    director,
+    writers,
+    actors,
+    country,
+    genres,
   },
-  comments = [],
+  comments,
 }) => {
   const genresLabel = genres.length > 1 ? `Genres` : `Genre`;
 
   return (
-    `<form class="film-details__inner" action="" method="get">
+    `<section class="film-details visually-hidden">
+    <form class="film-details__inner" action="" method="get">
         <div class="form-details__top-container">
           <div class="film-details__close">
             <button class="film-details__close-btn" type="button">close</button>
@@ -29,7 +29,7 @@ export const createFilmDetailsTemplate = ({
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="${poster}" alt="">
-              <p class="film-details__age">${rating}+</p>
+              <p class="film-details__age">${getRandomInteger(3, 18)}+</p>
             </div>
             <div class="film-details__info">
               <div class="film-details__info-head">
@@ -119,7 +119,8 @@ export const createFilmDetailsTemplate = ({
             </div>
           </section>
         </div>
-      </form>`
+      </form>
+    </section>`
   );
 };
 

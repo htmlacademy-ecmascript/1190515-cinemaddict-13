@@ -15,7 +15,21 @@ export const getRandomDate = () => {
   const maxDaysGasp = 7;
   const daysGap = getRandomInteger(-maxDaysGasp, maxDaysGasp);
 
-  return dayjs().add(daysGap, `day`).toDate;
+  return dayjs().add(daysGap, `day`).toDate();
+};
+
+const DatesDraft = {
+  YEAR: {
+    FILM: [dayjs().year(), 1900],
+  },
+  MONTH: [11, 0],
+};
+
+export const humanizeDate = () => {
+  const randomYear = getRandomInteger(...DatesDraft.YEAR.FILM);
+  const randomMonth = getRandomInteger(...DatesDraft.MONTH);
+  const randomDay = getRandomInteger(dayjs(randomMonth).daysInMonth());
+  return dayjs(new Date(randomYear, randomMonth, randomDay));
 };
 
 export const getRandomArrayItem = (dataArray) => {
@@ -32,9 +46,5 @@ export const getSeveralRandomArrayItems = (dataArray, maxItemsCount) => {
 
 export const truncateString = (value, length) => {
   return value.length > length ? `${value.slice(0, length)}...` : value;
-};
-
-export const humanizeDate = (dueDate) => {
-  return dayjs(dueDate).format(`D/M/YYYY`).toDate;
 };
 

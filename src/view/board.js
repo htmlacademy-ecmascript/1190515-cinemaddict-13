@@ -1,5 +1,6 @@
 export const createBoardTemplate = () => {
   return (
-    `<section class="films"></section>`
+    `<section class="films">
+  </section>`
   );
 };

@@ -1,9 +1,6 @@
 import {userRankStrings} from "../const";
 
 const getUserRank = (count) => {
-  if (count === 0) {
-    return getUserRank.addClass(`visually-hidden`);
-  }
   if (count > 0 && count <= 10) {
     return userRankStrings.NOVICE;
   }
