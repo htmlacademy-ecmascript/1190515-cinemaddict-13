@@ -1,8 +1,5 @@
 import dayjs from "dayjs";
-
-export const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
+import Abstract from "./view/abstract";
 
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -49,3 +46,26 @@ export const truncateString = (value, length) => {
   return value.length > length ? `${value.slice(0, length)}...` : value;
 };
 
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
+export const render = (container, child, place) => {
+  if (container instanceof Abstract) {
+    container = container.getElement();
+  }
+
+  if (child instanceof Abstract) {
+    child = child.getElement();
+  }
+
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(child);
+      break;
+    case RenderPosition.BEFOREEND:
+      container.append(child);
+      break;
+  }
+};

@@ -1,5 +1,5 @@
-import {getRandomInteger, humanizeDate} from "../utils";
-
+import {getRandomInteger, humanizeDate, createElement} from "../utils";
+import CommentView from "./detail-film";
 export const createFilmDetailsTemplate = ({
   title,
   poster,
@@ -69,7 +69,9 @@ export const createFilmDetailsTemplate = ({
                 <tr class="film-details__row">
                   <td class="film-details__term">${genresLabel}</td>
                   <td class="film-details__cell">
-                    ${genres.map((genre) => (`<span class="film-details__genre">${genre}</span>`)).join(``)}
+                    ${genres.map((genre) =>
+      (`<span class="film-details__genre">${genre}</span>`))
+      .join(``)}
                   </td>
                 </tr>
               </table>
@@ -91,7 +93,10 @@ export const createFilmDetailsTemplate = ({
               Comments <span class="film-details__comments-count">${comments.length}</span>
             </h3>
             <ul class="film-details__comments-list">
-              ${comments.map((comment) => createDetailsCommentTemplate(comment)).join(``)}
+              ${comments.map((comment) => {
+      const commentComponent = new CommentView(comment);
+      return commentComponent.getTemplate();
+    }).join(``)}
             </ul>
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>
@@ -124,6 +129,30 @@ export const createFilmDetailsTemplate = ({
   );
 };
 
+class FilmDetails {
+  constructor(filmData) {
+    this._film = filmData;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
 export const createDetailsCommentTemplate = ({
   emotion,
   text,
@@ -147,4 +176,28 @@ export const createDetailsCommentTemplate = ({
   );
 };
 
+class Comment {
+  constructor(commentData) {
+    this._comment = commentData;
 
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createDetailsCommentTemplate(this._comment);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+
+export default {FilmDetails, Comment};

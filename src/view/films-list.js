@@ -1,3 +1,4 @@
+import {createElement} from "../utils";
 export const createListTemplate = ({
   className = `films-list`,
   title = ``,
@@ -11,3 +12,27 @@ export const createListTemplate = ({
     </section>`
   );
 };
+
+export default class FilmsList {
+  constructor(listOptions) {
+    this._listOptions = listOptions;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createListTemplate(this._listOptions);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
