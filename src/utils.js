@@ -23,13 +23,14 @@ const DatesDraft = {
     FILM: [dayjs().year(), 1900],
   },
   MONTH: [11, 0],
+  DAY: [31, 1],
 };
 
 export const humanizeDate = () => {
   const randomYear = getRandomInteger(...DatesDraft.YEAR.FILM);
   const randomMonth = getRandomInteger(...DatesDraft.MONTH);
-  const randomDay = getRandomInteger(dayjs(randomMonth).daysInMonth());
-  return dayjs(new Date(randomYear, randomMonth, randomDay));
+  const randomDay = getRandomInteger(...DatesDraft.DAY);
+  return dayjs(new Date(randomYear, randomMonth, randomDay)).format(`DD MMMM YYYY`);
 };
 
 export const getRandomArrayItem = (dataArray) => {
