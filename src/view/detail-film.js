@@ -14,7 +14,7 @@ export const createFilmDetailsTemplate = ({
     writers,
     actors,
     country,
-    genres,
+    genres
   },
   comments,
 }) => {
