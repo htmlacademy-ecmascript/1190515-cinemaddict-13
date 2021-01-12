@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import Abstract from "./view/abstract";
+// import Abstract from "./view/abstract";
 
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -51,21 +51,42 @@ export const RenderPosition = {
   BEFOREEND: `beforeend`
 };
 
-export const render = (container, child, place) => {
-  if (container instanceof Abstract) {
-    container = container.getElement();
-  }
-
-  if (child instanceof Abstract) {
-    child = child.getElement();
-  }
-
+export const renderElement = (container, element, place) => {
   switch (place) {
     case RenderPosition.AFTERBEGIN:
-      container.prepend(child);
+      container.prepend(element);
       break;
     case RenderPosition.BEFOREEND:
-      container.append(child);
+      container.append(element);
       break;
   }
+};
+
+export const renderTemplate = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
+};
+
+// export const renderTemplate = (container, child, place) => {
+//   if (container instanceof Abstract) {
+//     container = container.getElement();
+//   }
+
+//   if (child instanceof Abstract) {
+//     child = child.getElement();
+//   }
+
+//   switch (place) {
+//     case RenderPosition.AFTERBEGIN:
+//       container.prepend(child);
+//       break;
+//     case RenderPosition.BEFOREEND:
+//       container.append(child);
+//       break;
+//   }
+// };
+export const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
 };

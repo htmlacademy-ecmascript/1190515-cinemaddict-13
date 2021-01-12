@@ -1,4 +1,4 @@
-import {renderTemplate} from "./utils";
+import {RenderPosition, renderElement} from "./utils";
 import {extraListsTitles} from "./const";
 // import {createUserStatusTemplate} from "./view/user-status";
 // import {createNavigationTemplate} from "./view/navigation";
@@ -33,7 +33,7 @@ const filters = generateFilters(films);
 const extraListsData = generateExtraLists(films);
 const userRankLabel = generateUserRank(films);
 
-
+const siteBodyElement = document.querySelector(`body`);
 const headerElement = document.querySelector(`.header`);
 const mainElement = document.querySelector(`.main`);
 
@@ -48,35 +48,36 @@ const mainListComponent = new ListView({
   isTitleHidden: true,
 });
 
-renderTemplate(headerElement, rankComponent.getElement(), `beforeend`);
-renderTemplate(mainElement, navComponent.getElement(), `beforeend`);
-renderTemplate(mainElement, sortComponent.getElement(), `beforeend`);
-renderTemplate(mainElement, boardComponent.getElement(), `beforeend`);
+renderElement(headerElement, rankComponent.getElement(), RenderPosition.BEFOREEND);
+renderElement(mainElement, navComponent.getElement(), RenderPosition.BEFOREEND);
+renderElement(mainElement, sortComponent.getElement(), RenderPosition.BEFOREEND);
+renderElement(mainElement, boardComponent.getElement(), RenderPosition.BEFOREEND);
 
 const boardElement = mainElement.querySelector(`.films`);
-renderTemplate(boardElement, mainListComponent.getElement(), `beforeend`);
+renderElement(boardElement, mainListComponent.getElement(), RenderPosition.BEFOREEND);
 
 function renderFilmDetails(filmData) {
   const filmDetailsComponent = new FilmDetailsView(filmData);
   const filmDetailsElement = filmDetailsComponent.getElement();
 
+  siteBodyElement.classList.add(`hide-overflow`);
+
   const closeButton = filmDetailsElement.querySelector(`.film-details__close-btn`);
+  closeButton.addEventListener(`click`, closeModal);
 
   function closeModal() {
     filmDetailsElement.remove();
     filmDetailsComponent.removeElement();
-
+    siteBodyElement.classList.remove(`hide-overflow`);
     closeButton.removeEventListener(`click`, closeModal);
   }
-  closeButton.addEventListener(`click`, closeModal);
-
-  renderTemplate(document.body, filmDetailsComponent.getElement(), `beforeend`);
+  renderElement(document.body, filmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
 }
 
 function renderFilm(container, filmData) {
   const filmComponent = new FilmView(filmData);
 
-  renderTemplate(container, filmComponent.getElement(), `beforeend`);
+  renderElement(container, filmComponent.getElement(), RenderPosition.BEFOREEND);
 
   const filmElement = filmComponent.getElement();
   const filmPosterElement = filmElement.querySelector(`.film-card__poster`);
@@ -99,7 +100,7 @@ for (let i = 0; i < Math.min(films.length, CARDS_COUNT_PER_STEP); i++) {
 if (films.length > CARDS_COUNT_PER_STEP) {
   let renderedFilmsCount = CARDS_COUNT_PER_STEP;
 
-  renderTemplate(mainList, showMoreComponent.getElement(), `beforeend`);
+  renderElement(mainList, showMoreComponent.getElement(), RenderPosition.BEFOREEND);
 
   const showMoreButton = boardElement.querySelector(`.films-list__show-more`);
 
@@ -122,7 +123,7 @@ extraListsData.forEach(({key}) => {
     className: `films-list--extra`,
     title: extraListsTitles[key]
   });
-  renderTemplate(boardElement, extraListComponent.getElement(), `beforeend`);
+  renderElement(boardElement, extraListComponent.getElement(), RenderPosition.BEFOREEND);
 });
 
 const extraLists = boardElement.querySelectorAll(`.films-list--extra`);
@@ -136,5 +137,5 @@ extraLists.forEach((list, i) => {
   });
 
   const statisticsContainer = document.querySelector(`.footer__statistics`);
-  renderTemplate(statisticsContainer, footerStatisticsComponent.getElement(), `beforeend`);
+  renderElement(statisticsContainer, footerStatisticsComponent.getElement(), RenderPosition.BEFOREEND);
 });

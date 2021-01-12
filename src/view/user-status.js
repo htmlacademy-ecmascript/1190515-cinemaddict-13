@@ -1,4 +1,3 @@
-import {generateProfile} from "./profile";
 import {createElement} from "../utils";
 
 export const createUserStatusTemplate = (rank) => {

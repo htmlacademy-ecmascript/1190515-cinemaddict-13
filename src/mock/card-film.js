@@ -28,7 +28,7 @@ const generateRating = () => {
 const generateDuration = () => {
   const duration = {
     h: getRandomInteger(1, 3),
-    m: getRandomInteger(0, 60),
+    m: getRandomInteger(15, 60),
   };
 
   return Object.entries(duration)
