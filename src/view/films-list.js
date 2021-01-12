@@ -2,8 +2,8 @@ import {createElement} from "../utils";
 
 export const createListTemplate = ({
   className = `films-list`,
-  title = `There are no movies in our database`,
-  isTitleHidden = `false`,
+  title = ``,
+  isTitleHidden,
 }) => {
   const titleHiddenClassName = isTitleHidden ? `visually-hidden` : ``;
   return (

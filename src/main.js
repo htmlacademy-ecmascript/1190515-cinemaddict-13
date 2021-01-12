@@ -1,10 +1,10 @@
 import {RenderPosition, renderElement} from "./utils";
-import {extraListsTitles, KEYDOWN} from "./const";
+import {extraListsTitles, Keydown} from "./const";
 import {generateFilm} from "./mock/card-film";
 import {generateFilters} from "./mock/filter";
 import {generateUserRank} from "./mock/user-rank";
 import {generateExtraLists} from "./mock/extra-list";
-
+import createNoUploadFilmTemplate from "./view/no-upload";
 
 import RankView from "./view/user-status";
 import NavView from "./view/navigation";
@@ -35,7 +35,7 @@ const boardComponent = new BoardView();
 const showMoreComponent = new ShowMoreView();
 const footerStatisticsComponent = new FooterStatisticsView(films.length);
 const mainListComponent = new ListView({
-  title: `Upcoming...`,
+  title: `All movies. Upcoming`,
   isTitleHidden: true,
 });
 
@@ -55,7 +55,7 @@ const renderFilmDetails = (filmData) => {
   siteBodyElement.classList.add(`hide-overflow`);
 
   const onEscKeyDown = (evt) => {
-    if (evt.key === KEYDOWN.esc) {
+    if (evt.key === Keydown.ESC) {
       evt.preventDefault();
       closeModal();
     }
@@ -74,19 +74,21 @@ const renderFilmDetails = (filmData) => {
 };
 
 const renderFilm = (container, filmData) => {
-  const filmComponent = new FilmView(filmData);
+  if (filmData) {
+    const filmComponent = new FilmView(filmData);
+    const filmElement = filmComponent.getElement();
+    const filmPosterElement = filmElement.querySelector(`.film-card__poster`);
+    const filmTitleElement = filmElement.querySelector(`.film-card__title`);
+    const filmCommentsElement = filmElement.querySelector(`.film-card__comments`);
+    const modalTriggers = [filmPosterElement, filmTitleElement, filmCommentsElement];
 
-  renderElement(container, filmComponent.getElement(), RenderPosition.BEFOREEND);
-
-  const filmElement = filmComponent.getElement();
-  const filmPosterElement = filmElement.querySelector(`.film-card__poster`);
-  const filmTitleElement = filmElement.querySelector(`.film-card__title`);
-  const filmCommentsElement = filmElement.querySelector(`.film-card__comments`);
-  const modalTriggers = [filmPosterElement, filmTitleElement, filmCommentsElement];
-
-  modalTriggers.forEach((modalTrigger) => {
-    modalTrigger.addEventListener(`click`, () => renderFilmDetails(filmData));
-  });
+    modalTriggers.forEach((modalTrigger) => {
+      modalTrigger.addEventListener(`click`, () => renderFilmDetails(filmData));
+    });
+    renderElement(container, filmComponent.getElement(), RenderPosition.BEFOREEND);
+  } else {
+    renderElement(container, createNoUploadFilmTemplate(), `beforeend`);
+  }
 };
 
 const mainList = boardElement.querySelector(`.films-list`);
