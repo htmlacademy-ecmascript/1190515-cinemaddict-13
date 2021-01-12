@@ -62,13 +62,22 @@ function renderFilmDetails(filmData) {
 
   siteBodyElement.classList.add(`hide-overflow`);
 
+
   const closeButton = filmDetailsElement.querySelector(`.film-details__close-btn`);
   closeButton.addEventListener(`click`, closeModal);
+  const onEscKeyDown = (evt) => {
+    if (evt.key === `Escape` || evt.key === `Esc`) {
+      evt.preventDefault();
+      closeModal();
+    }
+  };
+  document.addEventListener(`keydown`, onEscKeyDown);
 
   function closeModal() {
     filmDetailsElement.remove();
     filmDetailsComponent.removeElement();
     siteBodyElement.classList.remove(`hide-overflow`);
+    document.removeEventListener(`keydown`, onEscKeyDown);
     closeButton.removeEventListener(`click`, closeModal);
   }
   renderElement(document.body, filmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
