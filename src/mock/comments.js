@@ -1,4 +1,4 @@
-import {getRandomArrayItem, getRandomDate} from "../utils";
+import {getRandomArrayItem, generateDate} from "../utils";
 
 const authors = [
   `Tim`,
@@ -24,7 +24,7 @@ const generateComment = () => {
     emotion: getRandomArrayItem(emotion),
     author: getRandomArrayItem(authors),
     text: getRandomArrayItem(comments),
-    commentDate: getRandomDate(),
+    commentDate: generateDate(),
   };
 };
 

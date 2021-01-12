@@ -1,10 +1,10 @@
-import {humanizeDate, createElement} from "../utils";
+import {generateDate, createElement} from "../utils";
 
 export const createDetailsCommentTemplate = ({
   emotion,
   text,
   author,
-  dueDate,
+  date,
 }) => {
   return (
     `<li class="film-details__comment">
@@ -15,7 +15,7 @@ export const createDetailsCommentTemplate = ({
         <p class="film-details__comment-text">${text}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${author}</span>
-          <span class="film-details__comment-day">${humanizeDate(dueDate)}</span>
+          <span class="film-details__comment-day">${generateDate(date)}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>

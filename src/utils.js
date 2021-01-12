@@ -8,26 +8,18 @@ export const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-export const getRandomDate = () => {
-  const maxDaysGasp = 7;
-  const daysGap = getRandomInteger(-maxDaysGasp, maxDaysGasp);
+// export const getRandomDate = () => {
+//   const maxDaysGasp = 7;
+//   const daysGap = getRandomInteger(-maxDaysGasp, maxDaysGasp);
 
-  return dayjs().add(daysGap, `day`).toDate();
-};
+//   return dayjs().add(daysGap, `day`).toDate();
+// };
 
-const DatesDraft = {
-  YEAR: {
-    FILM: [dayjs().year(), 1900],
-  },
-  MONTH: [11, 0],
-  DAY: [31, 1],
-};
-
-export const humanizeDate = () => {
-  const randomYear = getRandomInteger(...DatesDraft.YEAR.FILM);
-  const randomMonth = getRandomInteger(...DatesDraft.MONTH);
-  const randomDay = getRandomInteger(...DatesDraft.DAY);
-  return dayjs(new Date(randomYear, randomMonth, randomDay)).format(`DD MMMM YYYY`);
+export const generateDate = (format) => {
+  const maxDayGap = 3600;
+  const daysGap = getRandomInteger(-maxDayGap);
+  const date = dayjs().add(daysGap, `day`).toDate();
+  return dayjs(date).format(format);
 };
 
 export const getRandomArrayItem = (dataArray) => {
@@ -62,9 +54,9 @@ export const renderElement = (container, element, place) => {
   }
 };
 
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
+// export const renderTemplate = (container, template, place) => {
+//   container.insertAdjacentHTML(place, template);
+// };
 
 // export const renderTemplate = (container, child, place) => {
 //   if (container instanceof Abstract) {

@@ -8,7 +8,7 @@ export const createFilmTemplate = ({
   poster,
   description,
   rating,
-  dueDate = dayjs(),
+  date,
   duration,
   genre,
   comments,
@@ -16,7 +16,7 @@ export const createFilmTemplate = ({
   isWatched,
   isFavorite,
 }) => {
-  const year = dayjs(dueDate).format(`YYYY`);
+  const year = dayjs(date).format(`YYYY`);
   const truncatedDescription = truncateString(description, MAX_DESCRIPTION_LENGTH);
 
   const controlActiveClassname = `film-card__controls-item--active`;

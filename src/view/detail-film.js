@@ -1,4 +1,4 @@
-import {getRandomInteger, humanizeDate, createElement} from "../utils";
+import {getRandomInteger, generateDate, createElement} from "../utils";
 import CommentView from "./comment-detail";
 
 export const createFilmDetailsTemplate = ({
@@ -6,7 +6,7 @@ export const createFilmDetailsTemplate = ({
   poster,
   description,
   rating,
-  dueDate,
+  date,
   duration,
   filmDetails: {
     originalTitle,
@@ -57,7 +57,7 @@ export const createFilmDetailsTemplate = ({
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${humanizeDate(dueDate)}</td>
+                  <td class="film-details__cell">${generateDate(date)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>

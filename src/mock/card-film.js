@@ -1,7 +1,7 @@
 import {
   getRandomArrayItem,
   getRandomInteger,
-  getRandomDate,
+  generateDate,
   getSeveralRandomArrayItems
 } from "../utils";
 
@@ -43,7 +43,7 @@ export const generateFilm = () => {
     poster: getRandomArrayItem(filmsMockData.posters),
     description: generateDescription(),
     rating: generateRating(),
-    dueDate: getRandomDate(),
+    date: generateDate(`DD MMMM YYYY`),
     duration: generateDuration(),
     genre: getRandomArrayItem(filmsMockData.genres),
     filmDetails: generateFilmDetails(),
