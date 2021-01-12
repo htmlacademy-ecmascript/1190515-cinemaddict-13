@@ -1,19 +1,20 @@
 import {createElement} from "../utils";
 
-export const createBoardTemplate = () => {
+export const createStatisticsTemplate = (count) => {
   return (
-    `<section class="films">
-    </section>`
+    `<p>${count} movies inside</p>`
   );
 };
 
-export default class Board {
-  constructor() {
+export default class FooterStatistics {
+  constructor(count) {
+    this._count = count;
+
     this._element = null;
   }
 
   getTemplate() {
-    return createBoardTemplate();
+    return createStatisticsTemplate(this._count);
   }
 
   getElement() {
@@ -28,3 +29,4 @@ export default class Board {
     this._element = null;
   }
 }
+

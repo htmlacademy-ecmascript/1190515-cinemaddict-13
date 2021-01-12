@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import {truncateString} from "../utils";
+import {truncateString, createElement} from "../utils";
 
 const MAX_DESCRIPTION_LENGTH = 140;
 
@@ -8,7 +8,7 @@ export const createFilmTemplate = ({
   poster,
   description,
   rating,
-  dueDate = dayjs(),
+  date,
   duration,
   genre,
   comments,
@@ -16,7 +16,7 @@ export const createFilmTemplate = ({
   isWatched,
   isFavorite,
 }) => {
-  const year = dayjs(dueDate).format(`YYYY`);
+  const year = dayjs(date).format(`YYYY`);
   const truncatedDescription = truncateString(description, MAX_DESCRIPTION_LENGTH);
 
   const controlActiveClassname = `film-card__controls-item--active`;
@@ -45,3 +45,27 @@ export const createFilmTemplate = ({
         </article>`
   );
 };
+
+export default class Film {
+  constructor(filmData) {
+    this._film = filmData;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

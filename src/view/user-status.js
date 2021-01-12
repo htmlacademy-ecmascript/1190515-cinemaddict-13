@@ -1,3 +1,4 @@
+import {createElement} from "../utils";
 
 export const createUserStatusTemplate = (rank) => {
   return (
@@ -8,3 +9,26 @@ export const createUserStatusTemplate = (rank) => {
   );
 };
 
+export default class UserRank {
+  constructor(rank) {
+    this._rank = rank;
+
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createUserStatusTemplate(this._rank);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
