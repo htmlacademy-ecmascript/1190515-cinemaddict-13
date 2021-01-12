@@ -3,7 +3,7 @@ import {createElement} from "../utils";
 export const createBoardTemplate = () => {
   return (
     `<section class="films">
-  </section>`
+    </section>`
   );
 };
 

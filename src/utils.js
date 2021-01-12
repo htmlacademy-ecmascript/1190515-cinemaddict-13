@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-// import Abstract from "./view/abstract";
 
 export const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -8,16 +7,9 @@ export const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-// export const getRandomDate = () => {
-//   const maxDaysGasp = 7;
-//   const daysGap = getRandomInteger(-maxDaysGasp, maxDaysGasp);
-
-//   return dayjs().add(daysGap, `day`).toDate();
-// };
-
-export const generateDate = (format) => {
+export let generateDate = (format) => {
   const maxDayGap = 3600;
-  const daysGap = getRandomInteger(-maxDayGap);
+  const daysGap = getRandomInteger(-maxDayGap, +maxDayGap);
   const date = dayjs().add(daysGap, `day`).toDate();
   return dayjs(date).format(format);
 };
@@ -54,28 +46,6 @@ export const renderElement = (container, element, place) => {
   }
 };
 
-// export const renderTemplate = (container, template, place) => {
-//   container.insertAdjacentHTML(place, template);
-// };
-
-// export const renderTemplate = (container, child, place) => {
-//   if (container instanceof Abstract) {
-//     container = container.getElement();
-//   }
-
-//   if (child instanceof Abstract) {
-//     child = child.getElement();
-//   }
-
-//   switch (place) {
-//     case RenderPosition.AFTERBEGIN:
-//       container.prepend(child);
-//       break;
-//     case RenderPosition.BEFOREEND:
-//       container.append(child);
-//       break;
-//   }
-// };
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;

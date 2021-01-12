@@ -1,5 +1,5 @@
 import {RenderPosition, renderElement} from "./utils";
-import {extraListsTitles} from "./const";
+import {extraListsTitles, KEYDOWN} from "./const";
 import {generateFilm} from "./mock/card-film";
 import {generateFilters} from "./mock/filter";
 import {generateUserRank} from "./mock/user-rank";
@@ -35,7 +35,7 @@ const boardComponent = new BoardView();
 const showMoreComponent = new ShowMoreView();
 const footerStatisticsComponent = new FooterStatisticsView(films.length);
 const mainListComponent = new ListView({
-  title: `All movies. Upcoming`,
+  title: `Upcoming...`,
   isTitleHidden: true,
 });
 
@@ -47,34 +47,33 @@ renderElement(mainElement, boardComponent.getElement(), RenderPosition.BEFOREEND
 const boardElement = mainElement.querySelector(`.films`);
 renderElement(boardElement, mainListComponent.getElement(), RenderPosition.BEFOREEND);
 
-function renderFilmDetails(filmData) {
+const renderFilmDetails = (filmData) => {
   const filmDetailsComponent = new FilmDetailsView(filmData);
   const filmDetailsElement = filmDetailsComponent.getElement();
 
+  const closeButton = filmDetailsElement.querySelector(`.film-details__close-btn`);
   siteBodyElement.classList.add(`hide-overflow`);
 
-
-  const closeButton = filmDetailsElement.querySelector(`.film-details__close-btn`);
-  closeButton.addEventListener(`click`, closeModal);
   const onEscKeyDown = (evt) => {
-    if (evt.key === `Escape` || evt.key === `Esc`) {
+    if (evt.key === KEYDOWN.esc) {
       evt.preventDefault();
       closeModal();
     }
   };
   document.addEventListener(`keydown`, onEscKeyDown);
 
-  function closeModal() {
+  const closeModal = () => {
     filmDetailsElement.remove();
     filmDetailsComponent.removeElement();
     siteBodyElement.classList.remove(`hide-overflow`);
     document.removeEventListener(`keydown`, onEscKeyDown);
     closeButton.removeEventListener(`click`, closeModal);
-  }
+  };
+  closeButton.addEventListener(`click`, closeModal);
   renderElement(document.body, filmDetailsComponent.getElement(), RenderPosition.BEFOREEND);
-}
+};
 
-function renderFilm(container, filmData) {
+const renderFilm = (container, filmData) => {
   const filmComponent = new FilmView(filmData);
 
   renderElement(container, filmComponent.getElement(), RenderPosition.BEFOREEND);
@@ -88,7 +87,7 @@ function renderFilm(container, filmData) {
   modalTriggers.forEach((modalTrigger) => {
     modalTrigger.addEventListener(`click`, () => renderFilmDetails(filmData));
   });
-}
+};
 
 const mainList = boardElement.querySelector(`.films-list`);
 const mainListContainer = mainList.querySelector(`.films-list__container`);

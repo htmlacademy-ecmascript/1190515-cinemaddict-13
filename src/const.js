@@ -102,3 +102,7 @@ export const filmsMockData = {
   ],
 };
 
+export const KEYDOWN = {
+  ent: `Enter`,
+  esc: `Escape`,
+};
