@@ -4,7 +4,7 @@ import {generateFilm} from "./mock/card-film";
 import {generateFilters} from "./mock/filter";
 import {generateUserRank} from "./mock/user-rank";
 import {generateExtraLists} from "./mock/extra-list";
-import createNoUploadFilmTemplate from "./view/no-upload";
+// import createNoUploadFilmTemplate from "./view/no-upload";
 
 import RankView from "./view/user-status";
 import NavView from "./view/navigation";
@@ -34,10 +34,6 @@ const sortComponent = new SortingView();
 const boardComponent = new BoardView();
 const showMoreComponent = new ShowMoreView();
 const footerStatisticsComponent = new FooterStatisticsView(films.length);
-const mainListComponent = new ListView({
-  title: `All movies. Upcoming`,
-  isTitleHidden: true,
-});
 
 renderElement(headerElement, rankComponent.getElement(), RenderPosition.BEFOREEND);
 renderElement(mainElement, navComponent.getElement(), RenderPosition.BEFOREEND);
@@ -45,6 +41,11 @@ renderElement(mainElement, sortComponent.getElement(), RenderPosition.BEFOREEND)
 renderElement(mainElement, boardComponent.getElement(), RenderPosition.BEFOREEND);
 
 const boardElement = mainElement.querySelector(`.films`);
+const mainListComponent = new ListView({
+  className: `films-list`,
+  title: `There are no movies in our database`,
+  isTitleHidden: true
+});
 renderElement(boardElement, mainListComponent.getElement(), RenderPosition.BEFOREEND);
 
 const renderFilmDetails = (filmData) => {
@@ -74,21 +75,21 @@ const renderFilmDetails = (filmData) => {
 };
 
 const renderFilm = (container, filmData) => {
-  if (filmData) {
-    const filmComponent = new FilmView(filmData);
-    const filmElement = filmComponent.getElement();
-    const filmPosterElement = filmElement.querySelector(`.film-card__poster`);
-    const filmTitleElement = filmElement.querySelector(`.film-card__title`);
-    const filmCommentsElement = filmElement.querySelector(`.film-card__comments`);
-    const modalTriggers = [filmPosterElement, filmTitleElement, filmCommentsElement];
+  // if (filmData) {
+  const filmComponent = new FilmView(filmData);
+  const filmElement = filmComponent.getElement();
+  const filmPosterElement = filmElement.querySelector(`.film-card__poster`);
+  const filmTitleElement = filmElement.querySelector(`.film-card__title`);
+  const filmCommentsElement = filmElement.querySelector(`.film-card__comments`);
+  const modalTriggers = [filmPosterElement, filmTitleElement, filmCommentsElement];
 
-    modalTriggers.forEach((modalTrigger) => {
-      modalTrigger.addEventListener(`click`, () => renderFilmDetails(filmData));
-    });
-    renderElement(container, filmComponent.getElement(), RenderPosition.BEFOREEND);
-  } else {
-    renderElement(container, createNoUploadFilmTemplate(), `beforeend`);
-  }
+  modalTriggers.forEach((modalTrigger) => {
+    modalTrigger.addEventListener(`click`, () => renderFilmDetails(filmData));
+  });
+  renderElement(container, filmComponent.getElement(), RenderPosition.BEFOREEND);
+  // } else {
+  //   renderTemplate(container, createNoUploadFilmTemplate(), `beforeend`);
+  // }
 };
 
 const mainList = boardElement.querySelector(`.films-list`);

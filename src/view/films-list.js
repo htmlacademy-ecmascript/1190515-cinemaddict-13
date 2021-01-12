@@ -2,27 +2,27 @@ import {createElement} from "../utils";
 
 export const createListTemplate = ({
   className = `films-list`,
-  title = ``,
+  title,
   isTitleHidden,
 }) => {
-  const titleHiddenClassName = isTitleHidden ? `visually-hidden` : ``;
+  const titleHidden = isTitleHidden ? `` : `visually-hidden`;
   return (
     `<section class="${className}">
-      <h2 class="films-list__title ${titleHiddenClassName}">${title}</h2>
+      <h2 class="films-list__title ${titleHidden}">${title}</h2>
       <div class="films-list__container"></div>
     </section>`
   );
 };
 
 export default class FilmsList {
-  constructor(listOptions) {
-    this._listOptions = listOptions;
+  constructor(listData) {
+    this._listData = listData;
 
     this._element = null;
   }
 
   getTemplate() {
-    return createListTemplate(this._listOptions);
+    return createListTemplate(this._listData);
   }
 
   getElement() {
