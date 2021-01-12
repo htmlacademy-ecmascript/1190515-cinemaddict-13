@@ -1,4 +1,5 @@
 import {createElement} from "../utils";
+
 export const createNavigationTemplate = (filters, isActive) => {
   const activeClassname = isActive ? `main-navigation__item--active` : ``;
   return (

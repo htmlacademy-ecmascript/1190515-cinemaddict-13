@@ -1,7 +1,6 @@
 import {getRandomInteger, humanizeDate, createElement} from "../utils";
 import CommentView from "./comment-detail";
 
-
 export const createFilmDetailsTemplate = ({
   title,
   poster,

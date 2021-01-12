@@ -1,4 +1,5 @@
 import {humanizeDate, createElement} from "../utils";
+
 export const createDetailsCommentTemplate = ({
   emotion,
   text,

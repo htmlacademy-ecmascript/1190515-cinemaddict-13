@@ -1,18 +1,9 @@
 import {RenderPosition, renderElement} from "./utils";
 import {extraListsTitles} from "./const";
-// import {createUserStatusTemplate} from "./view/user-status";
-// import {createNavigationTemplate} from "./view/navigation";
-// import {createBoardTemplate} from './view/board';
-// import {createListTemplate} from './view/films-list';
-// import {createSortTemplate} from "./view/sort";
-// import {createFilmTemplate} from "./view/card-film";
-// import {showMoreButtonTemplate} from "./view/load-more-button";
-// import {createStatisticsTemplate} from "./view/statistics";
-// import {createFilmDetailsTemplate} from "./view/detail-film";
 import {generateFilm} from "./mock/card-film";
-import {generateFilters} from './mock/filter';
-import {generateUserRank} from './mock/user-rank';
-import {generateExtraLists} from './mock/extra-list';
+import {generateFilters} from "./mock/filter";
+import {generateUserRank} from "./mock/user-rank";
+import {generateExtraLists} from "./mock/extra-list";
 
 
 import RankView from "./view/user-status";
