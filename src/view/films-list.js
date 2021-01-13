@@ -1,17 +1,16 @@
 import {createElement} from "../utils";
 
-export const createListTemplate = ({
-  className = `films-list`,
-  title,
-  isTitleHidden,
-}) => {
-  const titleHidden = isTitleHidden ? `` : `visually-hidden`;
-  return (
-    `<section class="${className}">
-      <h2 class="films-list__title ${titleHidden}">${title}</h2>
+const MovieTitle = {
+  hidden: `All movies. Upcoming`,
+  show: `There are no movies in our database`
+};
+
+export const createListTemplate = (hasMovies) => {
+  return `<section class="films-list">
+      <h2 class="films-list__title ${hasMovies ? `visually-hidden` : ``}">
+      ${hasMovies ? MovieTitle.hidden : MovieTitle.show}</h2>
       <div class="films-list__container"></div>
-    </section>`
-  );
+    </section>`;
 };
 
 export default class FilmsList {
