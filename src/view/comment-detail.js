@@ -1,13 +1,9 @@
 import {generateDate, createElement} from "../utils";
 
-export const createDetailsCommentTemplate = ({
-  emotion,
-  text,
-  author,
-  date,
-}) => {
-  return (
-    `<li class="film-details__comment">
+export const createCommentsTemplate = (comments) => {
+  const result = comments.map((comment) => {
+    const {emotion, text, author, date} = comment;
+    return `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
         <img src="${emotion}" width="55" height="55" alt="emoji-smile">
       </span>
@@ -19,8 +15,9 @@ export const createDetailsCommentTemplate = ({
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>
-    </li>`
-  );
+    </li>`;
+  }).join(`\n`);
+  return `<ul class="film-details__comments-list">${result}</ul>`;
 };
 
 export default class Comment {
@@ -31,7 +28,7 @@ export default class Comment {
   }
 
   getTemplate() {
-    return createDetailsCommentTemplate(this._comment);
+    return createCommentsTemplate(this._comment);
   }
 
   getElement() {
