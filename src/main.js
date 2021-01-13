@@ -7,6 +7,7 @@ import {generateExtraLists} from "./mock/extra-list";
 // import createNoUploadFilmTemplate from "./view/no-upload";
 
 import RankView from "./view/user-status";
+import IndexNoDataView from "./view/no-upload";
 import NavView from "./view/navigation";
 import SortingView from "./view/sorting";
 import BoardView from "./view/board";
@@ -32,6 +33,7 @@ const rankComponent = new RankView(userRankLabel);
 const navComponent = new NavView(filters);
 const sortComponent = new SortingView();
 const boardComponent = new BoardView();
+const IndexNoDataComponent = new IndexNoDataView();
 const showMoreComponent = new ShowMoreView();
 const footerStatisticsComponent = new FooterStatisticsView(films.length);
 
@@ -75,21 +77,21 @@ const renderFilmDetails = (filmData) => {
 };
 
 const renderFilm = (container, filmData) => {
-  // if (filmData) {
-  const filmComponent = new FilmView(filmData);
-  const filmElement = filmComponent.getElement();
-  const filmPosterElement = filmElement.querySelector(`.film-card__poster`);
-  const filmTitleElement = filmElement.querySelector(`.film-card__title`);
-  const filmCommentsElement = filmElement.querySelector(`.film-card__comments`);
-  const modalTriggers = [filmPosterElement, filmTitleElement, filmCommentsElement];
+  if (filmData) {
+    const filmComponent = new FilmView({});
+    const filmElement = filmComponent.getElement();
+    const filmPosterElement = filmElement.querySelector(`.film-card__poster`);
+    const filmTitleElement = filmElement.querySelector(`.film-card__title`);
+    const filmCommentsElement = filmElement.querySelector(`.film-card__comments`);
+    const modalTriggers = [filmPosterElement, filmTitleElement, filmCommentsElement];
 
-  modalTriggers.forEach((modalTrigger) => {
-    modalTrigger.addEventListener(`click`, () => renderFilmDetails(filmData));
-  });
-  renderElement(container, filmComponent.getElement(), RenderPosition.BEFOREEND);
-  // } else {
-  //   renderTemplate(container, createNoUploadFilmTemplate(), `beforeend`);
-  // }
+    modalTriggers.forEach((modalTrigger) => {
+      modalTrigger.addEventListener(`click`, () => renderFilmDetails(filmData));
+    });
+    renderElement(container, filmComponent.getElement(), RenderPosition.BEFOREEND);
+  } else {
+    renderElement(container, IndexNoDataComponent.getElement(), `beforeend`);
+  }
 };
 
 const mainList = boardElement.querySelector(`.films-list`);
