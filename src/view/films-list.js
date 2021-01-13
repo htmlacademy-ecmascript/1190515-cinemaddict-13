@@ -3,9 +3,9 @@ import {createElement} from "../utils";
 export const createListTemplate = ({
   className = `films-list`,
   title,
-  isTitleHidden = false,
+  isTitleHidden,
 }) => {
-  const titleHidden = isTitleHidden === true ? `visually-hidden` : ``;
+  const titleHidden = isTitleHidden ? `` : `visually-hidden`;
   return (
     `<section class="${className}">
       <h2 class="films-list__title ${titleHidden}">${title}</h2>

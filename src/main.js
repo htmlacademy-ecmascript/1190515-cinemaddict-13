@@ -1,13 +1,14 @@
-import {RenderPosition, renderElement} from "./utils";
+import {RenderPosition, renderElement, renderTemplate} from "./utils";
 import {extraListsTitles, Keydown} from "./const";
 import {generateFilm} from "./mock/card-film";
 import {generateFilters} from "./mock/filter";
 import {generateUserRank} from "./mock/user-rank";
 import {generateExtraLists} from "./mock/extra-list";
+import {createIndexNoDataTemplate} from "./view/no-upload";
 // import createNoUploadFilmTemplate from "./view/no-upload";
 
 import RankView from "./view/user-status";
-import IndexNoDataView from "./view/no-upload";
+// import IndexNoDataView from "./view/no-upload";
 import NavView from "./view/navigation";
 import SortingView from "./view/sorting";
 import BoardView from "./view/board";
@@ -33,7 +34,7 @@ const rankComponent = new RankView(userRankLabel);
 const navComponent = new NavView(filters);
 const sortComponent = new SortingView();
 const boardComponent = new BoardView();
-const IndexNoDataComponent = new IndexNoDataView();
+// const IndexNoDataComponent = new IndexNoDataView();
 const showMoreComponent = new ShowMoreView();
 const footerStatisticsComponent = new FooterStatisticsView(films.length);
 
@@ -78,7 +79,7 @@ const renderFilmDetails = (filmData) => {
 
 const renderFilm = (container, filmData) => {
   if (filmData) {
-    const filmComponent = new FilmView({});
+    const filmComponent = new FilmView(filmData);
     const filmElement = filmComponent.getElement();
     const filmPosterElement = filmElement.querySelector(`.film-card__poster`);
     const filmTitleElement = filmElement.querySelector(`.film-card__title`);
@@ -90,7 +91,7 @@ const renderFilm = (container, filmData) => {
     });
     renderElement(container, filmComponent.getElement(), RenderPosition.BEFOREEND);
   } else {
-    renderElement(container, IndexNoDataComponent.getElement(), `beforeend`);
+    renderTemplate(container, createIndexNoDataTemplate, `beforeend`);
   }
 };
 

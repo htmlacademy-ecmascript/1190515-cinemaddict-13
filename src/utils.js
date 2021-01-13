@@ -53,6 +53,6 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-// export const renderTemplate = (container, template, place) => {
-//   container.insertAdjacentHTML(place, template);
-// };
+export const renderTemplate = (container, template, place) => {
+  container.insertAdjacentHTML(place, template);
+};

@@ -1,6 +1,6 @@
-import {createElement} from "../utils";
+// import {createElement} from "../utils";
 
-const createIndexNoDataTemplate = () => {
+export const createIndexNoDataTemplate = () => {
   return (
     `<section class="films">
     <section class="films-list">
@@ -10,19 +10,19 @@ const createIndexNoDataTemplate = () => {
   );
 };
 
-export default class IndexNoData {
-  getTemplate() {
-    return createIndexNoDataTemplate();
-  }
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
+// export default class IndexNoData {
+//   getTemplate() {
+//     return createIndexNoDataTemplate();
+//   }
+//   getElement() {
+//     if (!this._element) {
+//       this._element = createElement(this.getTemplate());
+//     }
 
-    return this._element;
-  }
+//     return this._element;
+//   }
 
-  removeElement() {
-    this._element = null;
-  }
-}
+//   removeElement() {
+//     this._element = null;
+//   }
+// }
