@@ -9,11 +9,10 @@ import {
   LOREM_TEXT_PLACEHOLDER,
   DESCRIPTION_MAX_LENGTH,
   MAX_RATING_IN_PERCENTS,
-  filmsMockData,
+  COUNTRIES,
 } from "../const";
 
 import {generateComments} from "./comments";
-import {generateFilmDetails} from "./detail-card-film";
 
 const generateDescription = () => {
   const loremSentences = LOREM_TEXT_PLACEHOLDER.split(`. `);
@@ -39,17 +38,52 @@ const generateDuration = () => {
 
 export const generateFilm = () => {
   return {
-    title: getRandomArrayItem(filmsMockData.titles),
-    poster: getRandomArrayItem(filmsMockData.posters),
+    name: getRandomArrayItem(),
+    originalName: getRandomArrayItem(),
+    poster: getRandomArrayItem(),
     description: generateDescription(),
     rating: generateRating(),
     date: generateDate(`DD MMMM YYYY`),
     duration: generateDuration(),
-    genre: getRandomArrayItem(filmsMockData.genres),
-    filmDetails: generateFilmDetails(),
+    genre: getRandomArrayItem(),
     comments: generateComments(getRandomInteger(0, 5)),
-    isInWatchlist: Boolean(getRandomInteger(0, 1)),
-    isWatched: Boolean(getRandomInteger(0, 1)),
-    isFavorite: Boolean(getRandomInteger(0, 1)),
+    isInWatchlist: Math.random() > 0.5,
+    isWatched: Math.random() > 0.5,
+    isFavorite: Math.random() > 0.5,
+    details: [
+      {
+        term: `Director`,
+        info: getRandomArrayItem(),
+      },
+      {
+        term: `Writers`,
+        info: getSeveralRandomArrayItems(3),
+      },
+      {
+        term: `Actors`,
+        info: getSeveralRandomArrayItems(3),
+      },
+      {
+        term: `Release Date`,
+        info: generateDate(`DD MMMM YYYY`),
+      },
+      {
+        term: `Runtime`,
+        info: generateDuration(),
+      },
+      {
+        term: `Country`,
+        info: getRandomArrayItem(COUNTRIES),
+      },
+    ]
   };
 };
+
+export const generateFilms = (count) => {
+  const result = [];
+  for (let i = 0; i < count; i++) {
+    result.push(generateFilm(i));
+  }
+  return result;
+};
+
