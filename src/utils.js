@@ -30,7 +30,7 @@ export const truncateString = (value, length) => {
   return value.length > length ? `${value.slice(0, length)}...` : value;
 };
 
-export const RenderPosition = {
+export const POSITION = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`
 };

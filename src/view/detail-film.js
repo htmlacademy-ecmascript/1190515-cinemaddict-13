@@ -1,8 +1,20 @@
-import {getRandomInteger, generateDate, createElement} from "../utils";
+import {createElement} from "../utils";
 import CommentView from "./comment-detail";
 
-export const createFilmDetailsTemplate =  = (film) => {
-  const { name, originalTitle, poster, description, rating, genres, age, details, comments } = film;
+const renderFilmDetailsRow = (details) => {
+  return details
+    .map((detail) => {
+      const {term, info} = detail;
+      return `<tr class="film-details__row">
+                <td class="film-details__term">${term}</td>
+                <td class="film-details__cell">${info}</td>
+              </tr>`;
+    })
+    .join(`\n`);
+};
+
+export const createFilmDetailsTemplate = (film) => {
+  const {name, originalTitle, poster, description, rating, genres, age, details, comments} = film;
   const genresLabel = genres.length > 1 ? `Genres` : `Genre`;
 
   return `<section class="film-details">
@@ -33,7 +45,7 @@ export const createFilmDetailsTemplate =  = (film) => {
                   <td class="film-details__term">${genresLabel}</td>
                   <td class="film-details__cell">
                     ${genres.map((genre) =>
-      (`<span class="film-details__genre">${genre}</span>`))
+    (`<span class="film-details__genre">${genre}</span>`))
       .join(``)}
                   </td>
                 </tr>
@@ -58,9 +70,9 @@ export const createFilmDetailsTemplate =  = (film) => {
             </h3>
             <ul class="film-details__comments-list">
               ${comments.map((comment) => {
-        const commentComponent = new CommentView(comment);
-        return commentComponent.getTemplate();
-      }).join(``)}
+    const commentComponent = new CommentView(comment);
+    return commentComponent.getTemplate();
+  }).join(``)}
             </ul>
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>

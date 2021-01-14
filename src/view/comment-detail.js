@@ -20,7 +20,7 @@ export const createCommentsTemplate = (comments) => {
   return `<ul class="film-details__comments-list">${result}</ul>`;
 };
 
-export default class Comment {
+export default class CommentView {
   constructor(commentData) {
     this._comment = commentData;
 
