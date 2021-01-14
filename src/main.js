@@ -5,6 +5,7 @@ import {generateFilms} from "./mock/card-film";
 import {generateFilters} from "./mock/filter";
 import {generateUserRank} from "./mock/user-rank";
 
+// import FooterStatisticsView from "./view/footer-statistic";
 import AdditionBlockView from "./view/add-card-block";
 import UserRankView from "./view/profile";
 import NavigationView from "./view/navigation";
@@ -23,19 +24,17 @@ const NO_FILMS_TEXT = `There are no movies in our database`;
 const films = generateFilms(FILM_COUNT);
 const filters = generateFilters(films);
 
-
-const siteBodyElement = document.querySelector(`body`);
-
 const getNoFilmsText = () => {
   return `<h2 class="films-list__title">${NO_FILMS_TEXT}</h2>`;
 };
 
+const siteBodyElement = document.querySelector(`body`);
 const headerElement = document.querySelector(`.header`);
 const mainContainerElement = document.querySelector(`.main`);
 const footerElement = document.querySelector(`.footer`);
 
+const filmContainerElement = mainContainerElement.querySelector(`.films`);
 const filmListContainerElement = mainContainerElement.querySelector(`.films-list__container`);
-
 
 const renderFilm = (filmContainerElement, film) => {
   const filmComponent = new FilmView(film);
@@ -115,8 +114,6 @@ render(mainContainerElement, navigationComponent.getElement(), POSITION.BEFOREEN
 render(mainContainerElement, sortingComponent.getElement(), POSITION.BEFOREEND);
 render(mainContainerElement, contentComponent.getElement(), POSITION.BEFOREEND);
 
-const filmContainerElement = mainContainerElement.querySelector(`.films`);
-
 const filmsSortingByRating = films.slice().sort((a, b) => {
   return sortingByDesc(a.rating, b.rating);
 });
@@ -152,8 +149,11 @@ if (films.length > 0) {
     }
   });
 } else {
-  filmListContainerElement.remove();
   render(filmContainerElement.querySelector(`.films-list`), createElement(getNoFilmsText()), POSITION.BEFOREEND);
 }
-
 footerElement.querySelector(`.footer__statistics`).textContent = `${films.length} movies inside`;
+// const FooterStatisticsComponent = new FooterStatisticsView();
+// const statisticsContainer = document.querySelector(`.footer__statistics`);
+// render(statisticsContainer, FooterStatisticsComponent.getElement(), POSITION.BEFOREEND);
+
+
