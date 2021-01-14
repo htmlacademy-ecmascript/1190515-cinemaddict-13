@@ -9,7 +9,7 @@ export const createProfileTemplate = (rank) => {
   );
 };
 
-export default class UserRankView {
+export default class ProfileView {
   constructor(rank) {
     this._rank = rank;
 

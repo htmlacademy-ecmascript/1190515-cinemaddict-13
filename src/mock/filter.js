@@ -3,7 +3,7 @@ export const generateFilters = (films) => {
     {
       name: `All movies`,
       link: `#all`,
-      count: -1
+      count: films.length,
     },
     {
       name: `Watchlist`,

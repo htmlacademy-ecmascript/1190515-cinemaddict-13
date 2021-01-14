@@ -7,7 +7,7 @@ import {generateUserRank} from "./mock/user-rank";
 
 // import FooterStatisticsView from "./view/footer-statistic";
 import AdditionBlockView from "./view/add-card-block";
-import UserRankView from "./view/profile";
+import ProfileView from "./view/profile";
 import NavigationView from "./view/navigation";
 import SortingView from "./view/sorting";
 import ContentView from "./view/content";
@@ -16,8 +16,12 @@ import ShowMoreCardView from "./view/show-more";
 import FilmDetailsView from "./view/detail-film";
 
 const FILM_COUNT = 17;
-const FILM_PER_COUNT = 5;
+const FILMS_PER_COUNT = 5;
 const FILM_COUNT_ADDITION = 2;
+const siteBodyElement = document.querySelector(`body`);
+const headerElement = document.querySelector(`.header`);
+const mainContainerElement = document.querySelector(`.main`);
+const footerElement = document.querySelector(`.footer`);
 const ADDITION_CONTAINER_TITLES = [`Top rated`, `Most commented`];
 const NO_FILMS_TEXT = `There are no movies in our database`;
 
@@ -28,14 +32,6 @@ const getNoFilmsText = () => {
   return `<h2 class="films-list__title">${NO_FILMS_TEXT}</h2>`;
 };
 
-const siteBodyElement = document.querySelector(`body`);
-const headerElement = document.querySelector(`.header`);
-const mainContainerElement = document.querySelector(`.main`);
-const footerElement = document.querySelector(`.footer`);
-
-const filmContainerElement = mainContainerElement.querySelector(`.films`);
-const filmListContainerElement = mainContainerElement.querySelector(`.films-list__container`);
-
 const renderFilm = (filmContainerElement, film) => {
   const filmComponent = new FilmView(film);
   const filmElement = filmComponent.getElement();
@@ -45,7 +41,6 @@ const renderFilm = (filmContainerElement, film) => {
 
   const filmDetailsComponent = new FilmDetailsView(film);
   const filmDetailsElement = filmDetailsComponent.getElement();
-
   const filmDetailsElementClose = filmDetailsElement.querySelector(`.film-details__close-btn`);
 
   const closeFilmDetails = () => {
@@ -67,6 +62,7 @@ const renderFilm = (filmContainerElement, film) => {
   const onEscapeKeyPress = (evt) => {
     if (evt.key === Keydown.ESC) {
       evt.preventDefault();
+      siteBodyElement.classList.remove(`hide-overflow`);
       closeFilmDetails();
     }
   };
@@ -79,12 +75,10 @@ const renderFilm = (filmContainerElement, film) => {
   document.addEventListener(`keydown`, onEscapeKeyPress);
 };
 
-const AdditionBlockComponent = new AdditionBlockView();
-const AdditionBlockElement = AdditionBlockComponent.getElement();
 
-const renderAdditionalBlocks = (filmContainerElement, filmsSortingByRating, filmsSortingByCommentsCount) => {
+const renderAdditionBlocks = (filmContainerElement, filmsSortingByRating, filmsSortingByCommentsCount) => {
   for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
-    render(filmContainerElement, AdditionBlockElement, POSITION.BEFOREEND);
+    render(filmContainerElement, new AdditionBlockView().getElement(), POSITION.BEFOREEND);
     const extraContainerElements = filmContainerElement.querySelectorAll(`.films-list--extra`);
     const additionContainerElement = extraContainerElements[extraContainerElements.length - 1];
     const cards = ADDITION_CONTAINER_TITLES[i] === `Top rated` ? filmsSortingByRating : filmsSortingByCommentsCount;
@@ -104,15 +98,18 @@ const renderAdditionalBlocks = (filmContainerElement, filmsSortingByRating, film
 };
 
 const userRankLabel = generateUserRank(films);
-const userRankComponent = new UserRankView(userRankLabel);
+const profileComponent = new ProfileView(userRankLabel);
 const navigationComponent = new NavigationView(filters);
 const sortingComponent = new SortingView();
 const contentComponent = new ContentView();
 
-render(headerElement, userRankComponent.getElement(), POSITION.BEFOREEND);
+render(headerElement, profileComponent.getElement(), POSITION.BEFOREEND);
 render(mainContainerElement, navigationComponent.getElement(), POSITION.BEFOREEND);
 render(mainContainerElement, sortingComponent.getElement(), POSITION.BEFOREEND);
 render(mainContainerElement, contentComponent.getElement(), POSITION.BEFOREEND);
+
+const filmContainerElement = mainContainerElement.querySelector(`.films`);
+const filmListContainerElement = mainContainerElement.querySelector(`.films-list__container`);
 
 const filmsSortingByRating = films.slice().sort((a, b) => {
   return sortingByDesc(a.rating, b.rating);
@@ -122,7 +119,7 @@ const filmsSortingByCommentsCount = films.slice().sort((a, b) => {
   return sortingByDesc(a.comments.length, b.comments.length);
 });
 
-let showingFilmsCount = FILM_PER_COUNT;
+let showingFilmsCount = FILMS_PER_COUNT;
 
 if (films.length > 0) {
   films.slice(0, showingFilmsCount).forEach((film) => {
@@ -133,11 +130,11 @@ if (films.length > 0) {
   const showMoreElement = showMoreComponent.getElement();
 
   render(filmListContainerElement, showMoreElement, POSITION.AFTEREND);
-  renderAdditionalBlocks(filmContainerElement, filmsSortingByRating, filmsSortingByCommentsCount);
+  renderAdditionBlocks(filmContainerElement, filmsSortingByRating, filmsSortingByCommentsCount);
 
   showMoreElement.addEventListener(`click`, () => {
     const prevFilmsCount = showingFilmsCount;
-    showingFilmsCount = showingFilmsCount + FILM_PER_COUNT;
+    showingFilmsCount = showingFilmsCount + FILMS_PER_COUNT;
 
     films.slice(prevFilmsCount, showingFilmsCount).forEach((film) => {
       renderFilm(filmListContainerElement, film, POSITION.BEFOREEND);
@@ -149,6 +146,7 @@ if (films.length > 0) {
     }
   });
 } else {
+  filmListContainerElement.remove();
   render(filmContainerElement.querySelector(`.films-list`), createElement(getNoFilmsText()), POSITION.BEFOREEND);
 }
 footerElement.querySelector(`.footer__statistics`).textContent = `${films.length} movies inside`;
