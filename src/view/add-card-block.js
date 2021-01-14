@@ -8,7 +8,7 @@ const createBlockAdditionTemplate = () => {
           </section>`;
 };
 
-export default class additionBlockView {
+export default class AdditionBlockView {
   constructor() {
     this._element = null;
   }
