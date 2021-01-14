@@ -13,7 +13,7 @@ export const createListTemplate = (hasMovies) => {
     </section>`;
 };
 
-export default class FilmsList {
+export default class FilmsListView {
   constructor(listData) {
     this._listData = listData;
 

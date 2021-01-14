@@ -9,7 +9,7 @@ export const createUserStatusTemplate = (rank) => {
   );
 };
 
-export default class UserRank {
+export default class UserRankView {
   constructor(rank) {
     this._rank = rank;
 

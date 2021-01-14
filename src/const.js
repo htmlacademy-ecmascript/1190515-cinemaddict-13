@@ -1,15 +1,15 @@
 export const TEXT =
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-   Cras aliquet varius magna, non porta ligula feugiat eget.
-    Fusce tristique felis at fermentum pharetra.
-     Aliquam id orci ut lectus varius viverra.
-      Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.
-       Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.
-        Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.
-         Sed sed nisi sed augue convallis suscipit in sed felis.
-          Aliquam erat volutpat.
-          Nunc fermentum tortor ac porta dapibus.
-            In rutrum ac purus sit amet tempus.`;
+  Cras aliquet varius magna, non porta ligula feugiat eget.
+  Fusce tristique felis at fermentum pharetra.
+  Aliquam id orci ut lectus varius viverra.
+  Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.
+  Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.
+  Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.
+  Sed sed nisi sed augue convallis suscipit in sed felis.
+  Aliquam erat volutpat.
+  Nunc fermentum tortor ac porta dapibus.
+  In rutrum ac purus sit amet tempus.`;
 
 export const DESCRIPTION_MAX_LENGTH = 5;
 export const MAX_RATING_IN_PERCENTS = 100;
@@ -21,17 +21,17 @@ export const userRankStrings = {
 };
 
 export const EMOTIONS = [`smile`, `sleeping`, `puke`, `angry`];
-export const TITLES: [
+export const TITLES = [
   `Made for each other`,
   `Popeye meets sinbad`,
   `Sagebrush trail`,
   `Santa claus conquers the martians`,
   `The dance of life`,
   `The great flamarion`,
-  `The man with the golden arm`
+  `The man with the golden arm`,
 ];
 
-export const FILM_POSTERS: [
+export const FILM_POSTERS = [
   `./images/posters/made-for-each-other.png`,
   `./images/posters/popeye-meets-sinbad.png`,
   `./images/posters/sagebrush-trail.jpg`,
@@ -41,9 +41,9 @@ export const FILM_POSTERS: [
   `./images/posters/the-man-with-the-golden-arm.jpg`,
 ];
 
-export const GENRES: [`Musical`, `Western`, `Drama`, `Comedy`, `Cartoon`, `Mystery`];
-export const NAMES: [`Anthony Mannet`, `Anne Wigton`, `Heinz Herald`, `Richard Weil`, `Erich von Stroheim`, `Mary Beth Hughes`, `Dan Duryea`];
-export const COUNTRIES: [`USA`, `Russia`, `Germany`, `France`, `Italy`];
+export const GENRES = [`Musical`, `Western`, `Drama`, `Comedy`, `Cartoon`, `Mystery`];
+export const NAMES = [`Anthony Mannet`, `Anne Wigton`, `Heinz Herald`, `Richard Weil`, `Erich von Stroheim`, `Mary Beth Hughes`, `Dan Duryea`];
+export const COUNTRIES = [`USA`, `Russia`, `Germany`, `France`, `Italy`];
 export const AGES = [0, 6, 12, 16, 18];
 
 export const Keydown = {

@@ -8,7 +8,7 @@ export const createContentTemplate = () => {
           </section>`;
 };
 
-export default class Content {
+export default class ContentView {
   constructor() {
     this._element = null;
   }

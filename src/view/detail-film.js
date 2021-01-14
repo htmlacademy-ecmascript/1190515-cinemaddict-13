@@ -92,7 +92,7 @@ export const createFilmDetailsTemplate =  = (film) => {
     </section>`;
 };
 
-export default class FilmDetails {
+export default class FilmDetailsView {
   constructor(film) {
     this._film = film;
 

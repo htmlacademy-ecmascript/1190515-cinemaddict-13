@@ -17,7 +17,7 @@ export const createNavigationTemplate = (filters) => {
     </nav>`;
 };
 
-export default class Navigation {
+export default class NavigationView {
   constructor(filters) {
     this._filters = filters;
     this._element = null;
