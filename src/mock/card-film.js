@@ -13,7 +13,8 @@ import {
   TITLES,
   GENRES,
   FILM_POSTERS,
-  NAMES
+  NAMES,
+  AGES
 } from "../const";
 
 const AUTHORS = [
@@ -84,6 +85,7 @@ export const generateFilm = () => {
     duration: generateDuration(),
     genres: getRandomArrayItem(GENRES),
     comments: generateComments(getRandomInteger(0, 5)),
+    age: getRandomArrayItem(AGES),
     isInWatchlist: Math.random() > 0.5,
     isWatched: Math.random() > 0.5,
     isFavorite: Math.random() > 0.5,
