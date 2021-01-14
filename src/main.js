@@ -12,7 +12,7 @@ import NavigationView from "./view/navigation";
 import SortingView from "./view/sorting";
 import ContentView from "./view/content";
 import FilmView from "./view/card-film";
-import ShowMoreCardView from "./view/show-more-button";
+import ShowMoreCardView from "./view/show-more";
 import FilmDetailsView from "./view/detail-film";
 
 const FILM_COUNT = 17;
@@ -84,22 +84,22 @@ const renderFilm = (filmContainerElement, film) => {
 const AdditionBlockComponent = new AdditionBlockView();
 const AdditionBlockElement = AdditionBlockComponent.getElement();
 
-const renderAdditionalBlocks = (filmContainerElement, filmsSortByRating, filmsSortByCommentsCount) => {
+const renderAdditionalBlocks = (filmContainerElement, filmsSortingByRating, filmsSortingByCommentsCount) => {
   for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
     render(filmContainerElement, AdditionBlockElement, POSITION.BEFOREEND);
     const extraContainerElements = filmContainerElement.querySelectorAll(`.films-list--extra`);
     const additionContainerElement = extraContainerElements[extraContainerElements.length - 1];
-    const films = ADDITION_CONTAINER_TITLES[i] === `Top rated` ? filmsSortByRating : filmsSortByCommentsCount;
+    const cards = ADDITION_CONTAINER_TITLES[i] === `Top rated` ? filmsSortingByRating : filmsSortingByCommentsCount;
 
-    if (ADDITION_CONTAINER_TITLES[i] === `Top rated` && films[0].rating > 0) {
+    if (ADDITION_CONTAINER_TITLES[i] === `Top rated` && cards[0].rating > 0) {
       additionContainerElement.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
-      films.slice(0, FILM_COUNT_ADDITION).forEach((film) => {
-        renderFilm(additionContainerElement.querySelector(`.films-list__container`), film, POSITION.BEFOREEND);
+      cards.slice(0, FILM_COUNT_ADDITION).forEach((card) => {
+        renderFilm(additionContainerElement.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
       });
-    } else if (ADDITION_CONTAINER_TITLES[i] === `Most commented` && films[0].comments.length > 0) {
+    } else if (ADDITION_CONTAINER_TITLES[i] === `Most commented` && cards[0].comments.length > 0) {
       additionContainerElement.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
-      films.slice(0, FILM_COUNT_ADDITION).forEach((film) => {
-        renderFilm(additionContainerElement.querySelector(`.films-list__container`), film, POSITION.BEFOREEND);
+      cards.slice(0, FILM_COUNT_ADDITION).forEach((card) => {
+        renderFilm(additionContainerElement.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
       });
     }
   }

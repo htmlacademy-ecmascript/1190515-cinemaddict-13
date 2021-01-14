@@ -6,7 +6,7 @@ import {
 } from "../utils";
 
 import {
-  LOREM_TEXT_PLACEHOLDER,
+  TEXT,
   DESCRIPTION_MAX_LENGTH,
   MAX_RATING_IN_PERCENTS,
   COUNTRIES,
@@ -15,7 +15,7 @@ import {
 import {generateComments} from "./comments";
 
 const generateDescription = () => {
-  const loremSentences = LOREM_TEXT_PLACEHOLDER.split(`. `);
+  const loremSentences = TEXT.split(`. `);
 
   return getSeveralRandomArrayItems(loremSentences, DESCRIPTION_MAX_LENGTH).join(`. `);
 };

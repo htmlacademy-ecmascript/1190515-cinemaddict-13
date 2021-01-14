@@ -1,4 +1,4 @@
-import {createElement} from "../util";
+import {createElement} from "../utils";
 
 const createBlockAdditionTemplate = () => {
   return `<section class="films-list--extra">
