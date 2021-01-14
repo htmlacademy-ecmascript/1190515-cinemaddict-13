@@ -4,10 +4,9 @@ import {Keydown} from "./const";
 import {generateFilms} from "./mock/card-film";
 import {generateFilters} from "./mock/filter";
 import {generateUserRank} from "./mock/user-rank";
-// import {generateComments} from "./mock/comments";
 
 import AdditionBlockView from "./view/add-card-block";
-import UserRankView from "./view/user-status";
+import UserRankView from "./view/profile";
 import NavigationView from "./view/navigation";
 import SortingView from "./view/sorting";
 import ContentView from "./view/content";
@@ -23,7 +22,7 @@ const NO_FILMS_TEXT = `There are no movies in our database`;
 
 const films = generateFilms(FILM_COUNT);
 const filters = generateFilters(films);
-const userRankLabel = generateUserRank(films);
+
 
 const siteBodyElement = document.querySelector(`body`);
 
@@ -105,6 +104,7 @@ const renderAdditionalBlocks = (filmContainerElement, filmsSortingByRating, film
   }
 };
 
+const userRankLabel = generateUserRank(films);
 const userRankComponent = new UserRankView(userRankLabel);
 const navigationComponent = new NavigationView(filters);
 const sortingComponent = new SortingView();
