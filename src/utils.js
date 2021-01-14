@@ -32,16 +32,20 @@ export const truncateString = (value, length) => {
 
 export const POSITION = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`,
 };
 
-export const renderElement = (container, element, place) => {
+export const render = (container, element, place) => {
   switch (place) {
-    case RenderPosition.AFTERBEGIN:
+    case POSITION.AFTERBEGIN:
       container.prepend(element);
       break;
-    case RenderPosition.BEFOREEND:
+    case POSITION.BEFOREEND:
       container.append(element);
+      break;
+    case POSITION.AFTEREND:
+      container.after(element);
       break;
   }
 };
@@ -49,10 +53,9 @@ export const renderElement = (container, element, place) => {
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
-
   return newElement.firstChild;
 };
 
-export const renderTemplate = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
+export const sortingByDesc = (a, b) => {
+  return b - a;
 };
