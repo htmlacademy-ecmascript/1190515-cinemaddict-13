@@ -14,7 +14,7 @@ export const TEXT =
 export const DESCRIPTION_MAX_LENGTH = 5;
 export const MAX_RATING_IN_PERCENTS = 100;
 
-export const userRankStrings = {
+export const RANK = {
   NOVICE: `Novice`,
   FAN: `Fan`,
   MOVIE_BUFF: `Movie Buff`,

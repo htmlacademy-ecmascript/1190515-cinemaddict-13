@@ -10,7 +10,7 @@ import AdditionBlockView from "./view/add-card-block";
 import UserRankView from "./view/user-status";
 import NavigationView from "./view/navigation";
 import SortingView from "./view/sorting";
-import ContentView from "./view/conent";
+import ContentView from "./view/content";
 import FilmView from "./view/card-film";
 import ShowMoreCardView from "./view/show-more-button";
 import FilmDetailsView from "./view/detail-film";
