@@ -4,7 +4,7 @@ import {truncateString, createElement} from "../utils";
 const MAX_DESCRIPTION_LENGTH = 140;
 
 export const createFilmTemplate = (film) => {
-  const {title, poster, description, rating, date, duration, genre, comments} = film;
+  const {title, poster, description, rating, date, duration, genres, comments} = film;
 
   const year = dayjs(date).format(`YYYY`);
   const truncatedDescription = truncateString(description, MAX_DESCRIPTION_LENGTH);
@@ -15,7 +15,7 @@ export const createFilmTemplate = (film) => {
             <p class="film-card__info">
               <span class="film-card__year">${year}</span>
               <span class="film-card__duration">${duration}</span>
-              <span class="film-card__genre">${genre}</span>
+              <span class="film-card__genre">${genres}</span>
             </p>
           <img src="${poster}" alt="" class="film-card__poster">
           <p class="film-card__description">${truncatedDescription}</p>

@@ -1,22 +1,24 @@
 import {getRandomArrayItem, generateDate, getRandomInteger} from "../utils";
 
-const authors = [
+const AUTHORS = [
   `Tim`,
   `John`,
   `Frank`
 ];
 
-const comments = [
+const COMMENTS = [
   `Booo`,
   `Wow!`,
-  `Greate!`
+  `Greate!`,
+  `Fine!`,
+  `Bad..`
 ];
 
-const emotion = [
-  `./images/emoji/smile.png`,
-  `./images/emoji/puke.png`,
-  `./images/emoji/angry.png`,
-  `./images/emoji/sleeping.png`
+const EMOTIONS = [
+  `smile`,
+  `puke`,
+  `angry`,
+  `sleeping`
 ];
 
 export const generateComments = () => {
@@ -24,9 +26,9 @@ export const generateComments = () => {
   const commentsCount = getRandomInteger(0, 5);
   for (let i = 0; i < commentsCount; i++) {
     result.push({
-      emotion: getRandomArrayItem(emotion),
-      author: getRandomArrayItem(authors),
-      text: getRandomArrayItem(comments),
+      emotion: getRandomArrayItem(EMOTIONS),
+      author: getRandomArrayItem(AUTHORS),
+      text: getRandomArrayItem(COMMENTS),
       commentDate: generateDate(),
     });
   }

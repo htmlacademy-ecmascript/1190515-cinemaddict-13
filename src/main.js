@@ -109,6 +109,7 @@ const userRankComponent = new UserRankView(userRankLabel);
 const navigationComponent = new NavigationView(filters);
 const sortingComponent = new SortingView();
 const contentComponent = new ContentView();
+
 render(headerElement, userRankComponent.getElement(), POSITION.BEFOREEND);
 render(mainContainerElement, navigationComponent.getElement(), POSITION.BEFOREEND);
 render(mainContainerElement, sortingComponent.getElement(), POSITION.BEFOREEND);
@@ -132,12 +133,12 @@ if (films.length > 0) {
   });
 
   const showMoreComponent = new ShowMoreCardView();
-  const showMoreComponentElement = showMoreComponent.getElement();
+  const showMoreElement = showMoreComponent.getElement();
 
-  render(filmListContainerElement, showMoreComponentElement, POSITION.AFTEREND);
+  render(filmListContainerElement, showMoreElement, POSITION.AFTEREND);
   renderAdditionalBlocks(filmContainerElement, filmsSortingByRating, filmsSortingByCommentsCount);
 
-  showMoreComponentElement.addEventListener(`click`, () => {
+  showMoreElement.addEventListener(`click`, () => {
     const prevFilmsCount = showingFilmsCount;
     showingFilmsCount = showingFilmsCount + FILM_PER_COUNT;
 
@@ -146,7 +147,7 @@ if (films.length > 0) {
     });
 
     if (showingFilmsCount >= films.length) {
-      showMoreComponentElement.remove();
+      showMoreElement.remove();
       showMoreComponent.removeElement();
     }
   });

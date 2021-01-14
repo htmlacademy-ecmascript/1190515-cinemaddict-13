@@ -1,5 +1,4 @@
-import {createElement} from "../utils";
-import CommentView from "./comment-detail";
+import {generateDate, createElement} from "../utils";
 
 const renderFilmDetailsRow = (details) => {
   return details
@@ -13,9 +12,37 @@ const renderFilmDetailsRow = (details) => {
     .join(`\n`);
 };
 
+const renderGenres = (genres) => {
+  return genres
+    .split(`, `)
+    .map((genre) => {
+      return `<span class="film-details__genre">${genre}</span>`;
+    })
+    .join(`\n`);
+};
+
+export const createComments = (comments) => {
+  const result = comments.map((comment) => {
+    const {comment: emotion, text, author, date} = comment;
+    return `<li class="film-details__comment">
+      <span class="film-details__comment-emoji">
+        <img src="${emotion}" width="55" height="55" alt="emoji-smile">
+      </span>
+      <div>
+        <p class="film-details__comment-text">${text}</p>
+        <p class="film-details__comment-info">
+          <span class="film-details__comment-author">${author}</span>
+          <span class="film-details__comment-day">${generateDate(date)}</span>
+          <button class="film-details__comment-delete">Delete</button>
+        </p>
+      </div>
+    </li>`;
+  }).join(`\n`);
+  return `<ul class="film-details__comments-list">${result}</ul>`;
+};
+
 export const createFilmDetailsTemplate = (film) => {
   const {name, originalTitle, poster, description, rating, genres, age, details, comments} = film;
-  const genresLabel = genres.length > 1 ? `Genres` : `Genre`;
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -42,14 +69,11 @@ export const createFilmDetailsTemplate = (film) => {
                 <tr class="film-details__row">
                 ${renderFilmDetailsRow(details)}
                 <tr class="film-details__row">
-                  <td class="film-details__term">${genresLabel}</td>
-                  <td class="film-details__cell">
-                    ${genres.map((genre) =>
-    (`<span class="film-details__genre">${genre}</span>`))
-      .join(``)}
-                  </td>
+                  <td class="film-details__term">${genres.length > 1 ? `Genres` : `Genre`}</td>
+                  <td class="film-details__cell">${renderGenres(genres)}</td>
                 </tr>
               </table>
+
               <p class="film-details__film-description">${description}</p>
             </div>
           </div>
@@ -69,10 +93,7 @@ export const createFilmDetailsTemplate = (film) => {
             <span class="film-details__comments-count">${comments.length}</span>
             </h3>
             <ul class="film-details__comments-list">
-              ${comments.map((comment) => {
-    const commentComponent = new CommentView(comment);
-    return commentComponent.getTemplate();
-  }).join(``)}
+              ${comments.length > 0 ? createComments(comments) : ``}
             </ul>
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>

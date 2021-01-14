@@ -10,14 +10,18 @@ import {
   DESCRIPTION_MAX_LENGTH,
   MAX_RATING_IN_PERCENTS,
   COUNTRIES,
+  TITLES,
+  GENRES,
+  FILM_POSTERS,
+  NAMES
 } from "../const";
 
 import {generateComments} from "./comments";
 
 const generateDescription = () => {
-  const loremSentences = TEXT.split(`. `);
+  const sentences = TEXT.split(`. `);
 
-  return getSeveralRandomArrayItems(loremSentences, DESCRIPTION_MAX_LENGTH).join(`. `);
+  return getSeveralRandomArrayItems(sentences, DESCRIPTION_MAX_LENGTH).join(`. `);
 };
 
 const generateRating = () => {
@@ -38,14 +42,14 @@ const generateDuration = () => {
 
 export const generateFilm = () => {
   return {
-    name: getRandomArrayItem(),
-    originalName: getRandomArrayItem(),
-    poster: getRandomArrayItem(),
+    name: getRandomArrayItem(TITLES),
+    originalName: getRandomArrayItem(TITLES),
+    poster: getRandomArrayItem(FILM_POSTERS),
     description: generateDescription(),
     rating: generateRating(),
     date: generateDate(`DD MMMM YYYY`),
     duration: generateDuration(),
-    genre: getRandomArrayItem(),
+    genres: getRandomArrayItem(GENRES),
     comments: generateComments(getRandomInteger(0, 5)),
     isInWatchlist: Math.random() > 0.5,
     isWatched: Math.random() > 0.5,
@@ -53,15 +57,15 @@ export const generateFilm = () => {
     details: [
       {
         term: `Director`,
-        info: getRandomArrayItem(),
+        info: getRandomArrayItem(NAMES),
       },
       {
         term: `Writers`,
-        info: getSeveralRandomArrayItems(3),
+        info: getSeveralRandomArrayItems(NAMES, 3),
       },
       {
         term: `Actors`,
-        info: getSeveralRandomArrayItems(3),
+        info: getSeveralRandomArrayItems(NAMES, 3),
       },
       {
         term: `Release Date`,
