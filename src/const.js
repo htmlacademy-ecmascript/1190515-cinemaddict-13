@@ -20,40 +20,6 @@ export const userRankStrings = {
   MOVIE_BUFF: `Movie Buff`,
 };
 
-// export const EXTRA_LIST_TOP_RATED_KEY = `topRated`;
-// export const EXTRA_LIST_MOST_COMMENTED_KEY = `mostCommented`;
-
-// export const extraListsTitles = {
-//   [EXTRA_LIST_TOP_RATED_KEY]: `Top rated`,
-//   [EXTRA_LIST_MOST_COMMENTED_KEY]: `Most commented`,
-// };
-
-// export const filterTypeKeys = {
-//   ALL: `all`,
-//   WATCHLIST: `watchlist`,
-//   HISTORY: `history`,
-//   FAVORITES: `favorites`,
-// };
-
-// export const filterTypes = {
-//   [filterTypeKeys.ALL]: {
-//     link: `#all`,
-//     signature: `All Items`,
-//   },
-//   [filterTypeKeys.WATCHLIST]: {
-//     link: `#watchilst`,
-//     signature: `Watchlist`,
-//   },
-//   [filterTypeKeys.HISTORY]: {
-//     link: `#watchilst`,
-//     signature: `History`,
-//   },
-//   [filterTypeKeys.FAVORITES]: {
-//     link: `#watchilst`,
-//     signature: `Favorites`,
-//   },
-// };
-
 export const EMOTIONS = [`smile`, `sleeping`, `puke`, `angry`];
 export const TITLES: [
   `Made for each other`,
