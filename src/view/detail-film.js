@@ -137,14 +137,12 @@ export default class FilmDetailsView extends AbstractComponent {
   }
   _clickHandler(evt) {
     evt.preventDefault();
-    // 3. А внутри абстрактного обработчика вызовем колбэк
     this._callback.click();
   }
-  setCloseClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
+  setCloseClickHandler() {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
   }
-
-  removeCloseClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
+  removeCloseClickHandler() {
+    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
   }
 }

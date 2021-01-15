@@ -46,3 +46,17 @@ export const remove = (component) => {
   component.getElement().remove();
   component.removeElement();
 };
+
+export const toggleElement = (container, component, action) => {
+  const element = component.getElement();
+  switch (action) {
+    case `show`:
+      container.appendChild(element);
+      break;
+    case `hide`:
+      if (container.contains(element)) {
+        container.removeChild(element);
+      }
+      break;
+  }
+};
