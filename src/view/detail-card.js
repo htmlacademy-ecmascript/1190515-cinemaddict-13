@@ -95,7 +95,7 @@ export const createFilmDetailsTemplate = (film) => {
             <span class="film-details__comments-count">${comments.length}</span></h3>
 
               ${comments.length > 0 ? createComments(comments) : ``}
-
+            
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>
               <label class="film-details__comment-label">

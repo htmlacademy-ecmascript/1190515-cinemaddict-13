@@ -71,7 +71,7 @@ const renderFilm = (filmsContainer, film) => {
 
 const renderAdditionBlocks = (filmsContainer, filmsSortingByRating, filmsSortingByCommentsCount) => {
   for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
-    render(filmsContainer, new AdditionBlockView(), POSITION.BEFOREEND);
+    render(filmsContainer, new AdditionBlockView().getElement(), POSITION.BEFOREEND);
     const extraContainerElements = filmsContainer.querySelectorAll(`.films-list--extra`);
     const firstextra = extraContainerElements[0];
     const secondextra = extraContainerElements[1];
