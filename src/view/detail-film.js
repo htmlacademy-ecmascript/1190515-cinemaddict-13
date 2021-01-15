@@ -1,4 +1,4 @@
-import {generateDate} from "../utils";
+import {generateDate} from "../utils/common";
 import AbstractComponent from "./abstract-component";
 
 const renderFilmDetailsRow = (details) => {
@@ -130,9 +130,21 @@ export default class FilmDetailsView extends AbstractComponent {
   constructor(film) {
     super();
     this._film = film;
+    this._clickHandler = this._clickHandler.bind(this);
   }
-
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
+  }
+  _clickHandler(evt) {
+    evt.preventDefault();
+    // 3. А внутри абстрактного обработчика вызовем колбэк
+    this._callback.click();
+  }
+  setCloseClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
+  }
+
+  removeCloseClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, handler);
   }
 }

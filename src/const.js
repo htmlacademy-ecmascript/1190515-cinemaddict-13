@@ -50,3 +50,5 @@ export const Keydown = {
   ENT: `Enter`,
   ESC: `Escape`,
 };
+
+export default Keydown;

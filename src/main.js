@@ -1,5 +1,6 @@
-import {POSITION, render, sortingByDesc} from "./utils";
-import AbstractComponent from "./abstract-component";
+import {sortingByDesc} from "./utils/common";
+import {POSITION, render, createElement} from "./utils/render";
+// import AbstractComponent from "./abstract-component";
 import Keydown from "./const";
 
 import generateFilms from "./mock/card-film";
@@ -128,12 +129,11 @@ if (films.length > 0) {
   });
 
   const showMoreComponent = new ShowMoreCardView();
-  const showMoreElement = showMoreComponent.getElement();
 
-  render(filmListContainerElement, showMoreElement, POSITION.AFTEREND);
+  render(filmListContainerElement, showMoreComponent, POSITION.AFTEREND);
   renderAdditionBlocks(filmContainerElement, filmsSortingByRating, filmsSortingByCommentsCount);
 
-  showMoreElement.addEventListener(`click`, () => {
+  showMoreComponent.setClickHandler(() => {
     const prevFilmsCount = showingFilmsCount;
     showingFilmsCount = showingFilmsCount + FILMS_PER_COUNT;
 

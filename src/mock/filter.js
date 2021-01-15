@@ -23,3 +23,4 @@ export const generateFilters = (films) => {
   ];
 };
 
+export default generateFilters;
