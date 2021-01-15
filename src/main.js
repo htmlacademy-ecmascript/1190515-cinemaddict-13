@@ -13,9 +13,9 @@ import ProfileView from "./view/profile";
 import NavigationView from "./view/navigation";
 import SortingView from "./view/sorting";
 import ContentView from "./view/content";
-import FilmView from "./view/card-film";
+import FilmView from "./view/card";
 import ShowMoreCardView from "./view/show-more";
-import FilmDetailsView from "./view/detail-film";
+import FilmDetailsView from "./view/detail-card";
 
 const FILM_COUNT = 17;
 const FILMS_PER_COUNT = 5;
@@ -41,20 +41,18 @@ const renderFilm = (filmsContainer, film) => {
   const closeFilmDetails = () => {
     toggleElement(footerContainer, filmDetailsComponent, `hide`);
     document.removeEventListener(`keydown`, onEscapeKeyPress);
-    // Нужно снять еще слушатель по клику на кнопки закрытия попапа по идее.
   };
 
-  const onCardElementClick = () => {
-    // siteBodyElement.classList.add(`hide-overflow`);
+  const onClickCardElement = () => {
+    siteBodyElement.classList.add(`hide-overflow`);
     toggleElement(footerContainer, filmDetailsComponent, `show`);
     document.addEventListener(`keydown`, onEscapeKeyPress);
-    // filmDetailsComponent.setClickHandler(onCloseButtonClick);
+    filmDetailsComponent.setCloseClickHandler(onClickCloseButton);
   };
 
-  const onCloseButtonClick = () => {
-    filmDetailsComponent.removeCloseClickHandler(onCloseButtonClick);
-    // document.removeEventListener(onEscapeKeyPress);
-    // siteBodyElement.classList.remove(`hide-overflow`);
+  const onClickCloseButton = () => {
+    filmDetailsComponent.removeCloseClickHandler(onClickCloseButton);
+    siteBodyElement.classList.remove(`hide-overflow`);
     closeFilmDetails();
   };
 
@@ -65,13 +63,10 @@ const renderFilm = (filmsContainer, film) => {
       closeFilmDetails();
     }
   };
-  render(filmsContainer, filmComponent, POSITION.BEFOREEND);
 
-  filmComponent.setClickHandler(`.film-card__poster`, onCardElementClick);
-  filmComponent.setClickHandler(`.film-card__title`, onCardElementClick);
-  filmComponent.setClickHandler(`.film-card__comments`, onCardElementClick);
-  filmDetailsComponent.setCloseClickHandler(onCloseButtonClick);
-  // document.addEventListener(`keydown`, onEscapeKeyPress);
+  filmComponent.setClickHandler(onClickCardElement);
+
+  render(filmsContainer, filmComponent, POSITION.BEFOREEND);
 };
 
 const renderAdditionBlocks = (filmsContainer, filmsSortingByRating, filmsSortingByCommentsCount) => {

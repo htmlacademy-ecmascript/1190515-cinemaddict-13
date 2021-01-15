@@ -139,7 +139,8 @@ export default class FilmDetailsView extends AbstractComponent {
     evt.preventDefault();
     this._callback.click();
   }
-  setCloseClickHandler() {
+  setCloseClickHandler(callback) {
+    this._callback.click = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
   }
   removeCloseClickHandler() {

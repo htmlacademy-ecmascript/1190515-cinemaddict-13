@@ -44,11 +44,14 @@ export default class FilmView extends AbstractComponent {
   }
   setClickHandler(callback) {
     this._callback.click = callback;
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
+    this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._clickHandler);
+    this.getElement().querySelector(`img`).addEventListener(`click`, this._clickHandler);
+    this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, this._clickHandler);
   }
-  // removeClickHandler(callback) {
-  //   this._callback.click = callback;
-  //   this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
-
-  // }
+  removeClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__title`).removeEventListener(`click`, this._clickHandler);
+    this.getElement().querySelector(`img`).removeEventListener(`click`, this._clickHandler);
+    this.getElement().querySelector(`.film-card__comments`).removeEventListener(`click`, this._clickHandler);
+  }
 }
