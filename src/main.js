@@ -84,12 +84,12 @@ const renderAdditionBlocks = (filmContainerElement, filmsSortingByRating, filmsS
     const secondextra = extraContainerElements[1];
     const cards = ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] ? filmsSortingByRating : filmsSortingByCommentsCount;
 
-    if (ADDITION_CONTAINER_TITLES[i] === `Top rated` && cards[0].rating > 0) {
+    if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] && cards[0].rating > 0) {
       firstextra.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
       cards.slice(0, FILM_COUNT_ADDITION).forEach((card) => {
         renderFilm(firstextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
       });
-    } else if (ADDITION_CONTAINER_TITLES[i] === `Most commented` && cards[0].comments.length > 0) {
+    } else if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[1] && cards[0].comments.length > 0) {
       secondextra.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
       cards.slice(0, FILM_COUNT_ADDITION).forEach((card) => {
         renderFilm(secondextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
