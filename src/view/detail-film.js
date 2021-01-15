@@ -1,4 +1,5 @@
-import {generateDate, createElement} from "../utils";
+import {generateDate} from "../utils";
+import AbstractComponent from "./abstract-component";
 
 const renderFilmDetailsRow = (details) => {
   return details
@@ -125,26 +126,13 @@ export const createFilmDetailsTemplate = (film) => {
     </section>`;
 };
 
-export default class FilmDetailsView {
+export default class FilmDetailsView extends AbstractComponent {
   constructor(film) {
+    super();
     this._film = film;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

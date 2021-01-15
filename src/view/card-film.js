@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import {truncateString, createElement} from "../utils";
+import {truncateString} from "../utils";
+import AbstractComponent from "./abstract-component";
 
 const MAX_DESCRIPTION_LENGTH = 140;
 
@@ -28,26 +29,13 @@ export const createFilmTemplate = (film) => {
         </article>`;
 };
 
-export default class FilmView {
+export default class FilmView extends AbstractComponent {
   constructor(filmData) {
+    super();
     this._film = filmData;
-
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
