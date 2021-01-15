@@ -23,7 +23,8 @@ const renderGenres = (genres) => {
 
 export const createComments = (comments) => {
   const result = comments.map((comment) => {
-    const {comment: emotion, text, author, date} = comment;
+    const {emotion, text, author, date} = comment;
+    const commentDate = generateDate(`DD MMMM YYYY`, date);
     return `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
         <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
@@ -32,7 +33,7 @@ export const createComments = (comments) => {
         <p class="film-details__comment-text">${text}</p>
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${author}</span>
-          <span class="film-details__comment-day">${generateDate(date)}</span>
+          <span class="film-details__comment-day">${commentDate}</span>
           <button class="film-details__comment-delete">Delete</button>
         </p>
       </div>
@@ -42,7 +43,7 @@ export const createComments = (comments) => {
 };
 
 export const createFilmDetailsTemplate = (film) => {
-  const {name, originalTitle, poster, description, rating, genres, age, details, comments} = film;
+  const {name, originalName, poster, description, rating, genres, age, details, comments} = film;
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -59,7 +60,7 @@ export const createFilmDetailsTemplate = (film) => {
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${name}</h3>
-                  <p class="film-details__title-original">${originalTitle}</p>
+                  <p class="film-details__title-original">${originalName}</p>
                 </div>
                 <div class="film-details__rating">
                   <p class="film-details__total-rating">${rating}</p>
@@ -87,14 +88,13 @@ export const createFilmDetailsTemplate = (film) => {
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
-        <div class="form-details__bottom-container">
+        <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments
-            <span class="film-details__comments-count">${comments.length}</span>
-            </h3>
-            <ul class="film-details__comments-list">
+            <h3 class="film-details__comments-title"> Comments
+            <span class="film-details__comments-count">${comments.length}</span></h3>
+
               ${comments.length > 0 ? createComments(comments) : ``}
-            </ul>
+
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>
               <label class="film-details__comment-label">

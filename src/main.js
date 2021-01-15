@@ -75,23 +75,23 @@ const renderFilm = (filmContainerElement, film) => {
   document.addEventListener(`keydown`, onEscapeKeyPress);
 };
 
-
 const renderAdditionBlocks = (filmContainerElement, filmsSortingByRating, filmsSortingByCommentsCount) => {
   for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
     render(filmContainerElement, new AdditionBlockView().getElement(), POSITION.BEFOREEND);
     const extraContainerElements = filmContainerElement.querySelectorAll(`.films-list--extra`);
-    const additionContainerElement = extraContainerElements[extraContainerElements.length - 1];
-    const cards = ADDITION_CONTAINER_TITLES[i] === `Top rated` ? filmsSortingByRating : filmsSortingByCommentsCount;
+    const firstextra = extraContainerElements[0];
+    const secondextra = extraContainerElements[1];
+    const cards = ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] ? filmsSortingByRating : filmsSortingByCommentsCount;
 
-    if (ADDITION_CONTAINER_TITLES[i] === `Top rated` && cards[0].rating > 0) {
-      additionContainerElement.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
+    if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] && cards[0].rating > 0) {
+      firstextra.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
       cards.slice(0, FILM_COUNT_ADDITION).forEach((card) => {
-        renderFilm(additionContainerElement.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
+        renderFilm(firstextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
       });
-    } else if (ADDITION_CONTAINER_TITLES[i] === `Most commented` && cards[0].comments.length > 0) {
-      additionContainerElement.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
+    } else if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[1] && cards[0].comments.length > 0) {
+      secondextra.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
       cards.slice(0, FILM_COUNT_ADDITION).forEach((card) => {
-        renderFilm(additionContainerElement.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
+        renderFilm(secondextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
       });
     }
   }
