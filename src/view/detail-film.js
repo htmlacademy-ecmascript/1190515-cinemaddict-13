@@ -1,27 +1,51 @@
-import {getRandomInteger, generateDate, createElement} from "../utils";
-import CommentView from "./comment-detail";
+import {generateDate, createElement} from "../utils";
 
-export const createFilmDetailsTemplate = ({
-  title,
-  poster,
-  description,
-  rating,
-  date,
-  duration,
-  filmDetails: {
-    originalTitle,
-    director,
-    writers,
-    actors,
-    country,
-    genres
-  },
-  comments,
-}) => {
-  const genresLabel = genres.length > 1 ? `Genres` : `Genre`;
+const renderFilmDetailsRow = (details) => {
+  return details
+    .map((detail) => {
+      const {term, info} = detail;
+      return `<tr class="film-details__row">
+                <td class="film-details__term">${term}</td>
+                <td class="film-details__cell">${info}</td>
+              </tr>`;
+    })
+    .join(`\n`);
+};
 
-  return (
-    `<section class="film-details">
+const renderGenres = (genres) => {
+  return genres
+    .split(`, `)
+    .map((genre) => {
+      return `<span class="film-details__genre">${genre}</span>`;
+    })
+    .join(`\n`);
+};
+
+export const createComments = (comments) => {
+  const result = comments.map((comment) => {
+    const {emotion, text, author, date} = comment;
+    const commentDate = generateDate(`DD MMMM YYYY`, date);
+    return `<li class="film-details__comment">
+      <span class="film-details__comment-emoji">
+        <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-smile">
+      </span>
+      <div>
+        <p class="film-details__comment-text">${text}</p>
+        <p class="film-details__comment-info">
+          <span class="film-details__comment-author">${author}</span>
+          <span class="film-details__comment-day">${commentDate}</span>
+          <button class="film-details__comment-delete">Delete</button>
+        </p>
+      </div>
+    </li>`;
+  }).join(`\n`);
+  return `<ul class="film-details__comments-list">${result}</ul>`;
+};
+
+export const createFilmDetailsTemplate = (film) => {
+  const {name, originalName, poster, description, rating, genres, age, details, comments} = film;
+
+  return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
         <div class="form-details__top-container">
           <div class="film-details__close">
@@ -30,13 +54,13 @@ export const createFilmDetailsTemplate = ({
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="${poster}" alt="">
-              <p class="film-details__age">${getRandomInteger(3, 18)}+</p>
+              <p class="film-details__age">${age}+</p>
             </div>
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
-                  <h3 class="film-details__title">${title}</h3>
-                  <p class="film-details__title-original">${originalTitle}</p>
+                  <h3 class="film-details__title">${name}</h3>
+                  <p class="film-details__title-original">${originalName}</p>
                 </div>
                 <div class="film-details__rating">
                   <p class="film-details__total-rating">${rating}</p>
@@ -44,41 +68,17 @@ export const createFilmDetailsTemplate = ({
               </div>
               <table class="film-details__table">
                 <tr class="film-details__row">
-                  <td class="film-details__term">Director</td>
-                  <td class="film-details__cell">${director}</td>
-                </tr>
+                ${renderFilmDetailsRow(details)}
                 <tr class="film-details__row">
-                  <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">${writers.join(`, `)}</td>
-                </tr>
-                <tr class="film-details__row">
-                  <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">${actors.join(`, `)}</td>
-                </tr>
-                <tr class="film-details__row">
-                  <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${generateDate(date)}</td>
-                </tr>
-                <tr class="film-details__row">
-                  <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${duration}</td>
-                </tr>
-                <tr class="film-details__row">
-                  <td class="film-details__term">Country</td>
-                  <td class="film-details__cell">${country}</td>
-                </tr>
-                <tr class="film-details__row">
-                  <td class="film-details__term">${genresLabel}</td>
-                  <td class="film-details__cell">
-                    ${genres.map((genre) =>
-      (`<span class="film-details__genre">${genre}</span>`))
-      .join(``)}
-                  </td>
+                  <td class="film-details__term">${genres.length > 1 ? `Genres` : `Genre`}</td>
+                  <td class="film-details__cell">${renderGenres(genres)}</td>
                 </tr>
               </table>
+
               <p class="film-details__film-description">${description}</p>
             </div>
           </div>
+
           <section class="film-details__controls">
             <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
@@ -88,17 +88,15 @@ export const createFilmDetailsTemplate = ({
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
-        <div class="form-details__bottom-container">
+        <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
             <h3 class="film-details__comments-title">Comments
             <span class="film-details__comments-count">${comments.length}</span>
             </h3>
             <ul class="film-details__comments-list">
-              ${comments.map((comment) => {
-      const commentComponent = new CommentView(comment);
-      return commentComponent.getTemplate();
-    }).join(``)}
+              ${comments.length > 0 ? createComments(comments) : ``}
             </ul>
+            
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>
               <label class="film-details__comment-label">
@@ -126,13 +124,12 @@ export const createFilmDetailsTemplate = ({
           </section>
         </div>
       </form>
-    </section>`
-  );
+    </section>`;
 };
 
-export default class FilmDetails {
-  constructor(filmData) {
-    this._film = filmData;
+export default class FilmDetailsView {
+  constructor(film) {
+    this._film = film;
 
     this._element = null;
   }

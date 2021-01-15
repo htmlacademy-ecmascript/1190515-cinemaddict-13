@@ -1,20 +1,19 @@
-import {userRankStrings} from "../const";
+import {RANK} from "../const";
 
 const getUserRank = (count) => {
   if (count > 0 && count <= 10) {
-    return userRankStrings.NOVICE;
+    return RANK.NOVICE;
   }
   if (count > 10 && count < 20) {
-    return userRankStrings.FAN;
+    return RANK.FAN;
   }
   if (count >= 20) {
-    return userRankStrings.MOVIE_BUFF;
+    return RANK.MOVIE_BUFF;
   }
   return ``;
 };
 
 export const generateUserRank = (films) => {
   const watchedFilmsCount = films.filter((film) => film.isWatched).length;
-
   return getUserRank(watchedFilmsCount);
 };

@@ -1,19 +1,16 @@
 import {createElement} from "../utils";
 
-export const createBoardTemplate = () => {
-  return (
-    `<section class="films">
-    </section>`
-  );
+export const createShowMoreTemplate = () => {
+  return `<button class="films-list__show-more">Show more</button>`;
 };
 
-export default class Board {
+export default class ShowMoreCardView {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createBoardTemplate();
+    return createShowMoreTemplate();
   }
 
   getElement() {

@@ -1,39 +1,38 @@
-import {createElement} from "../utils";
+// import {createElement} from "../utils";
 
-export const createListTemplate = ({
-  className = `films-list`,
-  title = `There are no movies in our database`,
-  isTitleHidden = `false`,
-}) => {
-  const titleHiddenClassName = isTitleHidden ? `visually-hidden` : ``;
-  return (
-    `<section class="${className}">
-      <h2 class="films-list__title ${titleHiddenClassName}">${title}</h2>
-      <div class="films-list__container"></div>
-    </section>`
-  );
-};
+// const MovieTitle = {
+//   hidden: `All movies. Upcoming`,
+//   show: `There are no movies in our database`
+// };
 
-export default class FilmsList {
-  constructor(listOptions) {
-    this._listOptions = listOptions;
+// export const createListTemplate = (hasMovies) => {
+//   return `<section class="films-list">
+//       <h2 class="films-list__title ${hasMovies ? `visually-hidden` : ``}">
+//       ${hasMovies ? MovieTitle.hidden : MovieTitle.show}</h2>
+//       <div class="films-list__container"></div>
+//     </section>`;
+// };
 
-    this._element = null;
-  }
+// export default class FilmsListView {
+//   constructor(listData) {
+//     this._listData = listData;
 
-  getTemplate() {
-    return createListTemplate(this._listOptions);
-  }
+//     this._element = null;
+//   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
+//   getTemplate() {
+//     return createListTemplate(this._listData);
+//   }
 
-    return this._element;
-  }
+//   getElement() {
+//     if (!this._element) {
+//       this._element = createElement(this.getTemplate());
+//     }
 
-  removeElement() {
-    this._element = null;
-  }
-}
+//     return this._element;
+//   }
+
+//   removeElement() {
+//     this._element = null;
+//   }
+// }
