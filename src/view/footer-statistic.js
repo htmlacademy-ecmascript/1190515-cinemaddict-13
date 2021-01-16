@@ -6,7 +6,7 @@ export const createStatisticsTemplate = (count) => {
   );
 };
 
-export default class FooterStatistics extends AbstractComponent {
+export default class FooterStatisticsView extends AbstractComponent {
   constructor(count) {
     super();
     this._count = count;
