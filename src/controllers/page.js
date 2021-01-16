@@ -1,17 +1,17 @@
-import {sortingByDesc} from "./utils/common";
-import {POSITION, render, createElement, toggleElement, remove} from "./utils/render";
-import Keydown from "./const";
+import {sortingByDesc} from "../utils/common";
+import {POSITION, render, createElement, toggleElement, remove} from "../utils/render";
+import Keydown from "../const";
 
 // import generateFilms from "./mock/card-film";
 
-// import FooterStatisticsView from "./view/footer-statistic";
-import AdditionBlockView from "./view/add-card-block";
-import NavigationView from "./view/navigation";
-import SortingView from "./view/sorting";
-import ContentView from "./view/content";
-import FilmView from "./view/card";
-import ShowMoreCardView from "./view/show-more";
-import FilmDetailsView from "./view/detail-card";
+import FooterStatisticsView from "../view/footer-statistic";
+import AdditionBlockView from "../view/add-card-block";
+import NavigationView from "../view/navigation";
+import SortingView from "../view/sorting";
+import ContentView from "../view/content";
+import FilmView from "../view/card";
+import ShowMoreCardView from "../view/show-more";
+import FilmDetailsView from "../view/detail-card";
 
 // const FILM_COUNT = 17;
 const FILMS_PER_COUNT = 5;
@@ -86,13 +86,13 @@ const renderAdditionBlocks = (filmsContainer, filmsSortingByRating, filmsSorting
 };
 
 export default class PageController {
-
-  constructor(container, filters) {
+  constructor(container, filters, count) {
     this._container = container;
     this._navigation = new NavigationView(filters);
     this._sorting = new SortingView();
     this._content = new ContentView();
     this._moreButton = new ShowMoreCardView();
+    this._statistics = new FooterStatisticsView(count);
   }
 
   render(films) {
@@ -139,9 +139,9 @@ export default class PageController {
       filmListContainer.remove();
       render(filmsContainer.querySelector(`.films-list`), createElement(getNoFilmsText()), POSITION.BEFOREEND);
     }
-    footerContainer.querySelector(`.footer__statistics`).textContent = `${films.length} movies inside`;
-    // const FooterStatisticsComponent = new FooterStatisticsView();
-    // const statisticsContainer = document.querySelector(`.footer__statistics`);
-    // render(statisticsContainer, FooterStatisticsComponent.getElement(), POSITION.BEFOREEND);
+    // footerContainer.querySelector(`.footer__statistics`).textContent = `${films.length} movies inside`;
+    const FooterStatisticsComponent = this._statistics;
+    const statisticsContainer = footerContainer.querySelector(`.footer__statistics`);
+    render(statisticsContainer, FooterStatisticsComponent, POSITION.BEFOREEND);
   }
 }

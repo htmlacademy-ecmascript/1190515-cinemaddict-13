@@ -9,7 +9,6 @@ const FILM_COUNT = 17;
 
 const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
-const footerContainer = document.querySelector(`.footer`);
 
 const films = generateFilms(FILM_COUNT);
 const filters = generateFilters(films);
@@ -17,9 +16,5 @@ const filters = generateFilters(films);
 const userRankLabel = generateUserRank(films);
 render(headerContainer, new ProfileView(userRankLabel), POSITION.BEFOREEND);
 
-footerContainer.querySelector(`.footer__statistics`).textContent = `${films.length} movies inside`;
-// const FooterStatisticsComponent = new FooterStatisticsView();
-// const statisticsContainer = document.querySelector(`.footer__statistics`);
-// render(statisticsContainer, FooterStatisticsComponent.getElement(), POSITION.BEFOREEND);
-
 new PageController(mainContainer, filters).render(films);
+export default films;
