@@ -84,12 +84,12 @@ const renderAdditionBlocks = (filmsContainer, filmsSortingByRating, filmsSorting
   }
 };
 
-export default class PageController {
-  constructor(container, filters) {
+export default class Board {
+  constructor(container, filters, films) {
     this._container = container;
     this._navigation = new NavigationView(filters);
     this._sorting = new SortingView();
-    this._content = new ContentView();
+    this._content = new ContentView(films);
     this._moreButton = new ShowMoreCardView();
   }
 

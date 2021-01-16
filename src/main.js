@@ -1,5 +1,5 @@
 import {POSITION, render} from "./utils/render";
-import PageController from "./presenter/page";
+import Board from "./presenter/page";
 import generateFilms from "./mock/card-film";
 import generateFilters from "./mock/filter";
 import ProfileView from "./view/profile";
@@ -12,7 +12,7 @@ const headerContainer = document.querySelector(`.header`);
 const mainContainer = document.querySelector(`.main`);
 const footerContainer = document.querySelector(`.footer`);
 
-const films = generateFilms(FILM_COUNT);
+export const films = generateFilms(FILM_COUNT);
 const filters = generateFilters(films);
 
 const userRankLabel = generateUserRank(films);
@@ -22,5 +22,5 @@ const FooterStatisticsComponent = new FooterStatisticsView(films.length);
 const statisticsContainer = footerContainer.querySelector(`.footer__statistics`);
 render(statisticsContainer, FooterStatisticsComponent, POSITION.BEFOREEND);
 
-new PageController(mainContainer, filters).render(films);
+new Board(mainContainer, filters).render(films);
 export default films;
