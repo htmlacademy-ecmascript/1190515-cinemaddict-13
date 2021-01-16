@@ -137,7 +137,5 @@ export default class PageController {
       filmListContainer.remove();
       render(filmsContainer.querySelector(`.films-list`), createElement(getNoFilmsText()), POSITION.BEFOREEND);
     }
-    // footerContainer.querySelector(`.footer__statistics`).textContent = `${films.length} movies inside`;
-
   }
 }
