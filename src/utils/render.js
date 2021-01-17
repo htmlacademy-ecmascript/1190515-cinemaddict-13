@@ -32,12 +32,12 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const renderTemplate = (container, template, place) => {
-  if (container instanceof AbstractComponent) {
-    container = container.getElement();
-  }
-  container.insertAdjacentHTML(place, template);
-};
+// export const renderTemplate = (container, template, place) => {
+//   if (container instanceof AbstractComponent) {
+//     container = container.getElement();
+//   }
+//   container.insertAdjacentHTML(place, template);
+// };
 
 export const remove = (component) => {
   if (!(component instanceof AbstractComponent)) {
