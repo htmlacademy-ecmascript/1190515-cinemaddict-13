@@ -1,6 +1,6 @@
 import {sortingByDesc} from "../utils/common";
 import {POSITION, render, createElement, remove} from "../utils/render";
-
+import Movie from "./movie";
 // import generateFilms from "./mock/card-film";
 
 import AdditionBlockView from "../view/add-card-block";
@@ -35,15 +35,22 @@ const renderAdditionBlocks = (filmsContainer, filmsSortingByRating, filmsSorting
     if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] && cards[0].rating > 0) {
       firstextra.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
       cards.slice(0, FILM_COUNT_ADDITION).forEach((card) => {
-        render(firstextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
+        renderFilms(firstextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
       });
     } else if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[1] && cards[0].comments.length > 0) {
       secondextra.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
       cards.slice(0, FILM_COUNT_ADDITION).forEach((card) => {
-        render(secondextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
+        renderFilms(secondextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
       });
     }
   }
+};
+const renderFilms = (container, films, onDataChange) => {
+  return films.map((film) => {
+    const filmController = new Movie(container, onDataChange);
+    filmController.render(film);
+    return filmController;
+  });
 };
 
 export default class Board {

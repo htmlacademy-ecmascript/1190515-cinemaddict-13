@@ -1,5 +1,5 @@
-import FilmView from "../view/film-card";
-import FilmDetailsView from "../components/film-details";
+import FilmView from "../view/card";
+import FilmDetailsView from "../view/detail-card";
 import {POSITION, render, toggleElement, replace} from "../utils/render";
 import Keydown from "../const";
 
