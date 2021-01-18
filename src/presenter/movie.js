@@ -13,6 +13,9 @@ export default class Movie {
     this._container = container;
     this._onDataChange = onDataChange;
     this._mode = MODE.DEFAULT;
+    this._filmView = null;
+    this._filmDetailsView = null;
+    this._film = null;
     this._footerElement = document.querySelector(`.footer`);
     this._setCardHandlers = this._setCardHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
@@ -22,9 +25,6 @@ export default class Movie {
     this._setAddToWatchlist = this._setAddToWatchlist.bind(this);
     this._setMarkAsWatched = this._setMarkAsWatched.bind(this);
     this._setMarkAsFavorite = this._setMarkAsFavorite.bind(this);
-    this._filmView = null;
-    this._filmDetailsView = null;
-    this._film = null;
   }
 
   get film() {
