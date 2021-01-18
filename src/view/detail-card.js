@@ -134,7 +134,7 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     super();
     this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
-    this._closeClickHandler = null;
+    // this._closeClickHandler = null;
   }
 
   rerender() {

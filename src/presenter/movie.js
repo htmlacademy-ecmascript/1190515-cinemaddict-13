@@ -17,7 +17,7 @@ export default class Movie {
     this._filmDetailsView = null;
     this._film = null;
     this._footerElement = document.querySelector(`.footer`);
-    this._setCardClickHandler = this._setCardClickHandler.bind(this);
+    this._setCardClickHandlers = this._setCardClickHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
     this._onClickCardFilm = this._onClickCardFilm.bind(this);
     this._onClickCloseButton = this._onClickCloseButton.bind(this);
@@ -34,7 +34,7 @@ export default class Movie {
   render(film) {
     this._film = film;
 
-    const oldFilmView = this._filmView; // component name better?
+    const oldFilmView = this._filmView;
     const oldFilmDetailsView = this._filmDetailsView;
 
     this._filmView = new FilmView(film);
@@ -50,7 +50,7 @@ export default class Movie {
     } else {
       render(this._container, this._filmView, POSITION.BEFOREEND);
     }
-    this._setCardClickHandler();
+    this._setCardClickHandlers();
   }
 
   setToDefaultView() {
@@ -77,7 +77,7 @@ export default class Movie {
     }));
   }
 
-  _setCardClickHandler() {
+  _setCardClickHandlers() {
     this._filmView.setClickHandler(this._onClickCardFilm);
     this._filmDetailsView.setCloseClickHandler(this._onClickCloseButton);
     this._filmDetailsView.setFormElementsChangeHandler();
@@ -95,6 +95,7 @@ export default class Movie {
     this._mode = MODE.EDIT;
     toggleElement(this._footerElement, this._filmDetailsView, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
+    this._filmDetailsView.setCloseClickHandler(this._onClickCloseButton);
   }
 
   _onClickCloseButton() {
