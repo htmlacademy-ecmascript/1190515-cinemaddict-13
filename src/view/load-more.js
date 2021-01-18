@@ -5,10 +5,10 @@ export const createLoadMoreTemplate = () => {
 };
 
 export default class LoadMoreButtonView extends AbstractComponent {
-  // constructor() {
-  //   super();
-  //   this._clickHandler = this._clickHandler.bind(this);
-  // }
+  constructor() {
+    super();
+    this._clickHandler = this._clickHandler.bind(this);
+  }
   getTemplate() {
     return createLoadMoreTemplate();
   }

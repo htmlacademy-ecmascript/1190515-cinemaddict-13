@@ -5,7 +5,7 @@ import NoLoadFilms from "../view/no-load-films";
 import AdditionBlockView from "../view/add-card-block";
 import generateFilters from "../mock/filters";
 import NavigationView from "../view/navigation";
-import {SortingView, SORT_DATA_TYPE} from "../view/sorting";
+import {SortingView, SORTING_DATA_TYPE} from "../view/sorting";
 import ContentView from "../view/content";
 import LoadMoreButtonView from "../view/load-more";
 
@@ -19,15 +19,12 @@ const renderAdditionBlocks = (filmsContainer, filmsSortingByRating, filmsSorting
     render(filmsContainer, new AdditionBlockView(), POSITION.BEFOREEND);
     const extraContainers = filmsContainer.querySelectorAll(`.films-list--extra`);
     const additionContainer = extraContainers[extraContainers.length - 1];
-    // const secondextra = extraContainerElements[1];
+
     const additionContainerTitle = additionContainer.querySelector(`.films-list__title`);
     const additionContainerFilmList = additionContainer.querySelector(`.films-list__container`);
     const films = ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] ? filmsSortingByRating : filmsSortingByComments;
 
-    if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] && films[0].rating > 0) {
-      additionContainerTitle.textContent = ADDITION_CONTAINER_TITLES[i];
-      showingFilms = showingFilms.concat(renderFilms(additionContainerFilmList, films, onDataChange));
-    } else if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[1] && films[0].comments.length > 0) {
+    if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] && films[0].rating > 0 || ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[1] && films[0].comments.length > 0) {
       additionContainerTitle.textContent = ADDITION_CONTAINER_TITLES[i];
       showingFilms = showingFilms.concat(renderFilms(additionContainerFilmList, films, onDataChange));
     }
@@ -47,21 +44,21 @@ const getFilmsSortingByComments = (films, from, to) => {
   }).slice(from, to);
 };
 
-const getSortedFilms = (films, sortType, from, to) => {
+const getSortedFilms = (films, sortingType, from, to) => {
   let sortedFilms = [];
   const showingFilms = films.slice();
-  switch (sortType) {
-    case SORT_DATA_TYPE.DATE:
+  switch (sortingType) {
+    case SORTING_DATA_TYPE.DATE:
       sortedFilms = showingFilms.sort((a, b) => {
         const bDate = new Date(b.details.find((detail) => detail.term === `Release Date`).info);
         const aDate = new Date(a.details.find((detail) => detail.term === `Release Date`).info);
         return bDate - aDate;
       }).slice(from, to);
       break;
-    case SORT_DATA_TYPE.RATING:
+    case SORTING_DATA_TYPE.RATING:
       sortedFilms = getFilmsSortingByRating(showingFilms, from, to);
       break;
-    case SORT_DATA_TYPE.DEFAULT:
+    case SORTING_DATA_TYPE.DEFAULT:
       sortedFilms = showingFilms.slice(from, to);
       break;
   }
@@ -82,13 +79,13 @@ export default class Board {
     this._sorting = new SortingView();
     this._content = new ContentView(films);
     this._loadMoreButton = new LoadMoreButtonView();
-    this._noLoadFilm = new NoLoadFilms();
-    this._showingFilmsCount = FILMS_PER_COUNT;
+    this._noLoadFilms = new NoLoadFilms();
+    this._showingFilmsPerCount = FILMS_PER_COUNT;
     this._renderLoadMoreButton = this._renderLoadMoreButton.bind(this);
     this._films = [];
     this._renderSortingFilms = this._renderSortingFilms.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
-    this._showingFilmsPerCount = [];
+    this._showingFilms = [];
     this._filmsInAdditionsBlocks = [];
     this._onViewChange = this._onViewChange.bind(this);
   }
@@ -106,7 +103,7 @@ export default class Board {
     const filmsSortingByComments = getFilmsSortingByComments(this._films, 0, FILM_COUNT_ADDITION);
 
     if (this._films.length > 0) {
-      const showingFilms = renderFilms(filmListContainer, getSortedFilms(this._films, this._sort.getCurrentSortType(), 0, this._showingFilmsCount), this._onDataChange);
+      const showingFilms = renderFilms(filmListContainer, getSortedFilms(this._films, this._sorting.getCurrentSortingType(), 0, this._showingFilmsPerCount), this._onDataChange);
       this._showingFilms = this._showingFilms.concat(showingFilms);
       this._renderLoadMoreButton();
       this._filmsInAdditionsBlocks = renderAdditionBlocks(filmsContainer, filmsSortingByRating, filmsSortingByComments, this._onDataChange);
@@ -121,26 +118,26 @@ export default class Board {
     const filmListContainer = this._container.querySelector(`.films-list__container`);
     render(filmListContainer, this._loadMoreButton, POSITION.AFTEREND);
     this._loadMoreButton.setClickHandler(() => {
-      const prevFilmsCount = this._showingFilmsCount;
-      this._showingFilmsCount = this._showingFilmsCount + FILMS_PER_COUNT;
+      const prevFilmsCount = this._showingFilmsPerCount;
+      this._showingFilmsPerCount = this._showingFilmsPerCount + FILMS_PER_COUNT;
 
-      const sortedFilms = getSortedFilms(this._films, this._sort.getCurrentSortType(), prevFilmsCount, this._showingFilmsCount);
+      const sortedFilms = getSortedFilms(this._films, this._sorting.getCurrentSortingType(), prevFilmsCount, this._showingFilmsPerCount);
       const showingFilms = renderFilms(filmListContainer, sortedFilms, this._onDataChange);
       this._showingFilms = this._showingFilms.concat(showingFilms);
-      renderFilms(filmListContainer, sortedFilms);
-      if (this._showingFilmsCount >= this._films.length) {
+
+      if (this._showingFilmsPerCount >= this._films.length) {
         remove(this._loadMoreButton);
       }
     });
   }
 
   _renderSortingFilms() {
-    this._sort.setSortTypeChangeHandler((sortType) => {
+    this._sorting.setSortingTypeChangeHandler((sortingType) => {
       const filmListContainer = this._container.querySelector(`.films-list__container`);
-      this._showingFilmsCount = FILMS_PER_COUNT;
+      this._showingFilmsPerCount = FILMS_PER_COUNT;
       filmListContainer.innerHTML = ``;
       remove(this._loadMoreButton);
-      const showingFilms = renderFilms(filmListContainer, getSortedFilms(this._films, sortType, 0, this._showingFilmsCount), this._onDataChange);
+      const showingFilms = renderFilms(filmListContainer, getSortedFilms(this._films, sortingType, 0, this._showingFilmsPerCount), this._onDataChange);
       this._showingFilms = [].concat(showingFilms);
       this._showingFilms = this._showingFilms.concat(this._filmsInAdditionsBlocks);
       this._renderLoadMoreButton();
