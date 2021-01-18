@@ -17,9 +17,9 @@ export default class Movie {
     this._filmDetailsView = null;
     this._film = null;
     this._footerElement = document.querySelector(`.footer`);
-    this._setClickHandler = this._setClickHandler.bind(this);
+    this._setCardClickHandler = this._setCardClickHandler.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
-    this._onClickCardElement = this._onClickCardElement.bind(this);
+    this._onClickCardFilm = this._onClickCardFilm.bind(this);
     this._onClickCloseButton = this._onClickCloseButton.bind(this);
     this._onEscapeKeyPress = this._onEscapeKeyPress.bind(this);
     this._setAddToWatchlist = this._setAddToWatchlist.bind(this);
@@ -50,7 +50,7 @@ export default class Movie {
     } else {
       render(this._container, this._filmView, POSITION.BEFOREEND);
     }
-    this._setClickHandler();
+    this._setCardClickHandler();
   }
 
   setToDefaultView() {
@@ -77,8 +77,8 @@ export default class Movie {
     }));
   }
 
-  _setClickHandler() {
-    this._filmView.setClickHandler(this._onClickCardElement);
+  _setCardClickHandler() {
+    this._filmView.setClickHandler(this._onClickCardFilm);
     this._filmDetailsView.setCloseClickHandler(this._onClickCloseButton);
     this._filmDetailsView.setFormElementsChangeHandler();
     this._filmDetailsView.setFormSubmitHandler();
@@ -91,7 +91,7 @@ export default class Movie {
     this._mode = MODE.DEFAULT;
   }
 
-  _onClickCardElement() {
+  _onClickCardFilm() {
     this._mode = MODE.EDIT;
     toggleElement(this._footerElement, this._filmDetailsView, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);

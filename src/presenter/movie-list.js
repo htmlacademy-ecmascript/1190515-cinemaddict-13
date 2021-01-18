@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import {sortingByDesc} from "../utils/common";
 import {POSITION, render, remove} from "../utils/render";
 import Movie from "./movie";
@@ -50,8 +51,8 @@ const getSortedFilms = (films, sortingType, from, to) => {
   switch (sortingType) {
     case SORTING_DATA_TYPE.DATE:
       sortedFilms = showingFilms.sort((a, b) => {
-        const bDate = new Date(b.details.find((detail) => detail.term === `Release Date`).info);
-        const aDate = new Date(a.details.find((detail) => detail.term === `Release Date`).info);
+        const bDate = dayjs(b.details.find((detail) => detail.term === `Release Date`).info);
+        const aDate = dayjs(a.details.find((detail) => detail.term === `Release Date`).info);
         return bDate - aDate;
       }).slice(from, to);
       break;
