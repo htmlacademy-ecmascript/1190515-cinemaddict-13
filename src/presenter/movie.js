@@ -3,7 +3,7 @@ import FilmDetailsView from "../view/detail-card";
 import {POSITION, render, toggleElement, replace} from "../utils/render";
 import Keydown from "../const";
 
-const Mode = {
+const MODE = {
   DEFAULT: `default`,
   EDIT: `edit`,
 };
@@ -12,7 +12,7 @@ export default class Movie {
   constructor(container, onDataChange) {
     this._container = container;
     this._onDataChange = onDataChange;
-    this._mode = Mode.DEFAULT;
+    this._mode = MODE.DEFAULT;
     this._filmComponent = null;
     this._filmDetailsComponent = null;
     this._film = null;
@@ -54,7 +54,7 @@ export default class Movie {
   }
 
   setToDefaultView() {
-    if (this._mode !== Mode.DEFAULT) {
+    if (this._mode !== MODE.DEFAULT) {
       this._closeFilmDetails();
     }
   }
@@ -88,11 +88,11 @@ export default class Movie {
     this._filmDetailsComponent.reset();
     toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
     document.removeEventListener(`keydown`, this._onEscapeKeyPress);
-    this._mode = Mode.DEFAULT;
+    this._mode = MODE.DEFAULT;
   }
 
   _onClickCardElement() {
-    this._mode = Mode.EDIT;
+    this._mode = MODE.EDIT;
     toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
   }

@@ -15,7 +15,44 @@ export const createSortingTemplate = () => {
 };
 
 export default class Sorting extends AbstractComponent {
+  constructor() {
+    super();
+    this._currentSortType = SORT_DATA_TYPE.DEFAULT;
+  }
+
+  getCurrentSortType() {
+    return this._currentSortType;
+  }
   getTemplate() {
     return createSortingTemplate();
   }
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+  setSortTypeChangeHandler(callback) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+
+      const sortType = evt.target.dataset.type;
+
+      if (this._currentSortType === sortType) {
+        return;
+      }
+
+      this.getElement().querySelectorAll(`.sort__button`).forEach((sortButton) => {
+        sortButton.classList.remove(`sort__button--active`);
+      });
+      evt.target.classList.add(`sort__button--active`);
+
+      this._currentSortType = sortType;
+
+      callback(this._currentSortType);
+    });
+  }
 }
+
