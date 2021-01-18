@@ -17,3 +17,5 @@ export const generateUserRank = (films) => {
   const watchedFilmsCount = films.filter((film) => film.isWatched).length;
   return getUserRank(watchedFilmsCount);
 };
+
+export default generateUserRank;

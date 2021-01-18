@@ -3,7 +3,7 @@ import {
   getRandomInteger,
   generateDate,
   getSeveralRandomArrayItems
-} from "../utils";
+} from "../utils/common";
 
 import {
   TEXT,
@@ -126,3 +126,4 @@ export const generateFilms = (count) => {
   return result;
 };
 
+export default generateFilms;

@@ -1,4 +1,5 @@
-import {generateDate, createElement} from "../utils";
+import {generateDate} from "../utils/common";
+import AbstractComponent from "./abstract-component";
 
 const renderFilmDetailsRow = (details) => {
   return details
@@ -90,12 +91,10 @@ export const createFilmDetailsTemplate = (film) => {
         </div>
         <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments
-            <span class="film-details__comments-count">${comments.length}</span>
-            </h3>
-            <ul class="film-details__comments-list">
+            <h3 class="film-details__comments-title"> Comments
+            <span class="film-details__comments-count">${comments.length}</span></h3>
+
               ${comments.length > 0 ? createComments(comments) : ``}
-            </ul>
             
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>
@@ -127,26 +126,24 @@ export const createFilmDetailsTemplate = (film) => {
     </section>`;
 };
 
-export default class FilmDetailsView {
+export default class FilmDetailsView extends AbstractComponent {
   constructor(film) {
+    super();
     this._film = film;
-
-    this._element = null;
+    this._clickHandler = this._clickHandler.bind(this);
   }
-
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
-
-  removeElement() {
-    this._element = null;
+  setCloseClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
+  }
+  removeCloseClickHandler() {
+    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
   }
 }

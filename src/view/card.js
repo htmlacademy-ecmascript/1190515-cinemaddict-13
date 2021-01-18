@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import {truncateString, createElement} from "../utils";
+import {truncateString} from "../utils/common";
+import AbstractComponent from "./abstract-component";
 
 const MAX_DESCRIPTION_LENGTH = 140;
 
@@ -28,26 +29,29 @@ export const createFilmTemplate = (film) => {
         </article>`;
 };
 
-export default class FilmView {
+export default class FilmView extends AbstractComponent {
   constructor(filmData) {
+    super();
     this._film = filmData;
-
-    this._element = null;
+    this._clickHandler = this._clickHandler.bind(this);
   }
-
   getTemplate() {
     return createFilmTemplate(this._film);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
   }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._clickHandler);
+    this.getElement().querySelector(`img`).addEventListener(`click`, this._clickHandler);
+    this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, this._clickHandler);
+  }
+  removeClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__title`).removeEventListener(`click`, this._clickHandler);
+    this.getElement().querySelector(`img`).removeEventListener(`click`, this._clickHandler);
+    this.getElement().querySelector(`.film-card__comments`).removeEventListener(`click`, this._clickHandler);
   }
 }
