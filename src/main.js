@@ -1,7 +1,7 @@
 import {POSITION, render} from "./utils/render";
 import Board from "./presenter/movie-list";
 import generateFilms from "./mock/card-film";
-import generateFilters from "./mock/filter";
+import generateFilters from "./mock/filters";
 import ProfileView from "./view/profile";
 import FooterStatisticsView from "./view/footer-statistic";
 import {generateUserRank} from "./mock/user-rank";
@@ -18,9 +18,8 @@ const filters = generateFilters(films);
 const userRankLabel = generateUserRank(films);
 render(headerContainer, new ProfileView(userRankLabel), POSITION.BEFOREEND);
 
-const FooterStatisticsComponent = new FooterStatisticsView(films.length);
-const statisticsContainer = footerContainer.querySelector(`.footer__statistics`);
-render(statisticsContainer, FooterStatisticsComponent, POSITION.BEFOREEND);
-
 new Board(mainContainer, filters).render(films);
-export default films;
+
+const statisticsContainer = footerContainer.querySelector(`.footer__statistics`);
+render(statisticsContainer, new FooterStatisticsView(films.length), POSITION.BEFOREEND);
+

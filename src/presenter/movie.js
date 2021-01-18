@@ -14,10 +14,10 @@ export default class Movie {
     this._onDataChange = onDataChange;
     this._mode = MODE.DEFAULT;
     this._footerElement = document.querySelector(`.footer`);
-    this._setMovieHandlers = this._setMovieHandlers.bind(this);
+    this._setCardHandlers = this._setCardHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
-    this._onFilmElementClick = this._onFilmElementClick.bind(this);
-    this._onCloseButtonClick = this._onCloseButtonClick.bind(this);
+    this._onClickCardElement = this._onClickCardElement.bind(this);
+    this._onClickCloseButton = this._onClickCloseButton.bind(this);
     this._onEscapeKeyPress = this._onEscapeKeyPress.bind(this);
     this._setAddToWatchlist = this._setAddToWatchlist.bind(this);
     this._setMarkAsWatched = this._setMarkAsWatched.bind(this);
@@ -34,7 +34,7 @@ export default class Movie {
   render(film) {
     this._film = film;
 
-    const oldFilmView = this._filmView;
+    const oldFilmView = this._filmView; // component name better?
     const oldFilmDetailsView = this._filmDetailsView;
 
     this._filmView = new FilmView(film);
@@ -50,7 +50,7 @@ export default class Movie {
     } else {
       render(this._container, this._filmView, POSITION.BEFOREEND);
     }
-    this._setMovieHandlers();
+    this._setCardHandlers();
   }
 
   setToDefaultView() {
@@ -77,7 +77,7 @@ export default class Movie {
     }));
   }
 
-  _setMovieHandlers() {
+  _setCardHandlers() {
     this._filmView.setClickHandler(this._onFilmElementClick);
     this._filmDetailsView.setCloseClickHandler(this._onCloseButtonClick);
     this._filmDetailsView.setFormElementsChangeHandler();
