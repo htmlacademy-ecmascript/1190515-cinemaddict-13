@@ -1,5 +1,7 @@
 import {generateDate} from "../utils/common";
-import AbstractComponent from "./abstract-component";
+import AbstractSmartComponent from "./abstract-smart-component";
+
+const EMOJI_PATH = `./images/emoji/`;
 
 const renderFilmDetailsRow = (details) => {
   return details
@@ -126,11 +128,29 @@ export const createFilmDetailsTemplate = (film) => {
     </section>`;
 };
 
-export default class FilmDetailsView extends AbstractComponent {
+export default class FilmDetailsView extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
+    this._closeClickHandler = null;
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
+  reset() {
+    const emoji = this.getElement().querySelector(`.film-details__new-comment .film-details__add-emoji-label img`);
+    const commentText = this.getElement().querySelector(`.film-details__comment-input`);
+    if (emoji) {
+      emoji.remove();
+    }
+    if (commentText) {
+      commentText.value = ``;
+    }
+
+    this.rerender();
   }
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
@@ -143,7 +163,51 @@ export default class FilmDetailsView extends AbstractComponent {
     this._callback.click = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
   }
-  removeCloseClickHandler() {
-    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
+  setFormElementsChangeHandler() {
+    this.getElement().querySelectorAll(`[name="comment-emoji"]`).forEach((emotion) => {
+      emotion.addEventListener(`change`, (evt) => {
+        if (evt.target.value) {
+          const forNewEmojiElement = this.getElement().querySelector(`.film-details__new-comment .film-details__add-emoji-label`);
+          if (!forNewEmojiElement.querySelector(`img`)) {
+            const newEmoji = document.createElement(`img`);
+            newEmoji.src = `${EMOJI_PATH}${evt.target.value}.png`;
+            newEmoji.alt = `emoji-${evt.target.value}`;
+            newEmoji.width = `55`;
+            newEmoji.height = `55`;
+            forNewEmojiElement.append(newEmoji);
+          } else {
+            forNewEmojiElement.querySelector(`img`).src = `${EMOJI_PATH}${evt.target.value}.png`;
+            forNewEmojiElement.querySelector(`img`).alt = `emoji-${evt.target.value}`;
+          }
+        }
+      });
+    });
+  }
+
+  setFormSubmitHandler() {
+    document.addEventListener(`keydown`, (evt) => {
+      if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey)) {
+        const commentText = this.getElement().querySelector(`.film-details__comment-input`).value;
+        const emoji = this.getElement().querySelector(`[name="comment-emoji"]:checked`);
+        if (commentText && emoji) {
+          this._film.comments.push({
+            comment: commentText,
+            emotion: emoji.value,
+            author: `Current Author`,
+            date: new Date()
+          });
+          this.rerender();
+        }
+      }
+    });
+  }
+  recoveryListeners() {
+    this.setCloseClickHandler(this._closeClickHandler);
+    this.setFormElementsChangeHandler();
+    this.setFormSubmitHandler();
   }
 }
+
+// removeCloseClickHandler() {
+//   this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
+// }

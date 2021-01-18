@@ -13,10 +13,7 @@ export default class Movie {
     this._container = container;
     this._onDataChange = onDataChange;
     this._mode = MODE.DEFAULT;
-    this._filmComponent = null;
-    this._filmDetailsComponent = null;
-    this._film = null;
-    // this._footerElement = document.querySelector(`.footer`);
+    this._footerElement = document.querySelector(`.footer`);
     this._setMovieHandlers = this._setMovieHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
     this._onFilmElementClick = this._onFilmElementClick.bind(this);
@@ -25,6 +22,9 @@ export default class Movie {
     this._setAddToWatchlist = this._setAddToWatchlist.bind(this);
     this._setMarkAsWatched = this._setMarkAsWatched.bind(this);
     this._setMarkAsFavorite = this._setMarkAsFavorite.bind(this);
+    this._filmView = null;
+    this._filmDetailsView = null;
+    this._film = null;
   }
 
   get film() {
@@ -34,21 +34,21 @@ export default class Movie {
   render(film) {
     this._film = film;
 
-    const oldFilmComponent = this._filmComponent;
-    const oldFilmDetailsComponent = this._filmDetailsComponent;
+    const oldFilmView = this._filmView;
+    const oldFilmDetailsView = this._filmDetailsView;
 
-    this._filmComponent = new FilmView(film);
-    this._filmDetailsComponent = new FilmDetailsView(film);
+    this._filmView = new FilmView(film);
+    this._filmDetailsView = new FilmDetailsView(film);
 
-    this._filmComponent.setAddToWatchlistButtonClickHandler(this._setAddToWatchlist);
-    this._filmComponent.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
-    this._filmComponent.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
+    this._filmView.setAddToWatchlistButtonClickHandler(this._setAddToWatchlist);
+    this._filmView.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
+    this._filmView.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
 
-    if (oldFilmComponent && oldFilmDetailsComponent) {
-      replace(oldFilmComponent, this._filmComponent);
-      replace(oldFilmDetailsComponent, this._filmDetailsComponent);
+    if (oldFilmView && oldFilmDetailsView) {
+      replace(oldFilmView, this._filmView);
+      replace(oldFilmDetailsView, this._filmDetailsView);
     } else {
-      render(this._container, this._filmComponent, POSITION.BEFOREEND);
+      render(this._container, this._filmView, POSITION.BEFOREEND);
     }
     this._setMovieHandlers();
   }
@@ -78,22 +78,22 @@ export default class Movie {
   }
 
   _setMovieHandlers() {
-    this._filmComponent.setClickHandler(this._onFilmElementClick);
-    this._filmDetailsComponent.setCloseClickHandler(this._onCloseButtonClick);
-    // this._filmDetailsComponent.setFormElementsChangeHandler();
-    // this._filmDetailsComponent.setFormSubmitHandler();
+    this._filmView.setClickHandler(this._onFilmElementClick);
+    this._filmDetailsView.setCloseClickHandler(this._onCloseButtonClick);
+    this._filmDetailsView.setFormElementsChangeHandler();
+    this._filmDetailsView.setFormSubmitHandler();
   }
 
   _closeFilmDetails() {
-    this._filmDetailsComponent.reset();
-    toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
+    this._filmDetailsView.reset();
+    toggleElement(this._footerElement, this._filmDetailsView, `hide`);
     document.removeEventListener(`keydown`, this._onEscapeKeyPress);
     this._mode = MODE.DEFAULT;
   }
 
   _onClickCardElement() {
     this._mode = MODE.EDIT;
-    toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
+    toggleElement(this._footerElement, this._filmDetailsView, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
   }
 

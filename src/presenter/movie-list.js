@@ -18,26 +18,28 @@ const ADDITION_CONTAINER_TITLES = [`Top rated`, `Most commented`];
 
 // const films = generateFilms(FILM_COUNT);
 
-const renderAdditionBlocks = (filmsContainer, filmsSortingByRating, filmsSortingByComments) => {
+const renderAdditionBlocks = (filmsContainer, filmsSortingByRating, filmsSortingByComments, onDataChange) => {
+  let showingFilms = [];
   for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
-    render(filmsContainer, new AdditionBlockView().getElement(), POSITION.BEFOREEND);
+    render(filmsContainer, new AdditionBlockView(), POSITION.BEFOREEND);
     const extraContainerElements = filmsContainer.querySelectorAll(`.films-list--extra`);
     const firstextra = extraContainerElements[0];
-    const secondextra = extraContainerElements[1];
-    const cards = ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] ? filmsSortingByRating : filmsSortingByComments;
+    // const secondextra = extraContainerElements[1];
+    const firstextraElementTitle = firstextra.querySelector(`.films-list__title`);
+    const firstextraElementFilmList = firstextra.querySelector(`.films-list__container`);
+    const secondextraElementTitle = firstextra.querySelector(`.films-list__title`);
+    const secondextraElementFilmList = firstextra.querySelector(`.films-list__container`);
+    const films = ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] ? filmsSortingByRating : filmsSortingByComments;
 
-    if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] && cards[0].rating > 0) {
-      firstextra.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
-      cards.forEach((card) => {
-        renderFilms(firstextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
-      });
-    } else if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[1] && cards[0].comments.length > 0) {
-      secondextra.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
-      cards.forEach((card) => {
-        renderFilms(secondextra.querySelector(`.films-list__container`), card, POSITION.BEFOREEND);
-      });
+    if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[0] && films[0].rating > 0) {
+      firstextraElementTitle.textContent = ADDITION_CONTAINER_TITLES[i];
+      showingFilms = showingFilms.concat(renderFilms(firstextraElementFilmList, films, onDataChange));
+    } else if (ADDITION_CONTAINER_TITLES[i] === ADDITION_CONTAINER_TITLES[1] && films[0].comments.length > 0) {
+      secondextraElementTitle.textContent = ADDITION_CONTAINER_TITLES[i];
+      showingFilms = showingFilms.concat(renderFilms(secondextraElementFilmList, films, onDataChange));
     }
   }
+  return showingFilms;
 };
 
 const getFilmsSortingByRating = (films, from, to) => {
