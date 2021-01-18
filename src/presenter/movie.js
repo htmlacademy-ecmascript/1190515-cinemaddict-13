@@ -17,7 +17,7 @@ export default class Movie {
     this._filmDetailsView = null;
     this._film = null;
     this._footerElement = document.querySelector(`.footer`);
-    this._setCardHandlers = this._setCardHandlers.bind(this);
+    this._setClickHandler = this._setClickHandler.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
     this._onClickCardElement = this._onClickCardElement.bind(this);
     this._onClickCloseButton = this._onClickCloseButton.bind(this);
@@ -50,7 +50,7 @@ export default class Movie {
     } else {
       render(this._container, this._filmView, POSITION.BEFOREEND);
     }
-    this._setCardHandlers();
+    this._setClickHandler();
   }
 
   setToDefaultView() {
@@ -77,9 +77,9 @@ export default class Movie {
     }));
   }
 
-  _setCardHandlers() {
-    this._filmView.setClickHandler(this._onFilmElementClick);
-    this._filmDetailsView.setCloseClickHandler(this._onCloseButtonClick);
+  _setClickHandler() {
+    this._filmView.setClickHandler(this._onClickCardElement);
+    this._filmDetailsView.setCloseClickHandler(this._onClickCloseButton);
     this._filmDetailsView.setFormElementsChangeHandler();
     this._filmDetailsView.setFormSubmitHandler();
   }

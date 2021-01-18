@@ -30,9 +30,9 @@ export const createFilmTemplate = (film) => {
 };
 
 export default class FilmView extends AbstractComponent {
-  constructor(filmData) {
+  constructor(film) {
     super();
-    this._film = filmData;
+    this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
   }
   getTemplate() {

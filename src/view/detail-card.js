@@ -1,5 +1,6 @@
 import {generateDate} from "../utils/common";
 import AbstractSmartComponent from "./abstract-smart-component";
+import dayjs from "dayjs";
 
 const EMOJI_PATH = `./images/emoji/`;
 
@@ -163,6 +164,10 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     this._callback.click = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
   }
+  removeCloseClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
+  }
   setFormElementsChangeHandler() {
     this.getElement().querySelectorAll(`[name="comment-emoji"]`).forEach((emotion) => {
       emotion.addEventListener(`change`, (evt) => {
@@ -194,7 +199,7 @@ export default class FilmDetailsView extends AbstractSmartComponent {
             comment: commentText,
             emotion: emoji.value,
             author: `Current Author`,
-            date: new Date()
+            date: dayjs()
           });
           this.rerender();
         }
@@ -207,7 +212,3 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     this.setFormSubmitHandler();
   }
 }
-
-// removeCloseClickHandler() {
-//   this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
-// }
