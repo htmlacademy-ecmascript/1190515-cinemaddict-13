@@ -30,6 +30,10 @@ export default class Board {
     this._films = [];
     this._showFilms = [];
     this._filmsInExtraBlocks = [];
+    this._filmsContainer = null;
+    this._filmListElement = null;
+    this._filmListContainer = null;
+
   }
 
   render(films) {
@@ -38,22 +42,22 @@ export default class Board {
     render(this._containerComponent, this._sortingComponent, POSITION.BEFOREEND);
     render(this._containerComponent, this._contentComponent, POSITION.BEFOREEND);
 
-    const filmsContainer = this._containerComponent.querySelector(`.films`);
-    const filmListElement = filmsContainer.querySelector(`.films-list`);
-    const filmListContainer = this._containerComponent.querySelector(`.films-list__container`);
+    this._filmsContainer = this._containerComponent.querySelector(`.films`);
+    this._filmListElement = this._filmsContainer.querySelector(`.films-list`);
+    this._filmListContainer = this._containerComponent.querySelector(`.films-list__container`);
 
     const filmsSortingByRating = this._getFilmsSortingByRating(this._films, 0, FILM_COUNT_ADDITION);
     const filmsSortingByComments = this._getFilmsSortingByCommentsCount(this._films, 0, FILM_COUNT_ADDITION);
 
     if (this._films.length > 0) {
-      const showFilms = this._renderFilms(filmListContainer, this._getSortedFilms(this._films, this._sortingComponent.getCurrentSortingType(), 0, this._showFilmsCountPerStep), this._onDataChange);
+      const showFilms = this._renderFilms(this._filmListContainer, this._getSortedFilms(this._films, this._sortingComponent.getCurrentSortingType(), 0, this._showFilmsCountPerStep), this._onDataChange);
       this._showFilms = this._showFilms.concat(showFilms);
       this._renderLoadMoreButton();
-      this._renderAdditionBlocks(filmsContainer, [filmsSortingByRating, filmsSortingByComments], this._onDataChange);
+      this._renderAdditionBlocks(this._filmsContainer, [filmsSortingByRating, filmsSortingByComments], this._onDataChange);
       this._renderSortingFilms();
     } else {
-      filmListContainer.remove();
-      render(filmListElement, this._noLoadFilmsComponent, POSITION.BEFOREEND);
+      this._filmListContainer.remove();
+      render(this._filmListElement, this._noLoadFilmsComponent, POSITION.BEFOREEND);
     }
   }
 
@@ -65,16 +69,14 @@ export default class Board {
   }
 
   _renderLoadMoreButton() {
-    const filmListContainer = this._containerComponent.querySelector(`.films-list__container`);
-    render(filmListContainer, this._loadMoreButtonComponent, POSITION.AFTEREND);
+    render(this._filmListContainer, this._loadMoreButtonComponent, POSITION.AFTEREND);
     this._loadMoreButtonComponent.setClickHandler(this._handleLoadMoreButtonClick);
   }
 
   _handleLoadMoreButtonClick() {
-    const filmListContainer = this._containerComponent.querySelector(`.films-list__container`);
     const sortedFilms = this._getSortedFilms(this._films, this._sortingComponent.getCurrentSortingType(), this._showFilmsCountPerStep, this._showFilmsCountPerStep + FILMS_COUNT_PER_STEP);
     this._showFilmsCountPerStep += FILMS_COUNT_PER_STEP;
-    const showFilms = this._renderFilms(filmListContainer, sortedFilms, this._onDataChange);
+    const showFilms = this._renderFilms(this._filmListContainer, sortedFilms, this._onDataChange);
     this._showFilms = this._showFilms.concat(showFilms);
 
     if (this._showFilmsCountPerStep >= this._films.length) {
@@ -117,8 +119,8 @@ export default class Board {
 
   _renderAdditionBlocks(filmsContainer, data, onDataChange) {
     for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
-      render(filmsContainer, new AdditionBlockView(), POSITION.BEFOREEND);
-      const extraContainers = filmsContainer.querySelectorAll(`.films-list--extra`)[i];
+      render(this._filmsContainer, new AdditionBlockView(), POSITION.BEFOREEND);
+      const extraContainers = this._filmsContainer.querySelectorAll(`.films-list--extra`)[i];
       const extraContainerFilmList = extraContainers.querySelector(`.films-list__container`);
       extraContainers.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
       render(extraContainerFilmList, this._renderFilms(extraContainerFilmList, data[i], onDataChange), POSITION.BEFOREEND);
@@ -127,10 +129,9 @@ export default class Board {
 
   _renderSortingFilms() {
     this._sortingComponent.setSortingTypeChangeHandler((sortingType) => {
-      const filmListContainer = this._containerComponent.querySelector(`.films-list__container`);
-      filmListContainer.innerHTML = ``;
+      this._filmListContainer.innerHTML = ``;
       remove(this._loadMoreButtonComponent);
-      const showFilms = this._renderFilms(filmListContainer, this._getSortedFilms(this._films, sortingType, 0, this._showFilmsCountPerStep), this._onDataChange);
+      const showFilms = this._renderFilms(this._filmListContainer, this._getSortedFilms(this._films, sortingType, 0, this._showFilmsCountPerStep), this._onDataChange);
       this._showFilms = [].concat(showFilms);
       this._showFilms = this._showFilms.concat(this._filmsInExtraBlocks);
       this._renderLoadMoreButton();
