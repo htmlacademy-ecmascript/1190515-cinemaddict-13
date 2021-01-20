@@ -10,11 +10,11 @@ const MODE = {
 
 export default class Movie {
   constructor(container, onDataChange) {
-    this._container = container;
+    this._containerComponent = container;
     this._onDataChange = onDataChange;
     this._mode = MODE.DEFAULT;
-    this._filmView = null;
-    this._filmDetailsView = null;
+    this._filmComponent = null;
+    this._filmDetailsComponent = null;
     this._film = null;
     this._footerElement = document.querySelector(`.footer`);
     this._setCardClickHandlers = this._setCardClickHandlers.bind(this);
@@ -34,21 +34,21 @@ export default class Movie {
   render(film) {
     this._film = film;
 
-    const oldFilmView = this._filmView;
-    const oldFilmDetailsView = this._filmDetailsView;
+    const oldFilmView = this._filmComponent;
+    const oldFilmDetailsView = this._filmDetailsComponent;
 
-    this._filmView = new FilmView(film);
-    this._filmDetailsView = new FilmDetailsView(film);
+    this._filmComponent = new FilmView(film);
+    this._filmDetailsComponent = new FilmDetailsView(film);
 
-    this._filmView.setAddToWatchlistButtonClickHandler(this._setAddToWatchlist);
-    this._filmView.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
-    this._filmView.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
+    this._filmComponent.setAddToWatchlistButtonClickHandler(this._setAddToWatchlist);
+    this._filmComponent.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
+    this._filmComponent.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
 
     if (oldFilmView && oldFilmDetailsView) {
-      replace(oldFilmView, this._filmView);
-      replace(oldFilmDetailsView, this._filmDetailsView);
+      replace(oldFilmView, this._filmComponent);
+      replace(oldFilmDetailsView, this._filmDetailsComponent);
     } else {
-      render(this._container, this._filmView, POSITION.BEFOREEND);
+      render(this._containerComponent, this._filmComponent, POSITION.BEFOREEND);
     }
     this._setCardClickHandlers();
   }
@@ -78,24 +78,24 @@ export default class Movie {
   }
 
   _setCardClickHandlers() {
-    this._filmView.setClickHandler(this._onClickCardFilm);
-    this._filmDetailsView.setCloseClickHandler(this._onClickCloseButton);
-    this._filmDetailsView.setFormElementsChangeHandler();
-    this._filmDetailsView.setFormSubmitHandler();
+    this._filmComponent.setClickHandler(this._onClickCardFilm);
+    this._filmDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
+    this._filmDetailsComponent.setFormElementsChangeHandler();
+    this._filmDetailsComponent.setFormSubmitHandler();
   }
 
   _closeFilmDetails() {
-    this._filmDetailsView.reset();
-    toggleElement(this._footerElement, this._filmDetailsView, `hide`);
+    this._filmDetailsComponent.reset();
+    toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
     document.removeEventListener(`keydown`, this._onEscapeKeyPress);
     this._mode = MODE.DEFAULT;
   }
 
   _onClickCardFilm() {
     this._mode = MODE.EDIT;
-    toggleElement(this._footerElement, this._filmDetailsView, `show`);
+    toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
-    this._filmDetailsView.setCloseClickHandler(this._onClickCloseButton);
+    this._filmDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
   }
 
   _onClickCloseButton() {

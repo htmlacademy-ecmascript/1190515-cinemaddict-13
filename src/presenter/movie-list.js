@@ -1,9 +1,9 @@
 import dayjs from "dayjs";
-import {sortingByDesc} from "../utils/common";
+import sortingByDesc from "../utils/common";
 import {POSITION, render, remove} from "../utils/render";
 import Movie from "./movie";
 import NoLoadFilms from "../view/no-load-films";
-import AdditionBlockView from "../view/add-card-block";
+import ExtraBlockView from "../view/add-card-block";
 import generateFilters from "../mock/filters";
 import NavigationView from "../view/navigation";
 import {SortingView, SORTING_DATA_TYPE} from "../view/sorting";
@@ -33,7 +33,6 @@ export default class Board {
     this._filmsContainer = null;
     this._filmListElement = null;
     this._filmListContainer = null;
-
   }
 
   render(films) {
@@ -47,13 +46,13 @@ export default class Board {
     this._filmListContainer = this._containerComponent.querySelector(`.films-list__container`);
 
     const filmsSortingByRating = this._getFilmsSortingByRating(this._films, 0, FILM_COUNT_ADDITION);
-    const filmsSortingByComments = this._getFilmsSortingByCommentsCount(this._films, 0, FILM_COUNT_ADDITION);
+    const filmsSortingByCommentsCount = this._getFilmsSortingByCommentsCount(this._films, 0, FILM_COUNT_ADDITION);
 
     if (this._films.length > 0) {
       const showFilms = this._renderFilms(this._filmListContainer, this._getSortedFilms(this._films, this._sortingComponent.getCurrentSortingType(), 0, this._showFilmsCountPerStep), this._onDataChange);
       this._showFilms = this._showFilms.concat(showFilms);
       this._renderLoadMoreButton();
-      this._renderAdditionBlocks(this._filmsContainer, [filmsSortingByRating, filmsSortingByComments], this._onDataChange);
+      this._renderAdditionBlocks(this._filmsContainer, [filmsSortingByRating, filmsSortingByCommentsCount], this._onDataChange);
       this._renderSortingFilms();
     } else {
       this._filmListContainer.remove();
@@ -119,7 +118,7 @@ export default class Board {
 
   _renderAdditionBlocks(filmsContainer, data, onDataChange) {
     for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
-      render(this._filmsContainer, new AdditionBlockView(), POSITION.BEFOREEND);
+      render(this._filmsContainer, new ExtraBlockView(), POSITION.BEFOREEND);
       const extraContainers = this._filmsContainer.querySelectorAll(`.films-list--extra`)[i];
       const extraContainerFilmList = extraContainers.querySelector(`.films-list__container`);
       extraContainers.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
