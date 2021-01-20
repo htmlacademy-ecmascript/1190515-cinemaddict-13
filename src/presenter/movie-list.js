@@ -3,7 +3,7 @@ import sortingByDesc from "../utils/common";
 import {POSITION, render, remove} from "../utils/render";
 import Movie from "./movie";
 import NoLoadFilms from "../view/no-load-films";
-import ExtraBlockView from "../view/add-card-block";
+import AddExtraBlockView from "../view/add-extra-block";
 import generateFilters from "../mock/filters";
 import NavigationView from "../view/navigation";
 import {SortingView, SORTING_DATA_TYPE} from "../view/sorting";
@@ -52,7 +52,7 @@ export default class Board {
       const showFilms = this._renderFilms(this._filmListContainer, this._getSortedFilms(this._films, this._sortingComponent.getCurrentSortingType(), 0, this._showFilmsCountPerStep), this._onDataChange);
       this._showFilms = this._showFilms.concat(showFilms);
       this._renderLoadMoreButton();
-      this._renderAdditionBlocks(this._filmsContainer, [filmsSortingByRating, filmsSortingByCommentsCount], this._onDataChange);
+      this._renderExtraBlocks(this._filmsContainer, [filmsSortingByRating, filmsSortingByCommentsCount], this._onDataChange);
       this._renderSortingFilms();
     } else {
       this._filmListContainer.remove();
@@ -116,9 +116,9 @@ export default class Board {
     }).slice(from, to);
   }
 
-  _renderAdditionBlocks(filmsContainer, data, onDataChange) {
+  _renderExtraBlocks(filmsContainer, data, onDataChange) {
     for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
-      render(this._filmsContainer, new ExtraBlockView(), POSITION.BEFOREEND);
+      render(this._filmsContainer, new AddExtraBlockView(), POSITION.BEFOREEND);
       const extraContainers = this._filmsContainer.querySelectorAll(`.films-list--extra`)[i];
       const extraContainerFilmList = extraContainers.querySelector(`.films-list__container`);
       extraContainers.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];

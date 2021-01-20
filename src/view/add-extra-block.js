@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component";
 
-const createBlockAdditionTemplate = () => {
+const createBlockExtraTemplate = () => {
   return `<section class="films-list--extra">
             <h2 class="films-list__title"></h2>
             <div class="films-list__container">
@@ -8,8 +8,8 @@ const createBlockAdditionTemplate = () => {
           </section>`;
 };
 
-export default class ExtraBlockView extends AbstractComponent {
+export default class AddExtraBlockView extends AbstractComponent {
   getTemplate() {
-    return createBlockAdditionTemplate();
+    return createBlockExtraTemplate();
   }
 }
