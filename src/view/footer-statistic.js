@@ -2,11 +2,11 @@ import AbstractComponent from "./abstract-component";
 
 export const createStatisticsTemplate = (count) => {
   return (
-    `<p>${count} movies inside</p>`
+    `${count} movies inside`
   );
 };
 
-export default class FooterStatistics extends AbstractComponent {
+export default class FooterStatisticsView extends AbstractComponent {
   constructor(count) {
     super();
     this._count = count;

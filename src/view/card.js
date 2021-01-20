@@ -5,7 +5,7 @@ import AbstractComponent from "./abstract-component";
 const MAX_DESCRIPTION_LENGTH = 140;
 
 export const createFilmTemplate = (film) => {
-  const {name, poster, description, rating, date, duration, genres, comments} = film;
+  const {name, poster, description, rating, date, duration, genres, comments, isInWatchlist, isWatched, isFavorite} = film;
 
   const year = dayjs(date).format(`YYYY`);
   const truncatedDescription = truncateString(description, MAX_DESCRIPTION_LENGTH);
@@ -22,17 +22,17 @@ export const createFilmTemplate = (film) => {
           <p class="film-card__description">${truncatedDescription}</p>
           <a class="film-card__comments">${comments.length} comments</a>
           <div class="film-card__controls">
-            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-            <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
+            <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist${isInWatchlist ? ` film-card__controls-item--active` : ``}">Add to watchlist</button>
+            <button class="film-card__controls-item button film-card__controls-item--mark-as-watched${isWatched ? ` film-card__controls-item--active` : ``}">Mark as watched</button>
+            <button class="film-card__controls-item button film-card__controls-item--favorite${isFavorite ? ` film-card__controls-item--active` : ``}">Mark as favorite</button>
           </div>
         </article>`;
 };
 
 export default class FilmView extends AbstractComponent {
-  constructor(filmData) {
+  constructor(film) {
     super();
-    this._film = filmData;
+    this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
   }
   getTemplate() {
@@ -53,5 +53,19 @@ export default class FilmView extends AbstractComponent {
     this.getElement().querySelector(`.film-card__title`).removeEventListener(`click`, this._clickHandler);
     this.getElement().querySelector(`img`).removeEventListener(`click`, this._clickHandler);
     this.getElement().querySelector(`.film-card__comments`).removeEventListener(`click`, this._clickHandler);
+  }
+  setAddToWatchlistButtonClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, this._clickHandler);
+  }
+
+  setMarkAsWatchedButtonClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).addEventListener(`click`, this._clickHandler);
+  }
+
+  setMarkAsFavoriteButtonClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, this._clickHandler);
   }
 }

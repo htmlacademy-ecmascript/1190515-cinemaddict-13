@@ -8,7 +8,7 @@ const createBlockAdditionTemplate = () => {
           </section>`;
 };
 
-export default class AdditionBlockView extends AbstractComponent {
+export default class ExtraBlockView extends AbstractComponent {
   getTemplate() {
     return createBlockAdditionTemplate();
   }

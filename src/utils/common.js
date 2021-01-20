@@ -30,6 +30,8 @@ export const truncateString = (value, length) => {
   return value.length > length ? `${value.slice(0, length)}...` : value;
 };
 
-export const sortingByDesc = (a, b) => {
+const sortingByDesc = (a, b) => {
   return b - a;
 };
+
+export default sortingByDesc;

@@ -1,5 +1,8 @@
 import {generateDate} from "../utils/common";
-import AbstractComponent from "./abstract-component";
+import AbstractSmartComponent from "./abstract-smart-component";
+import dayjs from "dayjs";
+
+const EMOJI_PATH = `./images/emoji/`;
 
 const renderFilmDetailsRow = (details) => {
   return details
@@ -44,7 +47,7 @@ export const createComments = (comments) => {
 };
 
 export const createFilmDetailsTemplate = (film) => {
-  const {name, originalName, poster, description, rating, genres, age, details, comments} = film;
+  const {name, originalName, poster, description, rating, genres, age, details, comments, isWatchlist, isWatched, isFavorites} = film;
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -81,11 +84,11 @@ export const createFilmDetailsTemplate = (film) => {
           </div>
 
           <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${isWatchlist ? `checked` : ``}>
             <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${isWatched ? `checked` : ``}>
             <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite">
+            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${isFavorites ? `checked` : ``}>
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
           </section>
         </div>
@@ -95,7 +98,7 @@ export const createFilmDetailsTemplate = (film) => {
             <span class="film-details__comments-count">${comments.length}</span></h3>
 
               ${comments.length > 0 ? createComments(comments) : ``}
-            
+
             <div class="film-details__new-comment">
               <div for="add-emoji" class="film-details__add-emoji-label"></div>
               <label class="film-details__comment-label">
@@ -126,11 +129,29 @@ export const createFilmDetailsTemplate = (film) => {
     </section>`;
 };
 
-export default class FilmDetailsView extends AbstractComponent {
+export default class FilmDetailsView extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
+    // this._closeClickHandler = null;
+  }
+
+  rerender() {
+    super.rerender();
+  }
+
+  reset() {
+    const emoji = this.getElement().querySelector(`.film-details__new-comment .film-details__add-emoji-label img`);
+    const commentText = this.getElement().querySelector(`.film-details__comment-input`);
+    if (emoji) {
+      emoji.remove();
+    }
+    if (commentText) {
+      commentText.value = ``;
+    }
+
+    this.rerender();
   }
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
@@ -143,7 +164,51 @@ export default class FilmDetailsView extends AbstractComponent {
     this._callback.click = callback;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
   }
-  removeCloseClickHandler() {
+  removeCloseClickHandler(callback) {
+    this._callback.click = callback;
     this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
+  }
+  setFormElementsChangeHandler() {
+    this.getElement().querySelectorAll(`[name="comment-emoji"]`).forEach((emotion) => {
+      emotion.addEventListener(`change`, (evt) => {
+        if (evt.target.value) {
+          const forNewEmojiElement = this.getElement().querySelector(`.film-details__new-comment .film-details__add-emoji-label`);
+          if (!forNewEmojiElement.querySelector(`img`)) {
+            const newEmoji = document.createElement(`img`);
+            newEmoji.src = `${EMOJI_PATH}${evt.target.value}.png`;
+            newEmoji.alt = `emoji-${evt.target.value}`;
+            newEmoji.width = `55`;
+            newEmoji.height = `55`;
+            forNewEmojiElement.append(newEmoji);
+          } else {
+            forNewEmojiElement.querySelector(`img`).src = `${EMOJI_PATH}${evt.target.value}.png`;
+            forNewEmojiElement.querySelector(`img`).alt = `emoji-${evt.target.value}`;
+          }
+        }
+      });
+    });
+  }
+
+  setFormSubmitHandler() {
+    document.addEventListener(`keydown`, (evt) => {
+      if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey)) {
+        const commentText = this.getElement().querySelector(`.film-details__comment-input`).value;
+        const emoji = this.getElement().querySelector(`[name="comment-emoji"]:checked`);
+        if (commentText && emoji) {
+          this._film.comments.push({
+            comment: commentText,
+            emotion: emoji.value,
+            author: `Current Author`,
+            date: dayjs()
+          });
+          this.rerender();
+        }
+      }
+    });
+  }
+  recoveryListeners() {
+    this.setCloseClickHandler(this._closeClickHandler);
+    this.setFormElementsChangeHandler();
+    this.setFormSubmitHandler();
   }
 }

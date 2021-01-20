@@ -32,13 +32,6 @@ export const createElement = (template) => {
   return newElement.firstChild;
 };
 
-export const renderTemplate = (container, template, place) => {
-  if (container instanceof AbstractComponent) {
-    container = container.getElement();
-  }
-  container.insertAdjacentHTML(place, template);
-};
-
 export const remove = (component) => {
   if (!(component instanceof AbstractComponent)) {
     throw new Error(`Can remove only components`);
@@ -60,3 +53,16 @@ export const toggleElement = (container, component, action) => {
       break;
   }
 };
+
+export const replace = (oldComponent, newComponent) => {
+  const parentElement = oldComponent.getElement().parentElement;
+  const newElement = newComponent.getElement();
+  const oldElement = oldComponent.getElement();
+
+  const isExistElements = !!(parentElement && newElement && oldElement);
+
+  if (isExistElements && parentElement.contains(oldElement)) {
+    parentElement.replaceChild(newElement, oldElement);
+  }
+};
+
