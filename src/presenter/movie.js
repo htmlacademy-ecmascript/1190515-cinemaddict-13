@@ -10,13 +10,14 @@ const MODE = {
 
 export default class Movie {
   constructor(container, onDataChange) {
+    this._bodyElement = document.querySelector(`body`);
+    this._footerElement = document.querySelector(`.footer`);
     this._containerComponent = container;
     this._onDataChange = onDataChange;
     this._mode = MODE.DEFAULT;
     this._filmComponent = null;
     this._filmDetailsComponent = null;
     this._film = null;
-    this._footerElement = document.querySelector(`.footer`);
     this._setCardClickHandlers = this._setCardClickHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
     this._onClickCardFilm = this._onClickCardFilm.bind(this);
@@ -80,24 +81,26 @@ export default class Movie {
   _setCardClickHandlers() {
     this._filmComponent.setClickHandler(this._onClickCardFilm);
     this._filmDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
-    this._filmDetailsComponent.setFormElementsChangeHandler();
-    this._filmDetailsComponent.setFormSubmitHandler();
+    this._filmDetailsComponent.setCommentElementsChangeHandler();
+    this._filmDetailsComponent.setCommentSubmitHandler();
   }
 
   _closeFilmDetails() {
-    // if (this._filmDetailsComponent.getFilm() !== null) {
-    //   remove(this._filmDetailsComponent);
-    // }
-    // this._filmDetailsComponent.reset();
+    // if (Object.keys(this._popupComponent.getFilm()).length !== 0) {
     toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
     document.removeEventListener(`keydown`, this._onEscapeKeyPress);
+    this._bodyElement.classList.remove(`hide-overflow`);
     this._mode = MODE.DEFAULT;
   }
 
   _onClickCardFilm() {
+    // if (this._popupComponent.getFilm() === this._film) { // Добавляет проверку на наличие
+    //   return; // отрисованного на странице попапа с целью
+    // } // избажать перерендеринга попапа ?
     this._mode = MODE.EDIT;
     toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
+    this._bodyElement.classList.add(`hide-overflow`);
     this._filmDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
   }
 
@@ -106,7 +109,7 @@ export default class Movie {
   }
 
   _onEscapeKeyPress(evt) {
-    if (evt.key === Keydown.ESC) {
+    if (evt.key === Keydown.ESC) { // && (evt.ctrlKey || evt.metaKey) ??
       this._closeFilmDetails();
     }
   }

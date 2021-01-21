@@ -2,7 +2,7 @@ import {generateDate} from "../utils/common";
 import AbstractSmartComponent from "./abstract-smart-component";
 // import {getRandomArrayItem, AUTHORS} from "../mock/card-film";
 
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import Keydown from "../const";
 
 const EMOJI_PATH = `./images/emoji/`;
@@ -170,7 +170,9 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     this._callback.click = callback;
     this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
   }
-  setFormElementsChangeHandler() {
+  setCommentElementsChangeHandler(callback) {
+    this._callback.change = callback;
+
     this.getElement().querySelectorAll(`[name="comment-emoji"]`).forEach((emotion) => {
       emotion.addEventListener(`change`, (evt) => {
         if (evt.target.value) {
@@ -191,17 +193,18 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     });
   }
 
-  setFormSubmitHandler() {
+  setCommentSubmitHandler(callback) {
+    this._callback.keydown = callback; // submit?
     document.addEventListener(`keydown`, (evt) => {
       if (evt.key === Keydown.ENT) {
-        const commentText = this.getElement().querySelector(`.film-details__comment-input`).value;
+        const commentText = this.getElement().querySelector(`.film-details__comment-input`).value; // value/textContent? - error
         const emoji = this.getElement().querySelector(`[name="comment-emoji"]:checked`);
         if (commentText && emoji) {
           this._film.comments.push({
-            comment: commentText, // ???
+            text: commentText,
             emotion: emoji.value,
             author: `Author`, // getRandomArrayItem(AUTHORS) - error
-            date: dayjs()
+            // date: dayjs // ?
           });
           this.updateElement();
         }
@@ -210,7 +213,7 @@ export default class FilmDetailsView extends AbstractSmartComponent {
   }
   restoreHandlers() {
     this.setCloseClickHandler(this._callback.click); // ?
-    this.setFormElementsChangeHandler();
-    this.setFormSubmitHandler();
+    this.setCommentElementsChangeHandler(this._callback.change); // Почему в 1 месте нужен коллбек
+    this.setCommentSubmitHandler(this._callback.keydown); // а в других можно без него даже?
   }
 }
