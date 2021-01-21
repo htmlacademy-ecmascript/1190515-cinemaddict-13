@@ -4,7 +4,7 @@ import AbstractComponent from "./abstract-component";
 
 const MAX_DESCRIPTION_LENGTH = 140;
 
-export const createFilmTemplate = (film) => {
+export const createCardTemplate = (film) => {
   const {name, poster, description, rating, date, duration, genres, comments, isInWatchlist, isWatched, isFavorite} = film;
 
   const year = dayjs(date).format(`YYYY`);
@@ -29,14 +29,14 @@ export const createFilmTemplate = (film) => {
         </article>`;
 };
 
-export default class FilmView extends AbstractComponent {
+export default class CardView extends AbstractComponent {
   constructor(film) {
     super();
     this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
   }
   getTemplate() {
-    return createFilmTemplate(this._film);
+    return createCardTemplate(this._film);
   }
   _clickHandler(evt) {
     evt.preventDefault();

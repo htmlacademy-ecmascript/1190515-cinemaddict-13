@@ -47,7 +47,7 @@ export const createComments = (comments) => {
   return `<ul class="film-details__comments-list">${result}</ul>`;
 };
 
-export const createFilmDetailsTemplate = (film) => {
+export const createDetailCardTemplate = (film) => {
   const {name, originalName, poster, description, rating, genres, age, details, comments, isWatchlist, isWatched, isFavorites} = film;
 
   return `<section class="film-details">
@@ -130,11 +130,15 @@ export const createFilmDetailsTemplate = (film) => {
     </section>`;
 };
 
-export default class FilmDetailsView extends AbstractSmartComponent {
+export default class DetailCardView extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
+  }
+
+  getFilm() {
+    return this._film;
   }
 
   updateElement() {
@@ -154,7 +158,7 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     this.updateElement();
   }
   getTemplate() {
-    return createFilmDetailsTemplate(this._film);
+    return createDetailCardTemplate(this._film);
   }
   _clickHandler(evt) {
     evt.preventDefault();
