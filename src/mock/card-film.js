@@ -18,13 +18,13 @@ import {
   AGES
 } from "../const";
 
-const AUTHORS = [
+export const AUTHORS = [
   `Tim`,
   `John`,
   `Frank`
 ];
 
-const COMMENTS = [
+export const COMMENTS = [
   `Booo`,
   `Wow!`,
   `Greate!`,
@@ -128,4 +128,4 @@ export const generateFilms = (count) => {
   return result;
 };
 
-export default generateFilms;
+export default {generateFilms, COMMENTS, AUTHORS};

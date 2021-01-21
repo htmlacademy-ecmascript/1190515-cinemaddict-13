@@ -1,5 +1,7 @@
 import {generateDate} from "../utils/common";
 import AbstractSmartComponent from "./abstract-smart-component";
+// import {getRandomArrayItem, AUTHORS} from "../mock/card-film";
+
 import dayjs from "dayjs";
 import Keydown from "../const";
 
@@ -196,9 +198,9 @@ export default class FilmDetailsView extends AbstractSmartComponent {
         const emoji = this.getElement().querySelector(`[name="comment-emoji"]:checked`);
         if (commentText && emoji) {
           this._film.comments.push({
-            comment: commentText,
+            comment: commentText, // ???
             emotion: emoji.value,
-            author: `Current Author`,
+            author: `Author`, // getRandomArrayItem(AUTHORS) - error
             date: dayjs()
           });
           this.updateElement();
@@ -207,7 +209,7 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     });
   }
   restoreHandlers() {
-    this.setCloseClickHandler(this._closeClickHandler);
+    this.setCloseClickHandler(this._callback.click); // ?
     this.setFormElementsChangeHandler();
     this.setFormSubmitHandler();
   }

@@ -1,6 +1,6 @@
 import {POSITION, render} from "./utils/render";
 import BoardPresenter from "./presenter/movie-list";
-import generateFilms from "./mock/card-film";
+import {generateFilms} from "./mock/card-film";
 import generateFilters from "./mock/filters";
 import ProfileView from "./view/profile";
 import FooterStatisticsView from "./view/footer-statistic";
