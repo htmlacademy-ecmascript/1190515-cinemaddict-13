@@ -1,6 +1,7 @@
 import {generateDate} from "../utils/common";
 import AbstractSmartComponent from "./abstract-smart-component";
 import dayjs from "dayjs";
+import Keydown from "../const";
 
 const EMOJI_PATH = `./images/emoji/`;
 
@@ -134,11 +135,10 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     super();
     this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
-    // this._closeClickHandler = null;
   }
 
-  rerender() {
-    super.rerender();
+  updateElement() {
+    super.updateElement();
   }
 
   reset() {
@@ -151,7 +151,7 @@ export default class FilmDetailsView extends AbstractSmartComponent {
       commentText.value = ``;
     }
 
-    this.rerender();
+    this.updateElement();
   }
   getTemplate() {
     return createFilmDetailsTemplate(this._film);
@@ -191,7 +191,7 @@ export default class FilmDetailsView extends AbstractSmartComponent {
 
   setFormSubmitHandler() {
     document.addEventListener(`keydown`, (evt) => {
-      if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey)) {
+      if (evt.key === Keydown.ENT) {
         const commentText = this.getElement().querySelector(`.film-details__comment-input`).value;
         const emoji = this.getElement().querySelector(`[name="comment-emoji"]:checked`);
         if (commentText && emoji) {
@@ -201,12 +201,12 @@ export default class FilmDetailsView extends AbstractSmartComponent {
             author: `Current Author`,
             date: dayjs()
           });
-          this.rerender();
+          this.updateElement();
         }
       }
     });
   }
-  recoveryListeners() {
+  restoreHandlers() {
     this.setCloseClickHandler(this._closeClickHandler);
     this.setFormElementsChangeHandler();
     this.setFormSubmitHandler();

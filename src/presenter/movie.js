@@ -88,7 +88,7 @@ export default class Movie {
     // if (this._filmDetailsComponent.getFilm() !== null) {
     //   remove(this._filmDetailsComponent);
     // }
-    this._filmDetailsComponent.reset();
+    // this._filmDetailsComponent.reset();
     toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
     document.removeEventListener(`keydown`, this._onEscapeKeyPress);
     this._mode = MODE.DEFAULT;

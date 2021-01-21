@@ -24,7 +24,7 @@ export default class AbstractSmartComponent extends AbstractComponent {
     this.updateElement();
   }
 
-  updateElement() {
+  updateElement() { // rerender
     const oldElement = this.getElement();
     const parent = oldElement.parentElement;
 
@@ -37,7 +37,7 @@ export default class AbstractSmartComponent extends AbstractComponent {
     this.restoreHandlers();
   }
 
-  restoreHandlers() {
-    throw new Error(`Abstract method not implemented: recoveryListeners`);
+  restoreHandlers() { // recoveryListeners
+    throw new Error(`Abstract method not implemented: restoreHandlers`);
   }
 }
