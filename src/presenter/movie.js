@@ -1,6 +1,6 @@
 import FilmView from "../view/card";
 import FilmDetailsView from "../view/detail-card";
-import {POSITION, render, toggleElement, replace} from "../utils/render";
+import {POSITION, render, toggleElement, remove, replace} from "../utils/render";
 import Keydown from "../const";
 
 const MODE = {
@@ -35,8 +35,8 @@ export default class Movie {
   render(film) {
     this._film = film;
 
-    const oldFilmView = this._filmComponent;
-    const oldFilmDetailsView = this._filmDetailsComponent;
+    const prevFilmComponent = this._filmComponent;
+    const prevFilmDetailsComponent = this._filmDetailsComponent;
 
     this._filmComponent = new FilmView(film);
     this._filmDetailsComponent = new FilmDetailsView(film);
@@ -45,13 +45,27 @@ export default class Movie {
     this._filmComponent.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
     this._filmComponent.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
 
-    if (oldFilmView && oldFilmDetailsView) {
-      replace(oldFilmView, this._filmComponent);
-      replace(oldFilmDetailsView, this._filmDetailsComponent);
-    } else {
+    if (prevFilmComponent === null || prevFilmDetailsComponent === null) {
       render(this._containerComponent, this._filmComponent, POSITION.BEFOREEND);
+      this._setCardClickHandlers();
+      return;
     }
-    this._setCardClickHandlers();
+
+    if (this._containerComponent.getElement().contains(prevFilmComponent.getElement())) {
+      replace(this._filmComponent, prevFilmComponent);
+    }
+
+    if (this._containerComponent.getElement().contains(prevFilmDetailsComponent.getElement())) {
+      replace(this._filmDetailsComponent, prevFilmDetailsComponent);
+    }
+
+    remove(prevFilmComponent);
+    remove(prevFilmDetailsComponent);
+  }
+
+  destroy() {
+    remove(this._filmComponent);
+    remove(this._filmDetailsComponent);
   }
 
   setToDefaultView() {
@@ -86,7 +100,6 @@ export default class Movie {
   }
 
   _closeFilmDetails() {
-    // if (Object.keys(this._popupComponent.getFilm()).length !== 0) {
     toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
     document.removeEventListener(`keydown`, this._onEscapeKeyPress);
     this._bodyElement.classList.remove(`hide-overflow`);
@@ -94,9 +107,6 @@ export default class Movie {
   }
 
   _onClickCardFilm() {
-    // if (this._popupComponent.getFilm() === this._film) { // Добавляет проверку на наличие
-    //   return; // отрисованного на странице попапа с целью
-    // } // избажать перерендеринга попапа ?
     this._mode = MODE.EDIT;
     toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
@@ -109,7 +119,7 @@ export default class Movie {
   }
 
   _onEscapeKeyPress(evt) {
-    if (evt.key === Keydown.ESC) { // && (evt.ctrlKey || evt.metaKey) ??
+    if (evt.key === Keydown.ESC) {
       this._closeFilmDetails();
     }
   }

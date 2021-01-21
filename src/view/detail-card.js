@@ -1,8 +1,6 @@
 import {generateDate} from "../utils/common";
 import AbstractSmartComponent from "./abstract-smart-component";
-// import {getRandomArrayItem, AUTHORS} from "../mock/card-film";
-
-// import dayjs from "dayjs";
+import dayjs from "dayjs";
 import Keydown from "../const";
 
 const EMOJI_PATH = `./images/emoji/`;
@@ -194,7 +192,7 @@ export default class FilmDetailsView extends AbstractSmartComponent {
   }
 
   setCommentSubmitHandler(callback) {
-    this._callback.keydown = callback; // submit?
+    this._callback.keydown = callback;
     document.addEventListener(`keydown`, (evt) => {
       if (evt.key === Keydown.ENT) {
         const commentText = this.getElement().querySelector(`.film-details__comment-input`).value; // value/textContent? - error
@@ -203,8 +201,8 @@ export default class FilmDetailsView extends AbstractSmartComponent {
           this._film.comments.push({
             text: commentText,
             emotion: emoji.value,
-            author: `Author`, // getRandomArrayItem(AUTHORS) - error
-            // date: dayjs // ?
+            author: `Author`,
+            date: dayjs
           });
           this.updateElement();
         }
@@ -212,8 +210,8 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     });
   }
   restoreHandlers() {
-    this.setCloseClickHandler(this._callback.click); // ?
-    this.setCommentElementsChangeHandler(this._callback.change); // Почему в 1 месте нужен коллбек
-    this.setCommentSubmitHandler(this._callback.keydown); // а в других можно без него даже?
+    this.setCloseClickHandler(this._callback.click);
+    this.setCommentElementsChangeHandler(this._callback.change);
+    this.setCommentSubmitHandler(this._callback.keydown);
   }
 }
