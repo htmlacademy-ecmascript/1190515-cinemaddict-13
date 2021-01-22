@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import Keydown from "../const";
 
 const EMOJI_PATH = `./images/emoji/`;
+// import formatFilmDuration from "../utils/common";
 
 const renderFilmDetailsRow = (details) => {
   return details
@@ -11,7 +12,8 @@ const renderFilmDetailsRow = (details) => {
       const {term, info} = detail;
       return `<tr class="film-details__row">
                 <td class="film-details__term">${term}</td>
-                <td class="film-details__cell">${info}</td>
+                <td class="film-details__cell">${info === `Runtime` ? dayjs().minute(info).format(`h[h] m[m]`) : info}</td>
+
               </tr>`;
     })
     .join(`\n`);
@@ -135,10 +137,6 @@ export default class DetailCardView extends AbstractSmartComponent {
     super();
     this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
-  }
-
-  getFilm() {
-    return this._film;
   }
 
   updateElement() {

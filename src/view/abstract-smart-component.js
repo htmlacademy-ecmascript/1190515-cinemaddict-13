@@ -6,7 +6,7 @@ export default class AbstractSmartComponent extends AbstractComponent {
     this._data = {};
   }
 
-  updateData(update, justDataUpdating = false) { // ?
+  updateData(update, justDataUpdating) {
     if (!update) {
       return;
     }

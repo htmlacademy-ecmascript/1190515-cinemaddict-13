@@ -14,6 +14,10 @@ export let generateDate = (format) => {
   return dayjs(date).format(format);
 };
 
+export const formatFilmDuration = (duration) => {
+  return dayjs().minute(duration).format(`h[h] m[m]`);
+};
+
 export const getRandomArrayItem = (dataArray) => {
   const randomIndex = getRandomInteger(0, dataArray.length - 1);
 

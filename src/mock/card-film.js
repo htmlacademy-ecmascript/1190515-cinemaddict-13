@@ -1,4 +1,5 @@
 import {nanoid} from "nanoid";
+import dayjs from "dayjs";
 import {
   getRandomArrayItem,
   getRandomInteger,
@@ -63,19 +64,8 @@ const generateRating = () => {
   return getRandomInteger(0, MAX_RATING_IN_PERCENTS) / 10;
 };
 
-const generateDuration = () => {
-  const duration = {
-    h: getRandomInteger(1, 3),
-    m: getRandomInteger(15, 60),
-  };
-
-  return Object.entries(duration)
-    .map(([key, value]) => value ? `${value}${key}` : ``)
-    .filter(Boolean)
-    .join(` `);
-};
-
 export const generateFilm = () => {
+  const duration = getRandomInteger(90, 180);
   return {
     id: nanoid(),
     name: getRandomArrayItem(TITLES),
@@ -84,7 +74,7 @@ export const generateFilm = () => {
     description: generateDescription(),
     rating: generateRating(),
     date: generateDate(`DD MMMM YYYY`),
-    duration: generateDuration(),
+    duration,
     genres: getRandomArrayItem(GENRES),
     comments: generateComments(getRandomInteger(0, 5)),
     age: getRandomArrayItem(AGES),
@@ -110,7 +100,7 @@ export const generateFilm = () => {
       },
       {
         term: `Runtime`,
-        info: generateDuration(),
+        info: dayjs().minute(duration).format(`h[h] m[m]`)
       },
       {
         term: `Country`,

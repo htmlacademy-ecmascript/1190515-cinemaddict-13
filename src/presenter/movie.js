@@ -1,6 +1,6 @@
 import CardView from "../view/card";
 import CardDetailsView from "../view/detail-card";
-import {POSITION, render, toggleElement, remove, replace} from "../utils/render";
+import {POSITION, render, toggleElement, replace, remove} from "../utils/render";
 import Keydown from "../const";
 
 const MODE = {
@@ -16,7 +16,7 @@ export default class Movie {
     this._onDataChange = onDataChange;
     this._mode = MODE.DEFAULT;
     this._cardComponent = null;
-    this._DetailCardComponent = null;
+    this._cardDetailsComponent = null;
     this._film = null;
     this._setCardClickHandlers = this._setCardClickHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
@@ -50,15 +50,12 @@ export default class Movie {
       this._setCardClickHandlers();
       return;
     }
-
     if (this._mode === MODE.DEFAULT) {
       replace(this._cardComponent, prevCardComponent);
     }
-
     if (this._mode === MODE.EDIT) {
       replace(this._cardDetailsComponent, prevCardDetailsComponent);
     }
-
     remove(prevCardComponent);
     remove(prevCardDetailsComponent);
   }
@@ -107,14 +104,11 @@ export default class Movie {
   }
 
   _onClickCardFilm() {
-    if (this._cardDetailsComponent.film !== this._film) {
-      return;
-    }
-    this._mode = MODE.EDIT;
     toggleElement(this._footerElement, this._cardDetailsComponent, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
     this._bodyElement.classList.add(`hide-overflow`);
     this._cardDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
+    this._mode = MODE.EDIT;
   }
 
   _onClickCloseButton() {

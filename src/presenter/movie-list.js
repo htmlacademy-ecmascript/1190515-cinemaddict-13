@@ -62,8 +62,8 @@ export default class Board {
 
   _renderFilms(container, films, onDataChange) {
     return films.map((film) => {
-      const filmsController = new MoviePresenter(container, onDataChange);
-      filmsController.render(film);
+      const filmController = new MoviePresenter(container, onDataChange);
+      filmController.render(film);
     });
   }
 
