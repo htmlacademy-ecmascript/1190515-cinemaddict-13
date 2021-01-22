@@ -9,11 +9,11 @@ const MODE = {
 };
 
 export default class Movie {
-  constructor(container, onDataChange) {
+  constructor(container, changeMode) {
     this._bodyElement = document.querySelector(`body`);
     this._footerElement = document.querySelector(`.footer`);
     this._containerComponent = container;
-    this._onDataChange = onDataChange;
+    this._changeMode = changeMode;
     this._mode = MODE.DEFAULT;
     this._cardComponent = null;
     this._cardDetailsComponent = null;
@@ -65,7 +65,7 @@ export default class Movie {
     remove(this._cardDetailsComponent);
   }
 
-  setToDefaultView() {
+  resetView() {
     if (this._mode !== MODE.DEFAULT) {
       this._closeFilmDetails();
     }
@@ -108,6 +108,7 @@ export default class Movie {
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
     this._bodyElement.classList.add(`hide-overflow`);
     this._cardDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
+    this._changeMode();
     this._mode = MODE.EDIT;
   }
 
