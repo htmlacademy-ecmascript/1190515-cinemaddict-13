@@ -20,6 +20,7 @@ export default class Movies {
       case FilterTypes.FAVORITES:
         return this._films.filter((elm) => elm.isFavorites);
     }
+    return this._films;
   }
 
   updateData(id, newFilm) {
