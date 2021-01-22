@@ -1,8 +1,10 @@
 import {generateDate} from "../utils/common";
 import AbstractSmartComponent from "./abstract-smart-component";
 import dayjs from "dayjs";
+import Keydown from "../const";
 
 const EMOJI_PATH = `./images/emoji/`;
+// import formatFilmDuration from "../utils/common";
 
 const renderFilmDetailsRow = (details) => {
   return details
@@ -10,7 +12,8 @@ const renderFilmDetailsRow = (details) => {
       const {term, info} = detail;
       return `<tr class="film-details__row">
                 <td class="film-details__term">${term}</td>
-                <td class="film-details__cell">${info}</td>
+                <td class="film-details__cell">${info === `Runtime` ? dayjs().minute(info).format(`h[h] m[m]`) : info}</td>
+
               </tr>`;
     })
     .join(`\n`);
@@ -46,7 +49,7 @@ export const createComments = (comments) => {
   return `<ul class="film-details__comments-list">${result}</ul>`;
 };
 
-export const createFilmDetailsTemplate = (film) => {
+export const createDetailCardTemplate = (film) => {
   const {name, originalName, poster, description, rating, genres, age, details, comments, isWatchlist, isWatched, isFavorites} = film;
 
   return `<section class="film-details">
@@ -129,16 +132,15 @@ export const createFilmDetailsTemplate = (film) => {
     </section>`;
 };
 
-export default class FilmDetailsView extends AbstractSmartComponent {
+export default class DetailCardView extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
     this._clickHandler = this._clickHandler.bind(this);
-    // this._closeClickHandler = null;
   }
 
-  rerender() {
-    super.rerender();
+  updateElement() {
+    super.updateElement();
   }
 
   reset() {
@@ -151,10 +153,10 @@ export default class FilmDetailsView extends AbstractSmartComponent {
       commentText.value = ``;
     }
 
-    this.rerender();
+    this.updateElement();
   }
   getTemplate() {
-    return createFilmDetailsTemplate(this._film);
+    return createDetailCardTemplate(this._film);
   }
   _clickHandler(evt) {
     evt.preventDefault();
@@ -168,7 +170,9 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     this._callback.click = callback;
     this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
   }
-  setFormElementsChangeHandler() {
+  setCommentElementsChangeHandler(callback) {
+    this._callback.change = callback;
+
     this.getElement().querySelectorAll(`[name="comment-emoji"]`).forEach((emotion) => {
       emotion.addEventListener(`change`, (evt) => {
         if (evt.target.value) {
@@ -189,26 +193,27 @@ export default class FilmDetailsView extends AbstractSmartComponent {
     });
   }
 
-  setFormSubmitHandler() {
+  setCommentSubmitHandler(callback) {
+    this._callback.keydown = callback;
     document.addEventListener(`keydown`, (evt) => {
-      if (evt.key === `Enter` && (evt.ctrlKey || evt.metaKey)) {
-        const commentText = this.getElement().querySelector(`.film-details__comment-input`).value;
+      if (evt.key === Keydown.ENT) {
+        const commentText = this.getElement().querySelector(`.film-details__comment-input`).value; // value/textContent? - error
         const emoji = this.getElement().querySelector(`[name="comment-emoji"]:checked`);
         if (commentText && emoji) {
           this._film.comments.push({
-            comment: commentText,
+            text: commentText,
             emotion: emoji.value,
-            author: `Current Author`,
-            date: dayjs()
+            author: `Author`,
+            date: dayjs
           });
-          this.rerender();
+          this.updateElement();
         }
       }
     });
   }
-  recoveryListeners() {
-    this.setCloseClickHandler(this._closeClickHandler);
-    this.setFormElementsChangeHandler();
-    this.setFormSubmitHandler();
+  restoreHandlers() {
+    this.setCloseClickHandler(this._callback.click);
+    this.setCommentElementsChangeHandler(this._callback.change);
+    this.setCommentSubmitHandler(this._callback.keydown);
   }
 }

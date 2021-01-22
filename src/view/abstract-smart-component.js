@@ -1,11 +1,30 @@
 import AbstractComponent from "./abstract-component";
 
 export default class AbstractSmartComponent extends AbstractComponent {
-  recoveryListeners() {
-    throw new Error(`Abstract method not implemented: recoveryListeners`);
+  constructor() {
+    super();
+    this._data = {};
   }
 
-  rerender() {
+  updateData(update, justDataUpdating) {
+    if (!update) {
+      return;
+    }
+
+    this._data = Object.assign(
+        {},
+        this._data,
+        update
+    );
+
+    if (justDataUpdating) {
+      return;
+    }
+
+    this.updateElement();
+  }
+
+  updateElement() { // rerender
     const oldElement = this.getElement();
     const parent = oldElement.parentElement;
 
@@ -15,6 +34,10 @@ export default class AbstractSmartComponent extends AbstractComponent {
 
     parent.replaceChild(newElement, oldElement);
 
-    this.recoveryListeners();
+    this.restoreHandlers();
+  }
+
+  restoreHandlers() { // recoveryListeners
+    throw new Error(`Abstract method not implemented: restoreHandlers`);
   }
 }

@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import sortingByDesc from "../utils/common";
 import {POSITION, render, remove} from "../utils/render";
-import Movie from "./movie";
+import MoviePresenter from "./movie";
 import NoLoadFilms from "../view/no-load-films";
 import AddExtraBlockView from "../view/add-extra-block";
 import generateFilters from "../mock/filters";
@@ -62,8 +62,8 @@ export default class Board {
 
   _renderFilms(container, films, onDataChange) {
     return films.map((film) => {
-      const filmsController = new Movie(container, onDataChange);
-      filmsController.render(film);
+      const filmController = new MoviePresenter(container, onDataChange);
+      filmController.render(film);
     });
   }
 

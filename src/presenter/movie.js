@@ -1,6 +1,6 @@
-import FilmView from "../view/card";
-import FilmDetailsView from "../view/detail-card";
-import {POSITION, render, toggleElement, replace} from "../utils/render";
+import CardView from "../view/card";
+import CardDetailsView from "../view/detail-card";
+import {POSITION, render, toggleElement, replace, remove} from "../utils/render";
 import Keydown from "../const";
 
 const MODE = {
@@ -10,13 +10,14 @@ const MODE = {
 
 export default class Movie {
   constructor(container, onDataChange) {
+    this._bodyElement = document.querySelector(`body`);
+    this._footerElement = document.querySelector(`.footer`);
     this._containerComponent = container;
     this._onDataChange = onDataChange;
     this._mode = MODE.DEFAULT;
-    this._filmComponent = null;
-    this._filmDetailsComponent = null;
+    this._cardComponent = null;
+    this._cardDetailsComponent = null;
     this._film = null;
-    this._footerElement = document.querySelector(`.footer`);
     this._setCardClickHandlers = this._setCardClickHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
     this._onClickCardFilm = this._onClickCardFilm.bind(this);
@@ -34,23 +35,34 @@ export default class Movie {
   render(film) {
     this._film = film;
 
-    const oldFilmView = this._filmComponent;
-    const oldFilmDetailsView = this._filmDetailsComponent;
+    const prevCardComponent = this._cardComponent;
+    const prevCardDetailsComponent = this._cardDetailsComponent;
 
-    this._filmComponent = new FilmView(film);
-    this._filmDetailsComponent = new FilmDetailsView(film);
+    this._cardComponent = new CardView(film);
+    this._cardDetailsComponent = new CardDetailsView(film);
 
-    this._filmComponent.setAddToWatchlistButtonClickHandler(this._setAddToWatchlist);
-    this._filmComponent.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
-    this._filmComponent.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
+    this._cardComponent.setAddToWatchlistButtonClickHandler(this._setAddToWatchlist);
+    this._cardComponent.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
+    this._cardComponent.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
 
-    if (oldFilmView && oldFilmDetailsView) {
-      replace(oldFilmView, this._filmComponent);
-      replace(oldFilmDetailsView, this._filmDetailsComponent);
-    } else {
-      render(this._containerComponent, this._filmComponent, POSITION.BEFOREEND);
+    if (prevCardComponent === null || prevCardDetailsComponent === null) {
+      render(this._containerComponent, this._cardComponent, POSITION.BEFOREEND);
+      this._setCardClickHandlers();
+      return;
     }
-    this._setCardClickHandlers();
+    if (this._mode === MODE.DEFAULT) {
+      replace(this._cardComponent, prevCardComponent);
+    }
+    if (this._mode === MODE.EDIT) {
+      replace(this._cardDetailsComponent, prevCardDetailsComponent);
+    }
+    remove(prevCardComponent);
+    remove(prevCardDetailsComponent);
+  }
+
+  destroy() {
+    remove(this._cardComponent);
+    remove(this._cardDetailsComponent);
   }
 
   setToDefaultView() {
@@ -78,24 +90,25 @@ export default class Movie {
   }
 
   _setCardClickHandlers() {
-    this._filmComponent.setClickHandler(this._onClickCardFilm);
-    this._filmDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
-    this._filmDetailsComponent.setFormElementsChangeHandler();
-    this._filmDetailsComponent.setFormSubmitHandler();
+    this._cardComponent.setClickHandler(this._onClickCardFilm);
+    this._cardDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
+    this._cardDetailsComponent.setCommentElementsChangeHandler();
+    this._cardDetailsComponent.setCommentSubmitHandler();
   }
 
   _closeFilmDetails() {
-    this._filmDetailsComponent.reset();
-    toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
+    toggleElement(this._footerElement, this._cardDetailsComponent, `hide`);
     document.removeEventListener(`keydown`, this._onEscapeKeyPress);
+    this._bodyElement.classList.remove(`hide-overflow`);
     this._mode = MODE.DEFAULT;
   }
 
   _onClickCardFilm() {
-    this._mode = MODE.EDIT;
-    toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
+    toggleElement(this._footerElement, this._cardDetailsComponent, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
-    this._filmDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
+    this._bodyElement.classList.add(`hide-overflow`);
+    this._cardDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
+    this._mode = MODE.EDIT;
   }
 
   _onClickCloseButton() {
