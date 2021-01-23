@@ -1,6 +1,7 @@
 import {generateDate} from "../utils/common";
 import AbstractSmartComponent from "./abstract-smart-component";
 import dayjs from "dayjs";
+// import CommentsModel from "../model/comments";
 // import Keydown from "../const";
 
 const EMOJI_PATH = `./images/emoji/`;

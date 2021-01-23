@@ -1,6 +1,7 @@
 export default class Comments {
-  constructor(allComments) {
-    this._allComments = allComments;
+  constructor(comments) {
+    this._allComments = comments;
+    this._commentForDeleteIds = [];
   }
 
   getComments(ids) {
@@ -10,6 +11,23 @@ export default class Comments {
   }
 
   addComment(comment) {
-    this._allComments.push(comment);
+    this._allComments = [].concat(this._allComments, comment);
+  }
+  deleteComments() {
+    this._commentForDeleteIds.forEach((id) => {
+      const deleteCommentIndex = this._allComments.findIndex((comment) => comment.id === id);
+      if (deleteCommentIndex > -1) {
+        this._allComments = [].concat(this._allComments.slice(0, deleteCommentIndex), this._allComments.slice(deleteCommentIndex + 1));
+      }
+    });
+    this._commentForDeleteIds = [];
+  }
+
+  addCommentForDelete(id) {
+    this._commentForDeleteIds.push(parseInt(id, 10));
+  }
+
+  getCommentsForDelete() {
+    return this._commentForDeleteIds;
   }
 }

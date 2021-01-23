@@ -1,12 +1,11 @@
-import dayjs from "dayjs";
-import sortingByDesc from "../utils/common";
+// import dayjs from "dayjs";
 import {POSITION, render, remove} from "../utils/render";
 import MoviePresenter from "./movie";
 import NoLoadFilms from "../view/no-load-films";
 import AddExtraBlockView from "../view/add-extra-block";
 // import generateFilters from "../mock/filters";
 import NavigationView from "../view/navigation";
-import {SortingView, SORTING_DATA_TYPE} from "../view/sorting";
+import {SortingView} from "../view/sorting";
 import ContentView from "../view/content";
 import LoadMoreButtonView from "../view/load-more";
 
@@ -83,39 +82,6 @@ export default class Board {
     if (this._showFilmsCountPerStep >= this._films.length) {
       remove(this._loadMoreButtonComponent);
     }
-  }
-
-  _getSortedFilms(films, sortingType, from, to) {
-    let sortedFilms = [];
-    const showFilms = films.slice();
-    switch (sortingType) {
-      case SORTING_DATA_TYPE.DATE:
-        sortedFilms = showFilms.sort((a, b) => {
-          const bDate = dayjs(b.details.find((detail) => detail.term === `Release Date`).info);
-          const aDate = dayjs(a.details.find((detail) => detail.term === `Release Date`).info);
-          return bDate - aDate;
-        }).slice(from, to);
-        break;
-      case SORTING_DATA_TYPE.RATING:
-        sortedFilms = this._getFilmsSortingByRating(showFilms, from, to);
-        break;
-      case SORTING_DATA_TYPE.DEFAULT:
-        sortedFilms = showFilms.slice(from, to);
-        break;
-    }
-    return sortedFilms;
-  }
-
-  _getFilmsSortingByRating(films, from, to) {
-    return films.slice().sort((a, b) => {
-      return sortingByDesc(a.rating, b.rating);
-    }).slice(from, to);
-  }
-
-  _getFilmsSortingByCommentsCount(films, from, to) {
-    return films.slice().sort((a, b) => {
-      return sortingByDesc(a.comments.length, b.comments.length);
-    }).slice(from, to);
   }
 
   _renderExtraBlocks(filmsContainer, data) {
