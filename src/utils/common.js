@@ -38,4 +38,3 @@ export const sortingByDesc = (a, b) => {
   return b - a;
 };
 
-// export default sortingByDesc;

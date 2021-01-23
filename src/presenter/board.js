@@ -2,11 +2,12 @@ import {POSITION, render, remove} from "../utils/render";
 import NoLoadFilmsView from "../view/no-load-films";
 import SortingView from "../view/sorting";
 import ContentView from "../view/content";
-// import NavigationView from "../view/navigation";
 import LoadMoreButtonView from "../view/load-more";
 import renderFilms from "./movie";
 import FiltersPresenter from "./filter";
 import ExtraBlockPresenter from "./extra-block";
+import {sortingByDesc} from "../utils/common";
+import MoviesModel from "../model/movies";
 
 const FILMS_PER_COUNT = 5;
 const FILM_COUNT_ADDITION = 2;
@@ -20,12 +21,12 @@ export default class BoardPresenter {
     this._noFilm = new NoLoadFilmsView();
     this._filtersPresenter = new FiltersPresenter(this._container, moviesModel);
     this._showFilmsPerCount = FILMS_PER_COUNT;
-    this._renderLoadMoreButton = this._renderLoadMoreButton.bind(this);
-    this._moviesModel = moviesModel;
+    this._moviesModel = new MoviesModel();
     this._commentsModel = commentsModel;
     this._films = [];
     this._showFilms = [];
     this._filmsInExtraBlocks = [];
+    this._renderLoadMoreButton = this._renderLoadMoreButton.bind(this);
     this._renderSortingFilms = this._renderSortingFilms.bind(this);
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
@@ -33,7 +34,7 @@ export default class BoardPresenter {
     this._removeFilms = this._removeFilms.bind(this);
     this._onExtraBlockChange = this._onExtraBlockChange.bind(this);
     this._moviesModel.setFilterChangeHandler(this._onFilterChange);
-    this._moviesModel.setAdditionBlockChangeHandler(this._onAdditionBlockChange);
+    this._moviesModel.setAdditionBlockChangeHandler(this._onExtraBlockChange);
     this._filmListContainerElement = null;
     this._filmContainerElement = null;
     this._extraBlockPresenter = null;
@@ -69,7 +70,7 @@ export default class BoardPresenter {
     }
   }
 
-  _handleLoadMoreButton() {
+  _renderLoadMoreButton() {
     render(this._filmListContainer, this._loadMoreButton, POSITION.AFTEREND);
     this._loadMoreButton.setClickHandler(() => {
       const prevFilmsCount = this._showFilmsPerCount;
@@ -136,5 +137,16 @@ export default class BoardPresenter {
     });
     this._showFilms = [].concat(this._filmsInExtraBlocks);
     remove(this._moreButton);
+  }
+  _getFilmsSortingByRating(films, from, to) {
+    return films.slice().sort((a, b) => {
+      return sortingByDesc(a.rating, b.rating);
+    }).slice(from, to);
+  }
+
+  _getFilmsSortingByCommentsCount(films, from, to) {
+    return films.slice().sort((a, b) => {
+      return sortingByDesc(a.comments.length, b.comments.length);
+    }).slice(from, to);
   }
 }

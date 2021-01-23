@@ -1,5 +1,5 @@
 import {POSITION, render} from "../utils/render";
-import AddExtraBlockView from "../view/extra-block";
+import AddExtraBlockView from "../view/add-extra-block";
 import {getFilmsSortingByCommentsCount, getFilmsSortingByRating} from "../utils/film";
 import renderFilms from "./movie";
 

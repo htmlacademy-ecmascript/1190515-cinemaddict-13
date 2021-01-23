@@ -2,14 +2,14 @@ import {FilterTypes} from "../presenter/filter";
 import {getFilmsSortingByRating} from "../utils/film";
 import {SORTING_DATA_TYPE} from "../view/sorting";
 
-export default class Movies {
+export default class MoviesModel {
   constructor(films) {
     this._films = films;
     this._currentFilterType = FilterTypes.ALL;
     this._filterChangeHandlers = [];
     this._dataChangeHandlers = [];
     this._dataCommentsChangeHandlers = [];
-    this._additionExtraBlockChangeHandlers = [];
+    this._extraBlockChangeHandlers = [];
   }
 
   getAllFilms() {
@@ -43,7 +43,7 @@ export default class Movies {
     const isCommentsUpdate = !(this._films[index].comments === newFilm.comments);
     if (isCommentsUpdate) {
       this._callHandlers(this._dataCommentsChangeHandlers);
-      this._callHandlers(this._additionBlockChangeHandlers);
+      this._callHandlers(this._extraBlockChangeHandlers);
     }
   }
 
@@ -61,7 +61,7 @@ export default class Movies {
   }
 
   setAdditionBlockChangeHandler(callback) {
-    this._additionBlockChangeHandlers.push(callback);
+    this._extraBlockChangeHandlers.push(callback);
   }
 
   setCommentsDataChangeHAndler(callback) {

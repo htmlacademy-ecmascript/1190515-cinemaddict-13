@@ -14,7 +14,7 @@ export const createSortingTemplate = () => {
   </ul>`;
 };
 
-export class SortingView extends AbstractComponent {
+export default class SortingView extends AbstractComponent {
   constructor() {
     super();
     this._currentSortingType = SORTING_DATA_TYPE.DEFAULT;
