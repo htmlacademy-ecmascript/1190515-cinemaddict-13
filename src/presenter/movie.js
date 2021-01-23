@@ -16,19 +16,20 @@ const FormFilterTypes = {
   FAVORITE: `favorite`
 };
 
-export const renderFilms = (container, films) => {
+export const renderFilms = (container, films, onDataChange, commentsModel) => {
   return films.map((film) => {
-    const moviePresenter = new MoviePresenter(container, handleModeChange, films, onDataChange, commentsModel);
+    const moviePresenter = new MoviePresenter(container, onDataChange, commentsModel);
     moviePresenter.render(film);
   });
 };
 
 export default class MoviePresenter {
-  constructor(container, changeMode, onDataChange, commentsModel) {
+  constructor(container, onDataChange, commentsModel) {
     this._bodyElement = document.querySelector(`body`);
     this._footerElement = document.querySelector(`.footer`);
     this._container = container;
-    this._changeMode = changeMode;
+    this._onDataChange = onDataChange;
+    // this._changeMode = changeMode;
     this._filmCommentsModel = commentsModel;
     this._mode = MODE.DEFAULT;
     this._cardComponent = null;

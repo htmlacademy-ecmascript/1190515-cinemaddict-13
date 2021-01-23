@@ -1,20 +1,19 @@
-// import dayjs from "dayjs";
 import {POSITION, render, remove} from "../utils/render";
 import NoLoadFilmsView from "../view/no-load-films";
 import SortingView from "../view/sorting";
 import ContentView from "../view/content";
-import NavigationView from "../view/navigation";
+// import NavigationView from "../view/navigation";
 import LoadMoreButtonView from "../view/load-more";
 import renderFilms from "./movie";
 import FiltersPresenter from "./filter";
 import ExtraBlockPresenter from "./extra-block";
 
 const FILMS_PER_COUNT = 5;
+const FILM_COUNT_ADDITION = 2;
 
 export default class BoardPresenter {
   constructor(container, moviesModel, commentsModel) {
     this._container = container;
-    this._navigation = new NavigationView(filters);
     this._sorting = new SortingView();
     this._content = new ContentView();
     this._loadMoreButton = new LoadMoreButtonView();
@@ -44,7 +43,6 @@ export default class BoardPresenter {
     this._films = this._moviesModel.getFilms();
     this._filtersPresenter.render();
 
-    render(this._container, this._navigation, POSITION.AFTERBEGIN);
     render(this._container, this._sorting, POSITION.BEFOREEND);
     render(this._container, this._content, POSITION.BEFOREEND);
 
@@ -52,8 +50,8 @@ export default class BoardPresenter {
     this._filmListElement = this._filmsContainer.querySelector(`.films-list`);
     this._filmListContainer = this._container.querySelector(`.films-list__container`);
 
-    // const filmsSortingByRating = this._getFilmsSortingByRating(this._films, 0, FILM_COUNT_ADDITION);
-    // const filmsSortingByCommentsCount = this._getFilmsSortingByCommentsCount(this._films, 0, FILM_COUNT_ADDITION);
+    const filmsSortingByRating = this._getFilmsSortingByRating(this._films, 0, FILM_COUNT_ADDITION);
+    const filmsSortingByCommentsCount = this._getFilmsSortingByCommentsCount(this._films, 0, FILM_COUNT_ADDITION);
 
     if (this._films.length > 0) {
       const showFilms = renderFilms(this._filmListContainer, this._moviesModel.getSortedFilms(this._sorting.getCurrentSortingType(), 0, this._showFilmsPerCount), this._onDataChange, this._commentsModel);
