@@ -8,7 +8,7 @@ const MODE = {
   EDIT: `edit`,
 };
 
-export default class Movie {
+export default class MoviePresenter {
   constructor(container, changeMode) {
     this._bodyElement = document.querySelector(`body`);
     this._footerElement = document.querySelector(`.footer`);

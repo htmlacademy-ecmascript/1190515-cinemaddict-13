@@ -1,25 +1,29 @@
 import {POSITION, render} from "./utils/render";
-import BoardPresenter from "./presenter/movie-list";
-import {generateFilms} from "./mock/card-film";
-import generateFilters from "./mock/filters";
+import BoardPresenter from "./presenter/board";
+import {generateFilms, getAllComments} from "./mock/card-film";
 import ProfileView from "./view/profile";
 import FooterStatisticsView from "./view/footer-statistic";
 import {generateUserRank} from "./mock/user-rank";
+import MoviesModel from "./models/movies";
+import CommentsModel from "./models/comments";
 
 const FILM_COUNT = 17;
 
-const headerContainer = document.querySelector(`.header`);
-const mainContainer = document.querySelector(`.main`);
-const footerContainer = document.querySelector(`.footer`);
+const headerContainerElement = document.querySelector(`.header`);
+const mainContainerElement = document.querySelector(`.main`);
+const footerContainerElement = document.querySelector(`.footer`);
 
 const films = generateFilms(FILM_COUNT);
-const filters = generateFilters(films);
+const comments = getAllComments;
+
+const moviesModel = new MoviesModel(films);
+const commentsModel = new CommentsModel(comments);
 
 const userRankLabel = generateUserRank(films);
-render(headerContainer, new ProfileView(userRankLabel), POSITION.BEFOREEND);
+render(headerContainerElement, new ProfileView(userRankLabel), POSITION.BEFOREEND);
 
-new BoardPresenter(mainContainer, filters).render(films);
+new BoardPresenter(mainContainerElement, moviesModel, commentsModel).render(films);
 
-const statisticsContainer = footerContainer.querySelector(`.footer__statistics`);
+const statisticsContainer = footerContainerElement.querySelector(`.footer__statistics`);
 render(statisticsContainer, new FooterStatisticsView(films.length), POSITION.BEFOREEND);
 

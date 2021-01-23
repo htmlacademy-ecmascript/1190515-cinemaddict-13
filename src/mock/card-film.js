@@ -40,18 +40,24 @@ const EMOTIONS = [
   `sleeping`
 ];
 
+export const getAllComments = [];
+
 export const generateComments = () => {
-  const result = [];
+  const ids = [];
   const commentsCount = getRandomInteger(0, 5);
   for (let i = 0; i < commentsCount; i++) {
-    result.push({
+    const id = nanoid() + i;
+    const comment = {
+      id,
       emotion: getRandomArrayItem(EMOTIONS),
-      author: getRandomArrayItem(AUTHORS),
+      author: getRandomArrayItem(AUTHORS)[i],
       text: getRandomArrayItem(COMMENTS),
       commentDate: generateDate(),
-    });
+    };
+    getAllComments.push(comment);
+    ids.push(id);
   }
-  return result;
+  return ids;
 };
 
 const generateDescription = () => {

@@ -13,7 +13,7 @@ const FILMS_COUNT_PER_STEP = 5;
 const FILM_COUNT_ADDITION = 2;
 const ADDITION_CONTAINER_TITLES = [`Top rated`, `Most commented`];
 
-export default class Board {
+export default class BoardPresenter {
   constructor(container, filters, films) {
     this._containerComponent = container;
     this._navigationComponent = new NavigationView(filters);
