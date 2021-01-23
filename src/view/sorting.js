@@ -54,5 +54,20 @@ export class SortingView extends AbstractComponent {
       callback(this._currentSortingType);
     });
   }
+  setDefaultSortType() {
+    if (this._currentSortType === SORTING_DATA_TYPE.DEFAULT) {
+      return;
+    }
+
+    this.getElement().querySelectorAll(`.sort__button`).forEach((sortButton) => {
+      if (sortButton.getAttribute(`data-type`) === SORTING_DATA_TYPE.DEFAULT) {
+        sortButton.classList.add(`sort__button--active`);
+      } else {
+        sortButton.classList.remove(`sort__button--active`);
+      }
+    });
+
+    this._currentSortType = SORTING_DATA_TYPE.DEFAULT;
+  }
 }
 

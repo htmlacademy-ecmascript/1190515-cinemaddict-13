@@ -1,7 +1,7 @@
 import {generateDate} from "../utils/common";
 import AbstractSmartComponent from "./abstract-smart-component";
 import dayjs from "dayjs";
-import Keydown from "../const";
+// import Keydown from "../const";
 
 const EMOJI_PATH = `./images/emoji/`;
 // import formatFilmDuration from "../utils/common";
@@ -30,7 +30,7 @@ const renderGenres = (genres) => {
 
 export const createComments = (comments) => {
   const result = comments.map((comment) => {
-    const {emotion, text, author, date} = comment;
+    const {emotion, text, author, date, id} = comment;
     const commentDate = generateDate(`DD MMMM YYYY`, date);
     return `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
@@ -41,7 +41,7 @@ export const createComments = (comments) => {
         <p class="film-details__comment-info">
           <span class="film-details__comment-author">${author}</span>
           <span class="film-details__comment-day">${commentDate}</span>
-          <button class="film-details__comment-delete">Delete</button>
+          <button class="film-details__comment-delete" data-id="${id}">Delete</button>
         </p>
       </div>
     </li>`;
@@ -49,8 +49,8 @@ export const createComments = (comments) => {
   return `<ul class="film-details__comments-list">${result}</ul>`;
 };
 
-export const createDetailCardTemplate = (film) => {
-  const {name, originalName, poster, description, rating, genres, age, details, comments, isWatchlist, isWatched, isFavorites} = film;
+export const createDetailCardTemplate = (film, comments) => {
+  const {name, originalName, poster, description, rating, genres, age, details, isWatchlist, isWatched, isFavorites} = film;
 
   return `<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -133,9 +133,12 @@ export const createDetailCardTemplate = (film) => {
 };
 
 export default class DetailCardView extends AbstractSmartComponent {
-  constructor(film) {
+  constructor(film, commentsModel) {
     super();
     this._film = film;
+    this._commentsModel = commentsModel;
+    this._setFilterInputHandler = null;
+    this._deleteButtonHandler = null;
     this._clickHandler = this._clickHandler.bind(this);
   }
 
@@ -156,7 +159,7 @@ export default class DetailCardView extends AbstractSmartComponent {
     this.updateElement();
   }
   getTemplate() {
-    return createDetailCardTemplate(this._film);
+    return createDetailCardTemplate(this._film, this._commentsModel.getComments(this._film.comments));
   }
   _clickHandler(evt) {
     evt.preventDefault();
@@ -193,27 +196,41 @@ export default class DetailCardView extends AbstractSmartComponent {
     });
   }
 
-  setCommentSubmitHandler(callback) {
-    this._callback.keydown = callback;
-    document.addEventListener(`keydown`, (evt) => {
-      if (evt.key === Keydown.ENT) {
-        const commentText = this.getElement().querySelector(`.film-details__comment-input`).value; // value/textContent? - error
-        const emoji = this.getElement().querySelector(`[name="comment-emoji"]:checked`);
-        if (commentText && emoji) {
-          this._film.comments.push({
-            text: commentText,
-            emotion: emoji.value,
-            author: `Author`,
-            date: dayjs
-          });
-          this.updateElement();
-        }
-      }
+  // setCommentSubmitHandler(callback) {
+  //   this._callback.keydown = callback;
+  //   document.addEventListener(`keydown`, (evt) => {
+  //     if (evt.key === Keydown.ENT) {
+  //       const commentText = this.getElement().querySelector(`.film-details__comment-input`).value; // value/textContent? - error
+  //       const emoji = this.getElement().querySelector(`[name="comment-emoji"]:checked`);
+  //       if (commentText && emoji) {
+  //         this._film.comments.push({
+  //           text: commentText,
+  //           emotion: emoji.value,
+  //           author: `Author`,
+  //           date: dayjs
+  //         });
+  //         this.updateElement();
+  //       }
+  //     }
+  //   });
+  // }
+  setFormFilterInputChangeHandler(callback) {
+    this.getElement().querySelector(`[name="watchlist"]`).addEventListener(`change`, this.__clickHandler);
+    this.getElement().querySelector(`[name="watched"]`).addEventListener(`change`, this.__clickHandler);
+    this.getElement().querySelector(`[name="favorite"]`).addEventListener(`change`, this.__clickHandler);
+    this._setFilterInputHandler = callback;
+  }
+  setDeleteCommentButtonClickHandler(callback) {
+    this.getElement().querySelectorAll(`.film-details__comment-delete`).forEach((deleteButton) => {
+      deleteButton.addEventListener(`click`, this.__clickHandler);
     });
+    this._deleteButtonHandler = callback;
   }
   restoreHandlers() {
     this.setCloseClickHandler(this._callback.click);
     this.setCommentElementsChangeHandler(this._callback.change);
-    this.setCommentSubmitHandler(this._callback.keydown);
+    // this.setCommentSubmitHandler(this._callback.keydown);
+    this.setFormFilterInputChangeHandler(this._setFilterInputHandler);
+    this.setDeleteCommentButtonClickHandler(this._deleteButtonHandler);
   }
 }
