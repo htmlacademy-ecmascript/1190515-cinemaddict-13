@@ -54,8 +54,8 @@ export class SortingView extends AbstractComponent {
       callback(this._currentSortingType);
     });
   }
-  setDefaultSortType() {
-    if (this._currentSortType === SORTING_DATA_TYPE.DEFAULT) {
+  setDefaultSortingType() {
+    if (this._currentSortingType === SORTING_DATA_TYPE.DEFAULT) {
       return;
     }
 
@@ -67,7 +67,7 @@ export class SortingView extends AbstractComponent {
       }
     });
 
-    this._currentSortType = SORTING_DATA_TYPE.DEFAULT;
+    this._currentSortingType = SORTING_DATA_TYPE.DEFAULT;
   }
 }
 

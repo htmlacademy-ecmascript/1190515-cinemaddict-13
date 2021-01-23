@@ -8,7 +8,7 @@ export const FilterTypes = {
   FAVORITES: `favorites`
 };
 
-export default class FilterPresenter {
+export default class FiltersPresenter {
   constructor(container, moviesModel) {
     this._container = container;
     this._moviesModel = moviesModel;
@@ -20,11 +20,11 @@ export default class FilterPresenter {
   }
 
   render() {
-    const oldNavigation = this._navigation;
+    const prevNavigation = this._navigation;
     this._navigation = new NavigationView(this._generateFilters());
     this._navigation.setFilterChangeHandler(this._setChangeFilterHandlers);
-    if (oldNavigation) {
-      replace(oldNavigation, this._navigation);
+    if (prevNavigation) {
+      replace(prevNavigation, this._navigation);
     } else {
       render(this._container, this._navigation, POSITION.AFTERBEGIN);
     }

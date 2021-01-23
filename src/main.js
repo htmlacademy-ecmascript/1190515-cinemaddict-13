@@ -4,8 +4,8 @@ import {generateFilms, getAllComments} from "./mock/card-film";
 import ProfileView from "./view/profile";
 import FooterStatisticsView from "./view/footer-statistic";
 import {generateUserRank} from "./mock/user-rank";
-import MoviesModel from "./models/movies";
-import CommentsModel from "./models/comments";
+import MoviesModel from "./model/movies";
+import CommentsModel from "./model/comments";
 
 const FILM_COUNT = 17;
 
