@@ -20,11 +20,11 @@ export default class BoardPresenter {
     this._sorting = new SortingView();
     this._content = new ContentView();
     this._loadMoreButton = new LoadMoreButtonView();
-    this._noFilm = new NoLoadFilmsView();
+    this._noLoadFilms = new NoLoadFilmsView();
     this._filtersPresenter = new FiltersPresenter(this._container, moviesModel);
+    this._moviePresenter = new MoviePresenter(this._container, changeMode);
     this._showFilmsPerCount = FILMS_PER_COUNT;
     this._moviesModel = moviesModel;
-    this._moviePresenter = new MoviePresenter(this._container, changeMode);
     this._commentsModel = commentsModel;
     this._changeMode = changeMode;
     this._films = [];
@@ -38,10 +38,11 @@ export default class BoardPresenter {
     this._removeFilms = this._removeFilms.bind(this);
     this._onExtraBlockChange = this._onExtraBlockChange.bind(this);
     this._moviesModel.setFilterChangeHandler(this._onFilterChange);
-    this._moviesModel.setAdditionBlockChangeHandler(this._onExtraBlockChange);
+    this._moviesModel.setExtraBlockChangeHandler(this._onExtraBlockChange);
     this._handleModeChange = this._handleModeChange.bind(this);
-    this._filmListContainerElement = null;
-    this._filmContainerElement = null;
+    this._filmListContainer = null;
+    this._filmsContainer = null;
+    this._filmListElement = null;
     this._extraBlockPresenter = null;
   }
 
@@ -52,16 +53,15 @@ export default class BoardPresenter {
     render(this._container, this._sorting, POSITION.BEFOREEND);
     render(this._container, this._content, POSITION.BEFOREEND);
 
-    this._filmsContainer = this._container.querySelector(`.films`);
-    this._filmListElement = this._filmsContainer.querySelector(`.films-list`);
+    this._filmContainer = this._container.querySelector(`.films`);
     this._filmListContainer = this._container.querySelector(`.films-list__container`);
 
-    const filmsSortingByRating = this._getFilmsSortingByRating();
-    const filmsSortingByCommentsCount = this._getFilmsSortingByCommentsCount();
-    const data = [filmsSortingByRating, filmsSortingByCommentsCount];
+    const filmSortingByRating = this._getFilmsSortingByRating();
+    const filmSortingByCommentsCount = this._getFilmsSortingByCommentsCount();
+    const data = [filmSortingByRating, filmSortingByCommentsCount];
 
     if (this._films.length > 0) {
-      const showFilms = renderFilms(this._filmListContainer, this._moviesModel.getSortedFilms(this._sorting.getCurrentSortingType(), 0, this._showFilmsPerCount), this._commentsModel); // this._onDataChange
+      const showFilms = renderFilms(this._filmListContainer, this._moviesModel.getSortedFilms(this._sorting.getCurrentSortingType(), 0, this._showFilmsPerCount), this._onDataChange, this._commentsModel);
       this._showFilms = this._showFilms.concat(showFilms);
       this._renderLoadMoreButton();
       this._extraBlockPresenter = new ExtraBlockPresenter(this._filmContainer, data, this._moviesModel, this._onDataChange, this._commentsModel);
@@ -72,7 +72,7 @@ export default class BoardPresenter {
       this._renderSortingFilms();
     } else {
       this._filmListContainer.remove();
-      render(this._filmListElement, this._noLoadFilms, POSITION.BEFOREEND);
+      render(this._filmContainer.querySelector(`.films-list`), this._noLoadFilms, POSITION.BEFOREEND);
     }
   }
 
@@ -95,7 +95,7 @@ export default class BoardPresenter {
     this._sorting.setSortingTypeChangeHandler((sortingType) => {
       this._showFilmsPerCount = FILMS_PER_COUNT;
       this._filmListContainer.innerHTML = ``;
-      remove(this._loadMoreButtonComponent);
+      remove(this._loadMoreButton);
 
       const showFilms = renderFilms(this._filmListContainer, this.moviesModel.getSortedFilms(sortingType, 0, this._showFilmsPerCount), this._onDataChange, this._commentsModel);
       this._showFilms = [].concat(showFilms);
@@ -142,7 +142,7 @@ export default class BoardPresenter {
       }
     });
     this._showFilms = [].concat(this._filmsInExtraBlocks);
-    remove(this._moreButton);
+    remove(this._loadMoreButton);
   }
   _getFilmsSortingByRating() {
     return getFilmsSortingByRating(this._moviesModel.getAllFilms(), 0, FILM_COUNT_ADDITION);

@@ -60,7 +60,7 @@ export default class MoviesModel {
     this._dataChangeHandlers.push(callback);
   }
 
-  setAdditionBlockChangeHandler(callback) {
+  setExtraBlockChangeHandler(callback) {
     this._extraBlockChangeHandlers.push(callback);
   }
 
@@ -72,7 +72,7 @@ export default class MoviesModel {
     callbacks.forEach((callback) => callback());
   }
 
-  _getFilmsSortByRating(from, to) {
+  _getFilmsSortingByRating(from, to) {
     return getFilmsSortingByRating(this.getFilms(), from, to);
   }
 
@@ -85,7 +85,7 @@ export default class MoviesModel {
           return bDate - aDate;
         }).slice(from, to);
       case SORTING_DATA_TYPE.RATING:
-        return this._getFilmsSortByRating(from, to);
+        return this._getFilmsSortingByRating(from, to);
       case SORTING_DATA_TYPE.DEFAULT:
         return this.getFilms().slice(from, to);
     }

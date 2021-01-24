@@ -44,7 +44,7 @@ export const FILM_POSTERS = [
 export const GENRES = [`Musical`, `Western`, `Drama`, `Comedy`, `Cartoon`, `Mystery`];
 export const NAMES = [`Anthony Mannet`, `Anne Wigton`, `Heinz Herald`, `Richard Weil`, `Erich von Stroheim`, `Mary Beth Hughes`, `Dan Duryea`];
 export const COUNTRIES = [`USA`, `Russia`, `Germany`, `France`, `Italy`];
-export const AGES = [0, 6, 12, 16, 18];
+export const AGES = [0, 6, 10, 14, 18];
 
 export const Keydown = {
   ENT: `Enter`,

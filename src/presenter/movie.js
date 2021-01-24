@@ -1,11 +1,20 @@
+import {nanoid} from "nanoid";
+import dayjs from "dayjs";
 import CardView from "../view/card";
 import CardDetailsView from "../view/detail-card";
 import {POSITION, render, toggleElement, replace, remove} from "../utils/render";
 import Keydown from "../const";
 
+
 const MODE = {
   DEFAULT: `default`,
   EDIT: `edit`,
+};
+
+const FormFilterTypes = {
+  WATCHLIST: `watchlist`,
+  WATCHED: `watched`,
+  FAVORITE: `favorite`
 };
 
 export const renderFilms = (container, films, onDataChange, commentsModel) => {
@@ -16,14 +25,16 @@ export const renderFilms = (container, films, onDataChange, commentsModel) => {
 };
 
 export default class MoviePresenter {
-  constructor(container, changeMode) {
+  constructor(container, changeMode, onDataChange, commentsModel) {
     this._bodyElement = document.querySelector(`body`);
     this._footerElement = document.querySelector(`.footer`);
-    this._containerComponent = container;
+    this._container = container;
     this._changeMode = changeMode;
+    this._onDataChange = onDataChange;
+    this._filmCommentsModel = commentsModel;
     this._mode = MODE.DEFAULT;
-    this._cardComponent = null;
-    this._cardDetailsComponent = null;
+    this._card = null;
+    this._cardDetails = null;
     this._film = null;
     this._setCardClickHandlers = this._setCardClickHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
@@ -42,34 +53,34 @@ export default class MoviePresenter {
   render(film) {
     this._film = film;
 
-    const prevCardComponent = this._cardComponent;
-    const prevCardDetailsComponent = this._cardDetailsComponent;
+    const prevCard = this._card;
+    const prevCardDetails = this._cardDetails;
 
-    this._cardComponent = new CardView(film);
-    this._cardDetailsComponent = new CardDetailsView(film);
+    this._card = new CardView(film);
+    this._cardDetails = new CardDetailsView(film, this._filmCommentsModel);
 
-    this._cardComponent.setAddToWatchlistButtonClickHandler(this._setAddToWatchlist);
-    this._cardComponent.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
-    this._cardComponent.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
+    this._card.setAddToWatchlistButtonClickHandler(this._setAddToWatchlist);
+    this._card.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
+    this._card.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
 
-    if (prevCardComponent === null || prevCardDetailsComponent === null) {
-      render(this._containerComponent, this._cardComponent, POSITION.BEFOREEND);
+    if (prevCard === null || prevCardDetails === null) {
+      render(this._container, this._card, POSITION.BEFOREEND);
       this._setCardClickHandlers();
       return;
     }
     if (this._mode === MODE.DEFAULT) {
-      replace(this._cardComponent, prevCardComponent);
+      replace(this._card, prevCard);
     }
     if (this._mode === MODE.EDIT) {
-      replace(this._cardDetailsComponent, prevCardDetailsComponent);
+      replace(this._cardDetails, prevCardDetails);
     }
-    remove(prevCardComponent);
-    remove(prevCardDetailsComponent);
+    remove(prevCard);
+    remove(prevCardDetails);
   }
 
   destroy() {
-    remove(this._cardComponent);
-    remove(this._cardDetailsComponent);
+    remove(this._card);
+    remove(this._cardDetails);
   }
 
   resetView() {
@@ -97,10 +108,60 @@ export default class MoviePresenter {
   }
 
   _setCardClickHandlers() {
-    this._cardComponent.setClickHandler(this._onClickCardFilm);
-    this._cardDetailsComponent.setCloseClickHandler(this._onClickCloseButton);
-    this._cardDetailsComponent.setCommentElementsChangeHandler();
-    this._cardDetailsComponent.setCommentSubmitHandler();
+    this._card.setClickHandler(this._onClickCardFilm);
+    this._cardDetails.setCloseClickHandler(this._onClickCloseButton);
+    this._cardDetails.setCommentElementsChangeHandler();
+    this._cardDetails.setFormFilterInputChangeHandler(this._onChangeFormFilterInput);
+    this._cardDetails.setDeleteCommentButtonClickHandler(this._onDeleteButtonClick);
+  }
+
+  _onChangeFormFilterInput(evt) {
+    switch (evt.target.name) {
+      case FormFilterTypes.WATCHLIST:
+        this._setAddToWatchlist();
+        break;
+      case FormFilterTypes.WATCHED:
+        this._setMarkAsWatched();
+        break;
+      case FormFilterTypes.FAVORITE:
+        this._setMarkAsFavorite();
+        break;
+    }
+  }
+
+  _onSubmitForm() {
+    const filmDetails = this._filmDetails;
+    const commentText = filmDetails.getElement().querySelector(`.film-details__comment-input`).value;
+    const emoji = filmDetails.getElement().querySelector(`[name="comment-emoji"]:checked`);
+
+    const commentsIDs = this._film.comments.slice();
+
+    if (this._filmCommentsModel.getCommentsForDelete().length > 0) {
+      this._filmCommentsModel.getCommentsForDelete().forEach((commentId) => {
+        const commentIndex = commentsIDs.indexOf(commentId);
+        if (commentIndex > -1) {
+          commentsIDs.splice(commentIndex, 1);
+        }
+      });
+      this._filmCommentsModel.deleteComments();
+    }
+
+    if (commentText && emoji) {
+      const id = nanoid();
+      const newComment = {
+        id,
+        comment: commentText,
+        emotion: emoji.value,
+        author: `Current Author`,
+        date: dayjs()
+      };
+
+      this._filmCommentsModel.addComment(newComment);
+      commentsIDs.push(id);
+    }
+    this._onDataChange(this._film, Object.assign({}, this._film, {comments: commentsIDs}));
+
+    this._filmDetails.updateElement();
   }
 
   _closeFilmDetails() {
@@ -127,5 +188,12 @@ export default class MoviePresenter {
     if (evt.key === Keydown.ESC) {
       this._closeFilmDetails();
     }
+  }
+  _onDeleteButtonClick(evt) {
+    evt.preventDefault();
+    const id = evt.target.getAttribute(`data-id`);
+    this._filmCommentsModel.addCommentForDelete(id);
+    evt.target.closest(`.film-details__comment`).remove();
+    this._filmDetails.getElement().querySelector(`.film-details__comments-count`).textContent = this._filmDetails.getElement().querySelectorAll(`.film-details__comments-list > .film-details__comment`).length;
   }
 }
