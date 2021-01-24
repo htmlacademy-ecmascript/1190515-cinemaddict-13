@@ -14,7 +14,7 @@ export const createSortingTemplate = () => {
   </ul>`;
 };
 
-export class SortingView extends AbstractComponent {
+export default class SortingView extends AbstractComponent {
   constructor() {
     super();
     this._currentSortingType = SORTING_DATA_TYPE.DEFAULT;
@@ -53,6 +53,21 @@ export class SortingView extends AbstractComponent {
 
       callback(this._currentSortingType);
     });
+  }
+  setDefaultSortingType() {
+    if (this._currentSortingType === SORTING_DATA_TYPE.DEFAULT) {
+      return;
+    }
+
+    this.getElement().querySelectorAll(`.sort__button`).forEach((sortButton) => {
+      if (sortButton.getAttribute(`data-type`) === SORTING_DATA_TYPE.DEFAULT) {
+        sortButton.classList.add(`sort__button--active`);
+      } else {
+        sortButton.classList.remove(`sort__button--active`);
+      }
+    });
+
+    this._currentSortingType = SORTING_DATA_TYPE.DEFAULT;
   }
 }
 

@@ -24,7 +24,7 @@ export default class AbstractSmartComponent extends AbstractComponent {
     this.updateElement();
   }
 
-  updateElement() { // rerender
+  updateElement() { // re
     const oldElement = this.getElement();
     const parent = oldElement.parentElement;
 

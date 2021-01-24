@@ -1,4 +1,5 @@
 import AbstractComponent from "../view/abstract-component";
+
 export const POSITION = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,
