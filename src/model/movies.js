@@ -1,6 +1,7 @@
 import {FilterTypes} from "../presenter/filter";
 import {getFilmsSortingByRating} from "../utils/film";
 import {SORTING_DATA_TYPE} from "../view/sorting";
+import dayjs from "dayjs";
 
 export default class MoviesModel {
   constructor(films) {
@@ -18,8 +19,6 @@ export default class MoviesModel {
 
   getFilms() {
     switch (this._currentFilterType) {
-      case FilterTypes.ALL:
-        return this._films;
       case FilterTypes.WATCHLIST:
         return this._films.filter((elm) => elm.isWatchlist);
       case FilterTypes.HISTORY:
@@ -64,7 +63,7 @@ export default class MoviesModel {
     this._extraBlockChangeHandlers.push(callback);
   }
 
-  setCommentsDataChangeHAndler(callback) {
+  setCommentsDataChangeHandler(callback) {
     this._dataCommentsChangeHandlers.push(callback);
   }
 
@@ -80,8 +79,8 @@ export default class MoviesModel {
     switch (sortingType) {
       case SORTING_DATA_TYPE.DATE:
         return this.getFilms().slice().sort((a, b) => {
-          const bDate = new Date(b.details.find((detail) => detail.term === `Release Date`).info);
-          const aDate = new Date(a.details.find((detail) => detail.term === `Release Date`).info);
+          const bDate = dayjs(b.details.find((detail) => detail.term === `Release Date`).info);
+          const aDate = dayjs(a.details.find((detail) => detail.term === `Release Date`).info);
           return bDate - aDate;
         }).slice(from, to);
       case SORTING_DATA_TYPE.RATING:

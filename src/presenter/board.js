@@ -6,27 +6,24 @@ import LoadMoreButtonView from "../view/load-more";
 import renderFilms from "./movie";
 import FiltersPresenter from "./filter";
 import ExtraBlockPresenter from "./extra-block";
-import MoviePresenter from "./movie";
-// import {sortingByDesc} from "../utils/common";
-// import MoviesModel from "../model/movies";
+// import MoviePresenter from "./movie";
 import {getFilmsSortingByCommentsCount, getFilmsSortingByRating} from "../utils/film";
 
 const FILMS_PER_COUNT = 5;
 const FILM_COUNT_ADDITION = 2;
 
 export default class BoardPresenter {
-  constructor(container, moviesModel, commentsModel, changeMode) {
+  constructor(container, moviesModel, commentsModel) {
     this._container = container;
     this._sorting = new SortingView();
     this._content = new ContentView();
     this._loadMoreButton = new LoadMoreButtonView();
     this._noLoadFilms = new NoLoadFilmsView();
     this._filtersPresenter = new FiltersPresenter(this._container, moviesModel);
-    this._moviePresenter = new MoviePresenter(this._container, changeMode);
     this._showFilmsPerCount = FILMS_PER_COUNT;
     this._moviesModel = moviesModel;
     this._commentsModel = commentsModel;
-    this._changeMode = changeMode;
+
     this._films = [];
     this._showFilms = [];
     this._filmsInExtraBlocks = [];
@@ -36,10 +33,10 @@ export default class BoardPresenter {
     this._onFilterChange = this._onFilterChange.bind(this);
     this._updateFilms = this._updateFilms.bind(this);
     this._removeFilms = this._removeFilms.bind(this);
+    this._onFilterChange = this._onFilterChange.bind(this);
     this._onExtraBlockChange = this._onExtraBlockChange.bind(this);
     this._moviesModel.setFilterChangeHandler(this._onFilterChange);
     this._moviesModel.setExtraBlockChangeHandler(this._onExtraBlockChange);
-    this._handleModeChange = this._handleModeChange.bind(this);
     this._filmListContainer = null;
     this._filmsContainer = null;
     this._filmListElement = null;
@@ -56,9 +53,9 @@ export default class BoardPresenter {
     this._filmContainer = this._container.querySelector(`.films`);
     this._filmListContainer = this._container.querySelector(`.films-list__container`);
 
-    const filmSortingByRating = this._getFilmsSortingByRating();
-    const filmSortingByCommentsCount = this._getFilmsSortingByCommentsCount();
-    const data = [filmSortingByRating, filmSortingByCommentsCount];
+    const filmsSortingByRating = this._getFilmsSortingByRating();
+    const filmsSortingByCommentsCount = this._getFilmsSortingByCommentsCount();
+    const data = [filmsSortingByRating, filmsSortingByCommentsCount];
 
     if (this._films.length > 0) {
       const showFilms = renderFilms(this._filmListContainer, this._moviesModel.getSortedFilms(this._sorting.getCurrentSortingType(), 0, this._showFilmsPerCount), this._onDataChange, this._commentsModel);
@@ -104,12 +101,6 @@ export default class BoardPresenter {
     });
   }
 
-  _handleModeChange() {
-    Object
-      .values(this._moviePresenter)
-      .forEach((filmPresenter) => filmPresenter.resetView());
-  }
-
   _onDataChange(oldData, newData) {
     this._moviesModel.updateData(oldData.id, newData);
     const filmPresenters = this._showFilms.filter((filmPresenter) => filmPresenter.film === oldData);
@@ -129,7 +120,7 @@ export default class BoardPresenter {
     this._removeFilms();
     this._films = this._moviesModel.getFilms();
     this._sorting.setDefaultSortingType();
-    const showFilms = renderFilms(this._filmListContainer, this._moviesModel.getSortedFilms(this._sorting.getCurrentSoringtType(), 0, FILMS_PER_COUNT), this._onDataChange, this._commentsModel);
+    const showFilms = renderFilms(this._filmListContainer, this._moviesModel.getSortedFilms(this._sorting.getCurrentSoringType(), 0, FILMS_PER_COUNT), this._onDataChange, this._commentsModel);
     this._showFilms = this._showFilms.concat(showFilms);
     this._showFilmsPerCount = showFilms.length;
     this._renderLoadMoreButton();

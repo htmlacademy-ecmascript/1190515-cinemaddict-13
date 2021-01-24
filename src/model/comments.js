@@ -1,4 +1,4 @@
-export default class Comments {
+export default class CommentsModel {
   constructor(comments) {
     this._allComments = comments;
     this._commentForDeleteIds = [];
