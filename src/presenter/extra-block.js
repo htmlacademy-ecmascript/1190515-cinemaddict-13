@@ -14,6 +14,7 @@ export default class ExtraBlockPresenter {
     this._filmCommentsModel = commentsModel;
     this._showFilms = [];
     this._filmsSortingByCommentsCount = null;
+    this._filmsContainer = null;
     this._onCommentsDataChange = this._onCommentsDataChange.bind(this);
     this._moviesModel.setCommentsDataChangeHandler(this._onCommentsDataChange);
   }
@@ -22,6 +23,7 @@ export default class ExtraBlockPresenter {
     const filmsSortingByRating = this._getFilmsSortingByRating();
     const filmsSortingByCommentsCount = this._getFilmsSortingByCommentsCount();
     const data = [filmsSortingByRating, filmsSortingByCommentsCount];
+    this._filmsContainer = this._container.querySelector(`.films`);
     for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
       render(this._filmsContainer, new ExtraBlockView(), POSITION.BEFOREEND);
       const extraContainers = this._filmsContainer.querySelectorAll(`.films-list--extra`)[i];

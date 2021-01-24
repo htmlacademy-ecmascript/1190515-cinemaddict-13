@@ -8,7 +8,7 @@ export const createCardTemplate = (film) => {
   const {name, poster, description, rating, date, duration, genres, comments, isInWatchlist, isWatched, isFavorite} = film;
 
   const year = dayjs(date).format(`YYYY`);
-  const truncatedDescription = truncateString(description, MAX_DESCRIPTION_LENGTH);
+  const cutDescription = truncateString(description, MAX_DESCRIPTION_LENGTH);
 
   return `<article class="film-card">
           <h3 class="film-card__title">${name}</h3>
@@ -19,7 +19,7 @@ export const createCardTemplate = (film) => {
               <span class="film-card__genre">${genres}</span>
             </p>
           <img src="${poster}" alt="" class="film-card__poster">
-          <p class="film-card__description">${truncatedDescription}</p>
+          <p class="film-card__description">${cutDescription}</p>
           <a class="film-card__comments">${comments.length} comments</a>
           <div class="film-card__controls">
             <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist${isInWatchlist ? ` film-card__controls-item--active` : ``}">Add to watchlist</button>

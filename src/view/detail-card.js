@@ -1,11 +1,8 @@
 import {generateDate} from "../utils/common";
 import AbstractSmartComponent from "./abstract-smart-component";
 import dayjs from "dayjs";
-// import CommentsModel from "../model/comments";
-// import Keydown from "../const";
 
 const EMOJI_PATH = `./images/emoji/`;
-// import formatFilmDuration from "../utils/common";
 
 const renderFilmDetailsRow = (details) => {
   return details
@@ -14,7 +11,6 @@ const renderFilmDetailsRow = (details) => {
       return `<tr class="film-details__row">
                 <td class="film-details__term">${term}</td>
                 <td class="film-details__cell">${info === `Runtime` ? dayjs().minute(info).format(`h[h] m[m]`) : info}</td>
-
               </tr>`;
     })
     .join(`\n`);
@@ -197,24 +193,6 @@ export default class DetailCardView extends AbstractSmartComponent {
     });
   }
 
-  // setCommentSubmitHandler(callback) {
-  //   this._callback.keydown = callback;
-  //   document.addEventListener(`keydown`, (evt) => {
-  //     if (evt.key === Keydown.ENT) {
-  //       const commentText = this.getElement().querySelector(`.film-details__comment-input`).value; // value/textContent? - error
-  //       const emoji = this.getElement().querySelector(`[name="comment-emoji"]:checked`);
-  //       if (commentText && emoji) {
-  //         this._film.comments.push({
-  //           text: commentText,
-  //           emotion: emoji.value,
-  //           author: `Author`,
-  //           date: dayjs
-  //         });
-  //         this.updateElement();
-  //       }
-  //     }
-  //   });
-  // }
   setFormFilterInputChangeHandler(callback) {
     this.getElement().querySelector(`[name="watchlist"]`).addEventListener(`change`, this.__clickHandler);
     this.getElement().querySelector(`[name="watched"]`).addEventListener(`change`, this.__clickHandler);
@@ -230,7 +208,6 @@ export default class DetailCardView extends AbstractSmartComponent {
   restoreHandlers() {
     this.setCloseClickHandler(this._callback.click);
     this.setCommentElementsChangeHandler(this._callback.change);
-    // this.setCommentSubmitHandler(this._callback.keydown);
     this.setFormFilterInputChangeHandler(this._setFilterInputHandler);
     this.setDeleteCommentButtonClickHandler(this._deleteButtonHandler);
   }
