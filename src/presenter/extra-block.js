@@ -1,5 +1,5 @@
 import {POSITION, render} from "../utils/render";
-import AddExtraBlockView from "../view/add-extra-block";
+import ExtraBlockView from "../view/extra-block";
 import {getFilmsSortingByCommentsCount, getFilmsSortingByRating} from "../utils/film";
 import renderFilms from "./movie";
 
@@ -19,12 +19,14 @@ export default class ExtraBlockPresenter {
   }
 
   render() {
+    const filmsSortingByRating = this._getFilmsSortingByRating();
+    const filmsSortingByCommentsCount = this._getFilmsSortingByCommentsCount();
+    const data = [filmsSortingByRating, filmsSortingByCommentsCount];
     for (let i = 0; i < FILM_COUNT_ADDITION; i++) {
-      render(this._filmsContainer, new AddExtraBlockView(), POSITION.BEFOREEND);
+      render(this._filmsContainer, new ExtraBlockView(), POSITION.BEFOREEND);
       const extraContainers = this._filmsContainer.querySelectorAll(`.films-list--extra`)[i];
       const extraContainerFilmList = extraContainers.querySelector(`.films-list__container`);
-      const films = ADDITION_CONTAINER_TITLES[i] === `Top rated` ? this._getFilmsSortByRating() : this._getFilmsSortByCommentsCount();
-      const data = [this._filmsSortingByRating, this._filmsSortingByCommentsCount];
+      const films = ADDITION_CONTAINER_TITLES[i] === `Top rated` ? this._getFilmsSortingByRating() : this._getFilmsSortingByCommentsCount();
       extraContainers.querySelector(`.films-list__title`).textContent = ADDITION_CONTAINER_TITLES[i];
       this._showFilms = this._showFilms.concat(renderFilms(extraContainerFilmList, films, data[i], this._onDataChange, this._filmCommentsModel));
     }
