@@ -17,7 +17,7 @@ export const createNavigationTemplate = (filters, isStatisticCheck = false) => {
     </nav>`;
 };
 
-export default class NavigationView extends AbstractComponent {
+export default class Navigation extends AbstractComponent {
   constructor(filters, isStatisticCheck) {
     super();
     this._filters = filters;

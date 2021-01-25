@@ -1,7 +1,7 @@
 import {POSITION, render} from "../utils/render";
 import ExtraBlockView from "../view/extra-block";
 import {getFilmsSortByCommentsCount, getFilmsSortByRating} from "../utils/film";
-import renderFilms from "./movie";
+import {renderFilms} from "./movie";
 
 const FILM_COUNT_ADDITION = 2;
 const ADDITION_CONTAINER_TITLES = [`Top rated`, `Most commented`];

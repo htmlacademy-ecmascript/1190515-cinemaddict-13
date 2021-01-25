@@ -129,7 +129,7 @@ export const createDetailCardTemplate = (film, comments) => {
     </section>`;
 };
 
-export default class DetailCardView extends AbstractSmartComponent {
+export default class DetailCard extends AbstractSmartComponent {
   constructor(film, commentsModel) {
     super();
     this._film = film;

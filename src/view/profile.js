@@ -9,7 +9,7 @@ export const createProfileTemplate = (rank) => {
   );
 };
 
-export default class ProfileView extends AbstractComponent {
+export default class Profile extends AbstractComponent {
   constructor(rank) {
     super();
     this._rank = rank;

@@ -1,6 +1,6 @@
-import {FilterTypes} from "../controllers/filter";
+import {FilterTypes} from "../presenter/filter";
 import {getFilmsSortByRating} from "../utils/film";
-import {SORT_TYPE} from "../components/sort";
+import {SORT_TYPE} from "../view/sort";
 
 export default class Movies {
   constructor(films) {
