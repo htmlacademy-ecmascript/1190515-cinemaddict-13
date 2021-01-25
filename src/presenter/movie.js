@@ -21,26 +21,28 @@ export const renderFilms = (container, films, onDataChange, commentsModel) => {
   return films.map((film) => {
     const filmPresenter = new Movie(container, onDataChange, commentsModel);
     filmPresenter.render(film);
+    return filmPresenter;
   });
 };
 
 export default class Movie {
   constructor(container, onDataChange, commentsModel) {
+    this._bodyElement = document.querySelector(`body`);
     this._container = container;
     this._onDataChange = onDataChange;
     this._mode = Mode.DEFAULT;
     this._filmComponent = null;
     this._filmDetailsComponent = null;
-    this._film = null;
     this._footerElement = document.querySelector(`.footer`);
-    this._setMovieHandlers = this._setMovieHandlers.bind(this);
+    this._setCardHandlers = this._setCardHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
-    this._onFilmElementClick = this._onFilmElementClick.bind(this);
+    this._onCardElementClick = this._onCardElementClick.bind(this);
     this._onCloseButtonClick = this._onCloseButtonClick.bind(this);
     this._onEscapeKeyPress = this._onEscapeKeyPress.bind(this);
     this._setAddToWatchlist = this._setAddToWatchlist.bind(this);
     this._setMarkAsWatched = this._setMarkAsWatched.bind(this);
     this._setMarkAsFavorite = this._setMarkAsFavorite.bind(this);
+    this._film = null;
     this._filmCommentsModel = commentsModel;
     this._onSubmitForm = this._onSubmitForm.bind(this);
     this._onChangeFormFilterInput = this._onChangeFormFilterInput.bind(this);
@@ -70,7 +72,7 @@ export default class Movie {
     } else {
       render(this._container, this._filmComponent, POSITION.BEFOREEND);
     }
-    this._setMovieHandlers();
+    this._setCardHandlers();
   }
 
   setDefaultView() {
@@ -88,8 +90,7 @@ export default class Movie {
   _setMarkAsWatched() {
     const watchingDate = this._film.isWatched ? null : new Date();
     this._onDataChange(this._film, Object.assign({}, this._film, {
-      isWatched: !this._film.isWatched,
-      watchingDate
+      isWatched: !this._film.isWatched, watchingDate
     }));
   }
 
@@ -99,10 +100,10 @@ export default class Movie {
     }));
   }
 
-  _setMovieHandlers() {
-    this._filmComponent.setOpenCardClickHandler(this._onFilmElementClick);
-    this._filmDetailsComponent.setCloseClickHandler(this._onCloseButtonClick);
+  _setCardHandlers() {
+    this._filmComponent.setOpenCardClickHandler(this._onCardElementClick);
     this._filmDetailsComponent.setFormElementsChangeHandler();
+    // this._filmDetailsComponent.setCloseClickHandler(this._onCloseButtonClick);
     this._filmDetailsComponent.setFormFilterInputChangeHandler(this._onChangeFormFilterInput);
     this._filmDetailsComponent.setDeleteCommentButtonClickHandler(this._onDeleteButtonClick);
   }
@@ -160,13 +161,16 @@ export default class Movie {
     this._filmDetailsComponent.reset();
     toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
     document.removeEventListener(`keydown`, this._onEscapeKeyPress);
+    this._bodyElement.classList.remove(`hide-overflow`);
     this._mode = Mode.DEFAULT;
   }
 
-  _onFilmElementClick() {
+  _onCardElementClick() {
     this._mode = Mode.EDIT;
     toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
     document.addEventListener(`keydown`, this._onEscapeKeyPress);
+    this._bodyElement.classList.add(`hide-overflow`);
+    this._filmDetailsComponent.setCloseClickHandler(this._onCloseButtonClick);
   }
 
   _onCloseButtonClick() {
@@ -176,14 +180,12 @@ export default class Movie {
   _onEscapeKeyPress(evt) {
     if (evt.key === Keydown.ESC) {
       this._closeFilmDetails();
-    } else if (evt.key === Keydown.ENT && (evt.ctrlKey || evt.metaKey)) {
+    } else if (evt.key === Keydown.ENT || (evt.ctrlKey || evt.metaKey)) {
       this._onSubmitForm();
     }
   }
 
   _onDeleteButtonClick(evt) {
-    evt.preventDefault();
-
     const id = evt.target.getAttribute(`data-id`);
     this._filmCommentsModel.addCommentForDelete(id);
     evt.target.closest(`.film-details__comment`).remove();
@@ -193,6 +195,5 @@ export default class Movie {
   destroy() {
     remove(this._filmComponent);
     remove(this._filmDetailsComponent);
-    document.removeEventListener(`keydown`, this._onEscapeKeyPress);
   }
 }

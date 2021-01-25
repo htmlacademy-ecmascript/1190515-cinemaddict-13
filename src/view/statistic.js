@@ -123,7 +123,7 @@ const createStatisticTemplate = (watchedFilmsCount, sumDuration, favoriteGenre, 
   </section>`;
 };
 
-export default class StatisticView extends AbstractSmartComponent {
+export default class Statistic extends AbstractSmartComponent {
   constructor(moviesModel) {
     super();
     this._moviesModel = moviesModel;
@@ -146,7 +146,7 @@ export default class StatisticView extends AbstractSmartComponent {
   show() {
     super.show();
 
-    this.rerender();
+    this.updateElement();
   }
 
   hide() {
@@ -159,7 +159,7 @@ export default class StatisticView extends AbstractSmartComponent {
     this._resetStatistic();
     this._generateStatistic();
 
-    super.rerender();
+    super.updateElement();
 
     this._renderStatistic();
   }
@@ -231,7 +231,7 @@ export default class StatisticView extends AbstractSmartComponent {
 
   _onChangeFilter(evt) {
     this._currentFilterType = evt.target.value;
-    this.rerender();
+    this.updateElement();
   }
 
   _filterFilmsByWatchingDate() {

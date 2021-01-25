@@ -1,10 +1,10 @@
 import {POSITION, render} from "./utils/render";
 import Board from "./presenter/board";
 import {generateFilms, getAllComments} from "./mock/film";
-import ProfileView from "./view/profile";
-import FooterStatisticsView from "./view/footer-statistic";
-import MoviesModel from "./model/movies";
-import CommentsModel from "./model/comments";
+import Profile from "./view/profile";
+import FooterStatistics from "./view/footer-statistic";
+import Movies from "./model/movies";
+import Comments from "./model/comments";
 
 const FILM_COUNT = 17;
 
@@ -15,13 +15,13 @@ const footerContainer = document.querySelector(`.footer`);
 const films = generateFilms(FILM_COUNT);
 const comments = getAllComments;
 
-const moviesModel = new MoviesModel(films);
-const commentsModel = new CommentsModel(comments);
+const moviesModel = new Movies(films);
+const commentsModel = new Comments(comments);
 
-render(headerContainer, new ProfileView(), POSITION.BEFOREEND);
+render(headerContainer, new Profile(), POSITION.BEFOREEND);
 
-new Board(mainContainer, moviesModel, commentsModel).render(films);
+new Board(mainContainer, moviesModel, commentsModel).render();
 
 const statisticsContainer = footerContainer.querySelector(`.footer__statistics`);
-render(statisticsContainer, new FooterStatisticsView(films.length), POSITION.BEFOREEND);
+render(statisticsContainer, new FooterStatistics(films.length), POSITION.BEFOREEND);
 

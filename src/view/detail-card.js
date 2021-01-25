@@ -51,7 +51,7 @@ const createFilmDetailsTemplate = (film, comments) => {
 
   return `<section class="film-details">
             <form class="film-details__inner" action="" method="get">
-              <div class="form-details__top-container">
+              <div class="film-details__top-container">
                 <div class="film-details__close">
                   <button class="film-details__close-btn" type="button">close</button>
                 </div>
@@ -100,7 +100,7 @@ const createFilmDetailsTemplate = (film, comments) => {
                 </section>
               </div>
 
-              <div class="form-details__bottom-container">
+              <div class="film-details__bottom-container">
                 <section class="film-details__comments-wrap">
                   <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
@@ -146,9 +146,11 @@ export default class DetailCard extends AbstractSmartComponent {
     super();
     this._film = film;
     this._commentsModel = commentsModel;
-    this._closeClickHandler = null;
+    this._onCloseButtonClick = null;
+    // this._closeClickHandler = null;
     this._setFilterInputHandler = null;
-    this._deleteButtonHandler = null;
+    this._onDeleteButtonClick = null;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   updateElement() {
@@ -172,9 +174,19 @@ export default class DetailCard extends AbstractSmartComponent {
     return createFilmDetailsTemplate(this._film, this._commentsModel.getComments(this._film.comments));
   }
 
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
   setCloseClickHandler(callback) {
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, callback);
-    this._closeClickHandler = callback;
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._clickHandler);
+  }
+
+  removeCloseClickHandler(callback) {
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, this._clickHandler);
   }
 
   setFormElementsChangeHandler() {
@@ -199,23 +211,23 @@ export default class DetailCard extends AbstractSmartComponent {
   }
 
   setFormFilterInputChangeHandler(callback) {
-    this.getElement().querySelector(`[name="watchlist"]`).addEventListener(`change`, callback);
-    this.getElement().querySelector(`[name="watched"]`).addEventListener(`change`, callback);
-    this.getElement().querySelector(`[name="favorite"]`).addEventListener(`change`, callback);
-    this._setFilterInputHandler = callback;
+    this._callback.click = callback;
+    this.getElement().querySelector(`[name="watchlist"]`).addEventListener(`change`, this._clickHandler);
+    this.getElement().querySelector(`[name="watched"]`).addEventListener(`change`, this._clickHandler);
+    this.getElement().querySelector(`[name="favorite"]`).addEventListener(`change`, this._clickHandler);
   }
 
   setDeleteCommentButtonClickHandler(callback) {
     this.getElement().querySelectorAll(`.film-details__comment-delete`).forEach((deleteButton) => {
       deleteButton.addEventListener(`click`, callback);
     });
-    this._deleteButtonHandler = callback;
+    this._onDeleteButtonClick = callback;
   }
 
-  recoveryListeners() {
-    this.setCloseClickHandler(this._closeClickHandler);
+  restoreHandlers() {
+    this.setCloseClickHandler(this._onCloseButtonClick);
     this.setFormElementsChangeHandler();
     this.setFormFilterInputChangeHandler(this._setFilterInputHandler);
-    this.setDeleteCommentButtonClickHandler(this._deleteButtonHandler);
+    this.setDeleteCommentButtonClickHandler(this._onDeleteButtonClick);
   }
 }
