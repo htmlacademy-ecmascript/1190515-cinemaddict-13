@@ -5,10 +5,11 @@ export const FilterTypes = {
   ALL: `all`,
   WATCHLIST: `watchlist`,
   HISTORY: `history`,
-  FAVORITES: `favorites`
+  FAVORITES: `favorites`,
+  STATISTIC: `stats`
 };
 
-export default class FiltersPresenter {
+export default class FilterPresenter {
   constructor(container, moviesModel) {
     this._container = container;
     this._moviesModel = moviesModel;
@@ -20,14 +21,20 @@ export default class FiltersPresenter {
   }
 
   render() {
-    const prevNavigation = this._navigation;
-    this._navigation = new NavigationView(this._generateFilters());
+    const oldNavigation = this._navigation;
+    const isStatisticCheck = this._currentFilter === FilterTypes.STATISTIC;
+    this._navigation = new NavigationView(this._generateFilters(), isStatisticCheck);
     this._navigation.setFilterChangeHandler(this._setChangeFilterHandlers);
-    if (prevNavigation) {
-      replace(prevNavigation, this._navigation);
+    this._navigation.setStatisticClickHandler(this._setChangeFilterHandlers);
+    if (oldNavigation) {
+      replace(oldNavigation, this._navigation);
     } else {
       render(this._container, this._navigation, POSITION.AFTERBEGIN);
     }
+  }
+
+  getCurrentFilterType() {
+    return this._currentFilter;
   }
 
   _setChangeFilterHandlers(evt) {

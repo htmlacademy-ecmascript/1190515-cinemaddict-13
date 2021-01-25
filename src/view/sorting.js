@@ -1,12 +1,12 @@
 import AbstractComponent from "./abstract-component";
 
-export const SORTING_DATA_TYPE = {
+export const SORT_DATA_TYPE = {
   DEFAULT: `default`,
   DATE: `date`,
   RATING: `rating`
 };
 
-export const createSortingTemplate = () => {
+export const createSortTemplate = () => {
   return `<ul class="sort">
     <li><a href="#" class="sort__button sort__button--active" data-type="default">Sort by default</a></li>
     <li><a href="#" class="sort__button" data-type="date">Sort by date</a></li>
@@ -14,17 +14,17 @@ export const createSortingTemplate = () => {
   </ul>`;
 };
 
-export default class SortingView extends AbstractComponent {
+export default class SortView extends AbstractComponent {
   constructor() {
     super();
-    this._currentSortingType = SORTING_DATA_TYPE.DEFAULT;
+    this._currentSortingType = SORT_DATA_TYPE.DEFAULT;
   }
 
   getCurrentSortingType() {
     return this._currentSortingType;
   }
   getTemplate() {
-    return createSortingTemplate();
+    return createSortTemplate();
   }
   _clickHandler(evt) {
     evt.preventDefault();
@@ -55,19 +55,19 @@ export default class SortingView extends AbstractComponent {
     });
   }
   setDefaultSortingType() {
-    if (this._currentSortingType === SORTING_DATA_TYPE.DEFAULT) {
+    if (this._currentSortingType === SORT_DATA_TYPE.DEFAULT) {
       return;
     }
 
     this.getElement().querySelectorAll(`.sort__button`).forEach((sortButton) => {
-      if (sortButton.getAttribute(`data-type`) === SORTING_DATA_TYPE.DEFAULT) {
+      if (sortButton.getAttribute(`data-type`) === SORT_DATA_TYPE.DEFAULT) {
         sortButton.classList.add(`sort__button--active`);
       } else {
         sortButton.classList.remove(`sort__button--active`);
       }
     });
 
-    this._currentSortingType = SORTING_DATA_TYPE.DEFAULT;
+    this._currentSortingType = SORT_DATA_TYPE.DEFAULT;
   }
 }
 

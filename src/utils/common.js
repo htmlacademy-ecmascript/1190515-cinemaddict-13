@@ -34,7 +34,7 @@ export const truncateString = (value, length) => {
   return value.length > length ? `${value.slice(0, length)}...` : value;
 };
 
-export const sortingByDesc = (a, b) => {
+export const sortByDesc = (a, b) => {
   return b - a;
 };
 

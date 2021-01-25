@@ -18,21 +18,23 @@ export const createNavigationTemplate = (filters) => {
 };
 
 export default class NavigationView extends AbstractComponent {
-  constructor(filters) {
+  constructor(filters, isStatisticCheck) {
     super();
     this._filters = filters;
+    this._isStatisticCheck = isStatisticCheck;
   }
+
   getTemplate() {
-    return createNavigationTemplate(this._filters);
+    return createNavigationTemplate(this._filters, this._isStatisticCheck);
   }
-  _clickHandler(evt) {
-    evt.preventDefault();
-    this._callback.click();
-  }
-  setFilterChangeHandler(callback) {
-    this._callback.click = callback;
+
+  setFilterChangeHandler(handler) {
     this.getElement().querySelectorAll(`.main-navigation__item`).forEach((link) => {
-      link.addEventListener(`click`, this._clickHandler);
+      link.addEventListener(`click`, handler);
     });
+  }
+
+  setStatisticClickHandler(handler) {
+    this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, handler);
   }
 }
