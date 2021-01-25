@@ -1,47 +1,36 @@
-import AbstractComponent from "../view/abstract-component";
-
-export const POSITION = {
+const POSITION = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`,
   AFTEREND: `afterend`,
+  BEFOREEND: `beforeend`
 };
 
-export const render = (container, child, place) => {
-  if (container instanceof AbstractComponent) {
-    container = container.getElement();
-  }
-
-  if (child instanceof AbstractComponent) {
-    child = child.getElement();
-  }
-  switch (place) {
-    case POSITION.AFTERBEGIN:
-      container.prepend(child);
-      break;
-    case POSITION.BEFOREEND:
-      container.append(child);
-      break;
-    case POSITION.AFTEREND:
-      container.after(child);
-      break;
-  }
-};
-
-export const createElement = (template) => {
+const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
   return newElement.firstChild;
 };
 
-export const remove = (component) => {
-  if (!(component instanceof AbstractComponent)) {
-    throw new Error(`Can remove only components`);
+const render = (container, component, position) => {
+  const element = component.getElement();
+  switch (position) {
+    case POSITION.AFTERBEGIN:
+      container.prepend(element);
+      break;
+    case POSITION.AFTEREND:
+      container.after(element);
+      break;
+    case POSITION.BEFOREEND:
+      container.append(element);
+      break;
   }
+};
+
+const remove = (component) => {
   component.getElement().remove();
   component.removeElement();
 };
 
-export const toggleElement = (container, component, action) => {
+const toggleElement = (container, component, action) => {
   const element = component.getElement();
   switch (action) {
     case `show`:
@@ -55,21 +44,16 @@ export const toggleElement = (container, component, action) => {
   }
 };
 
-export const replace = (newChild, oldChild) => {
-  if (oldChild instanceof AbstractComponent) {
-    oldChild = oldChild.getElement();
+const replace = (oldComponent, newComponent) => {
+  const parentElement = oldComponent.getElement().parentElement;
+  const newElement = newComponent.getElement();
+  const oldElement = oldComponent.getElement();
+
+  const isExistElements = !!(parentElement && newElement && oldElement);
+
+  if (isExistElements && parentElement.contains(oldElement)) {
+    parentElement.replaceChild(newElement, oldElement);
   }
-
-  if (newChild instanceof AbstractComponent) {
-    newChild = newChild.getElement();
-  }
-
-  const parent = oldChild.parentElement;
-
-  if (parent === null || oldChild === null || newChild === null) {
-    throw new Error(`Can't replace unexisting elements`);
-  }
-
-  parent.replaceChild(newChild, oldChild);
 };
 
+export {createElement, render, POSITION, remove, toggleElement, replace};

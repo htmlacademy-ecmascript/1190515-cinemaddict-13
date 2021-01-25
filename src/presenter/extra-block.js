@@ -6,7 +6,7 @@ import renderFilms from "./movie";
 const FILM_COUNT_ADDITION = 2;
 const ADDITION_CONTAINER_TITLES = [`Top rated`, `Most commented`];
 
-export default class ExtraBlockPresenter {
+export default class ExtraBlock {
   constructor(container, moviesModel, onDataChange, commentsModel) {
     this._container = container;
     this._moviesModel = moviesModel;

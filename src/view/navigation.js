@@ -8,12 +8,12 @@ const renderFilters = (filters) => {
     }).join(`\n`);
 };
 
-export const createNavigationTemplate = (filters) => {
+export const createNavigationTemplate = (filters, isStatisticCheck = false) => {
   return `<nav class="main-navigation">
     <div class="main-navigation__items">
       ${renderFilters(filters)}
     </div>
-      <a href="#stats" class="main-navigation__additional">Stats</a>
+      <a href="#stats" class="main-navigation__additional${isStatisticCheck ? ` main-navigation__item--active` : ``}">Stats</a>
     </nav>`;
 };
 
@@ -28,13 +28,13 @@ export default class NavigationView extends AbstractComponent {
     return createNavigationTemplate(this._filters, this._isStatisticCheck);
   }
 
-  setFilterChangeHandler(handler) {
+  setFilterChangeHandler(callback) {
     this.getElement().querySelectorAll(`.main-navigation__item`).forEach((link) => {
-      link.addEventListener(`click`, handler);
+      link.addEventListener(`click`, callback);
     });
   }
 
-  setStatisticClickHandler(handler) {
-    this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, handler);
+  setStatisticClickHandler(callback) {
+    this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, callback);
   }
 }

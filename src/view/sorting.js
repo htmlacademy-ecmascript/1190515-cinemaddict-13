@@ -17,11 +17,11 @@ export const createSortTemplate = () => {
 export default class SortView extends AbstractComponent {
   constructor() {
     super();
-    this._currentSortingType = SORT_DATA_TYPE.DEFAULT;
+    this._currentSortType = SORT_DATA_TYPE.DEFAULT;
   }
 
-  getCurrentSortingType() {
-    return this._currentSortingType;
+  getCurrentSortType() {
+    return this._currentSortType;
   }
   getTemplate() {
     return createSortTemplate();
@@ -30,7 +30,7 @@ export default class SortView extends AbstractComponent {
     evt.preventDefault();
     this._callback.click();
   }
-  setSortingTypeChangeHandler(callback) {
+  setSortTypeChangeHandler(callback) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
@@ -38,9 +38,9 @@ export default class SortView extends AbstractComponent {
         return;
       }
 
-      const sortingType = evt.target.dataset.type;
+      const sortType = evt.target.dataset.type;
 
-      if (this._currentSortingType === sortingType) {
+      if (this._currentSortType === sortType) {
         return;
       }
 
@@ -49,13 +49,13 @@ export default class SortView extends AbstractComponent {
       });
       evt.target.classList.add(`sort__button--active`);
 
-      this._currentSortingType = sortingType;
+      this._currentSortingType = sortType;
 
-      callback(this._currentSortingType);
+      callback(this._currentSortType);
     });
   }
   setDefaultSortingType() {
-    if (this._currentSortingType === SORT_DATA_TYPE.DEFAULT) {
+    if (this._currentSortType === SORT_DATA_TYPE.DEFAULT) {
       return;
     }
 
@@ -67,7 +67,7 @@ export default class SortView extends AbstractComponent {
       }
     });
 
-    this._currentSortingType = SORT_DATA_TYPE.DEFAULT;
+    this._currentSortType = SORT_DATA_TYPE.DEFAULT;
   }
 }
 

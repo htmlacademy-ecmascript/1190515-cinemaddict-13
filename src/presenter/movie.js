@@ -23,19 +23,19 @@ const FormFilterTypes = {
 
 export const renderFilms = (container, films, onDataChange, commentsModel) => {
   return films.map((film) => {
-    const filmController = new MoviePresenter(container, onDataChange, commentsModel);
-    filmController.render(film);
-    return filmController;
+    const filmPresenter = new Movie(container, onDataChange, commentsModel);
+    filmPresenter.render(film);
   });
 };
 
-export default class MoviePresenter {
+export default class Movie {
   constructor(container, onDataChange, commentsModel) {
     this._container = container;
     this._onDataChange = onDataChange;
     this._mode = Mode.DEFAULT;
     this._filmComponent = null;
     this._filmDetailsComponent = null;
+    this._film = null;
     this._footerElement = document.querySelector(`.footer`);
     this._setMovieHandlers = this._setMovieHandlers.bind(this);
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
@@ -45,7 +45,6 @@ export default class MoviePresenter {
     this._setAddToWatchlist = this._setAddToWatchlist.bind(this);
     this._setMarkAsWatched = this._setMarkAsWatched.bind(this);
     this._setMarkAsFavorite = this._setMarkAsFavorite.bind(this);
-    this._film = null;
     this._filmCommentsModel = commentsModel;
     this._onSubmitForm = this._onSubmitForm.bind(this);
     this._onChangeFormFilterInput = this._onChangeFormFilterInput.bind(this);

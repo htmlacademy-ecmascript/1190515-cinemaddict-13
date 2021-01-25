@@ -1,9 +1,8 @@
-import {FilterTypes} from "../presenter/filter";
+import {FilterTypes} from "../controllers/filter";
 import {getFilmsSortByRating} from "../utils/film";
-import {SORT_DATA_TYPE} from "../view/sorting";
-import dayjs from "dayjs";
+import {SORT_TYPE} from "../components/sort";
 
-export default class MoviesModel {
+export default class Movies {
   constructor(films) {
     this._films = films;
     this._currentFilterType = FilterTypes.ALL;
@@ -79,15 +78,15 @@ export default class MoviesModel {
 
   getSortedFilms(sortType, from, to) {
     switch (sortType) {
-      case SORT_DATA_TYPE.DATE:
+      case SORT_TYPE.DATE:
         return this.getFilms().slice().sort((a, b) => {
-          const bDate = dayjs(b.details.find((detail) => detail.term === `Release Date`).info);
-          const aDate = dayjs(a.details.find((detail) => detail.term === `Release Date`).info);
+          const bDate = new Date(b.details.find((detail) => detail.term === `Release Date`).info);
+          const aDate = new Date(a.details.find((detail) => detail.term === `Release Date`).info);
           return bDate - aDate;
         }).slice(from, to);
-      case SORT_DATA_TYPE.RATING:
+      case SORT_TYPE.RATING:
         return this._getFilmsSortByRating(from, to);
-      case SORT_DATA_TYPE.DEFAULT:
+      case SORT_TYPE.DEFAULT:
         return this.getFilms().slice(from, to);
     }
     return [];

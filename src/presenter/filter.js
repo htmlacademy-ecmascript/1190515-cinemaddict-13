@@ -9,7 +9,7 @@ export const FilterTypes = {
   STATISTIC: `stats`
 };
 
-export default class FilterPresenter {
+export default class Filter {
   constructor(container, moviesModel) {
     this._container = container;
     this._moviesModel = moviesModel;
