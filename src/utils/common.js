@@ -12,19 +12,19 @@ const getRandomItemFromArray = (array) => {
 };
 
 const formatDateTime = (date) => {
-  return dayjs(date).format(`DD MMMM YYYY hh:mm`);
+  return dayjs(date).format(`DD MMMM YYYY`);
 };
 
 const formatFilmDuration = (movieDuration) => {
   return dayjs().minute(movieDuration).format(`h[h] m[m]`);
 };
 
-const formatFilmDurationForStatistic = (movieDuration) => {
-  return dayjs().duration(movieDuration, `minutes`).format(`h:m`);
-};
+// const formatFilmDurationForStatistic = (movieDuration) => {
+//   return dayjs().duration(movieDuration, `minutes`).format(`h:m`);
+// };
 
 const sortByDesc = (a, b) => {
   return b - a;
 };
 
-export {getRandomNumber, getRandomItemFromArray, formatDateTime, sortByDesc, formatFilmDuration, formatFilmDurationForStatistic};
+export {getRandomNumber, getRandomItemFromArray, formatDateTime, sortByDesc, formatFilmDuration};

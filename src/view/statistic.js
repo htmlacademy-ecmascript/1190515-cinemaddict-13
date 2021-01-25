@@ -1,7 +1,7 @@
 import AbstractSmartComponent from "./abstract-smart-component";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import {formatFilmDurationForStatistic} from "../utils/common";
+import {formatFilmDuration} from "../utils/common";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 
@@ -82,7 +82,7 @@ const formatDate = (date) => {
 };
 
 const createStatisticTemplate = (watchedFilmsCount, sumDuration, favoriteGenre, filterType) => {
-  const time = formatFilmDurationForStatistic(sumDuration).split(`:`);
+  const time = formatFilmDuration(sumDuration).split(`:`);
   return `<section class="statistic">
     <p class="statistic__rank">
       Your rank

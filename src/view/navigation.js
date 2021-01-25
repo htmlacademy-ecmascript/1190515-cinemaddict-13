@@ -8,13 +8,13 @@ const renderFilters = (filters) => {
     }).join(`\n`);
 };
 
-export const createNavigationTemplate = (filters, isStatisticCheck = false) => {
+const createNavigationTemplate = (filters, isStatisticCheck = false) => {
   return `<nav class="main-navigation">
-    <div class="main-navigation__items">
-      ${renderFilters(filters)}
-    </div>
-      <a href="#stats" class="main-navigation__additional${isStatisticCheck ? ` main-navigation__item--active` : ``}">Stats</a>
-    </nav>`;
+            <div class="main-navigation__items">
+              ${renderFilters(filters)}
+            </div>
+            <a href="#stats" class="main-navigation__additional${isStatisticCheck ? ` main-navigation__item--active` : ``}">Stats</a>
+          </nav>`;
 };
 
 export default class Navigation extends AbstractComponent {

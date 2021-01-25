@@ -27,7 +27,7 @@ export default class Board {
     this._showingFilms = [];
     this._filmsInAdditionsBlocks = [];
     this._onViewChange = this._onViewChange.bind(this);
-    this._filtersController = new Filter(this._container, moviesModel);
+    this._filtersPresenter = new Filter(this._container, moviesModel);
     this._onFilterChange = this._onFilterChange.bind(this);
     this._updateFilms = this._updateFilms.bind(this);
     this._removeFilms = this._removeFilms.bind(this);
@@ -36,14 +36,14 @@ export default class Board {
     this._moviesModel.setAdditionBlockChangeHandler(this._onAdditionBlockChange);
     this._filmListContainerElement = null;
     this._filmContainerElement = null;
-    this._additionBlockController = null;
+    this._additionBlockPresenter = null;
     this._statisticComponent = new Statistic(moviesModel);
     this._statisticComponent.hide();
   }
 
   render() {
     this._films = this._moviesModel.getFilms();
-    this._filtersController.render();
+    this._filtersPresenter.render();
     render(this._container, this._sort, POSITION.BEFOREEND);
     render(this._container, this._contentBlock, POSITION.BEFOREEND);
 
@@ -54,9 +54,9 @@ export default class Board {
       const showingFilms = renderFilms(this._filmListContainerElement, this._moviesModel.getSortedFilms(this._sort.getCurrentSortType(), 0, this._showingFilmsCount), this._onDataChange, this._commentsModel);
       this._showingFilms = this._showingFilms.concat(showingFilms);
       this._renderLoadMoreButton();
-      this._additionBlockController = new ExtraBlock(this._filmContainerElement, this._moviesModel, this._onDataChange, this._commentsModel);
-      this._additionBlockController.render();
-      this._filmsInAdditionsBlocks = this._additionBlockController.showingFilms;
+      this._additionBlockPresenter = new ExtraBlock(this._filmContainerElement, this._moviesModel, this._onDataChange, this._commentsModel);
+      this._additionBlockPresenter.render();
+      this._filmsInAdditionsBlocks = this._additionBlockPresenter.showingFilms;
       this._showingFilms = this._showingFilms.concat(this._filmsInAdditionsBlocks);
       this._renderSortFilms();
     } else {
@@ -113,13 +113,13 @@ export default class Board {
     const filmPresenters = this._showingFilms.filter((filmPresenter) => filmPresenter.film === oldData);
 
     filmPresenters.forEach((filmPresenter) => filmPresenter.render(newData));
-    this._filtersController.render();
+    this._filtersPresenter.render();
     this._updateFilms();
-    this._statisticComponent.rerender();
+    this._statisticComponent.updateElement();
   }
 
   _onAdditionBlockChange() {
-    this._filmsInAdditionsBlocks = this._additionBlockController.showingFilms;
+    this._filmsInAdditionsBlocks = this._additionBlockPresenter.showingFilms;
     this._showingFilms = this._showingFilms.concat(this._filmsInAdditionsBlocks);
   }
 
@@ -132,7 +132,7 @@ export default class Board {
   }
 
   _updateFilms() {
-    if (this._filtersController.getCurrentFilterType() === FilterTypes.STATISTIC) {
+    if (this._filtersPresenter.getCurrentFilterType() === FilterTypes.STATISTIC) {
       this._sort.hide();
       this._hide();
       this._statisticComponent.show();
