@@ -1,7 +1,7 @@
 import {nanoid} from "nanoid";
 import dayjs from "dayjs";
-import CardView from "../view/card";
-import CardDetailsView from "../view/detail-card";
+import Card from "../view/card";
+import DetailCard from "../view/detail-card";
 import {POSITION, render, toggleElement, replace, remove} from "../utils/render";
 import Keydown from "../const";
 
@@ -16,10 +16,6 @@ const FormFilterTypes = {
   WATCHED: `watched`,
   FAVORITE: `favorite`
 };
-
-// const getRandomNumber = (min, max) => {
-//   return Math.floor(Math.random() * (max - min)) + min;
-// };
 
 export const renderFilms = (container, films, onDataChange, commentsModel) => {
   return films.map((film) => {
@@ -61,8 +57,8 @@ export default class Movie {
     const oldFilmComponent = this._filmComponent;
     const oldFilmDetailsComponent = this._filmDetailsComponent;
 
-    this._filmComponent = new CardView(film);
-    this._filmDetailsComponent = new CardDetailsView(film, this._filmCommentsModel);
+    this._filmComponent = new Card(film);
+    this._filmDetailsComponent = new DetailCard(film, this._filmCommentsModel);
 
     this._filmComponent.setAddToWatchlistButtonClickHandler(this._setAddToWatchlist);
     this._filmComponent.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
@@ -143,7 +139,7 @@ export default class Movie {
     }
     this._onDataChange(this._film, Object.assign({}, this._film, {comments: commentsIDs}));
 
-    this._filmDetailsComponent.rerender();
+    this._filmDetailsComponent.updateElement();
   }
 
   _onChangeFormFilterInput(evt) {

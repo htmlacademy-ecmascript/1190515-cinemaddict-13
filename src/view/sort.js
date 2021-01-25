@@ -1,6 +1,6 @@
 import AbstractComponent from "./abstract-component";
 
-export const SORT_DATA_TYPE = {
+export const SORT_TYPE = {
   DEFAULT: `default`,
   DATE: `date`,
   RATING: `rating`
@@ -17,7 +17,7 @@ export const createSortTemplate = () => {
 export default class SortView extends AbstractComponent {
   constructor() {
     super();
-    this._currentSortType = SORT_DATA_TYPE.DEFAULT;
+    this._currentSortType = SORT_TYPE.DEFAULT;
   }
 
   getCurrentSortType() {
@@ -55,19 +55,19 @@ export default class SortView extends AbstractComponent {
     });
   }
   setDefaultSortingType() {
-    if (this._currentSortType === SORT_DATA_TYPE.DEFAULT) {
+    if (this._currentSortType === SORT_TYPE.DEFAULT) {
       return;
     }
 
     this.getElement().querySelectorAll(`.sort__button`).forEach((sortButton) => {
-      if (sortButton.getAttribute(`data-type`) === SORT_DATA_TYPE.DEFAULT) {
+      if (sortButton.getAttribute(`data-type`) === SORT_TYPE.DEFAULT) {
         sortButton.classList.add(`sort__button--active`);
       } else {
         sortButton.classList.remove(`sort__button--active`);
       }
     });
 
-    this._currentSortType = SORT_DATA_TYPE.DEFAULT;
+    this._currentSortType = SORT_TYPE.DEFAULT;
   }
 }
 

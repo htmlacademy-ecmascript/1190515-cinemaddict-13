@@ -1,5 +1,5 @@
 import {render, POSITION, replace} from "../utils/render";
-import NavigationView from "../view/navigation";
+import Navigation from "../view/navigation";
 
 export const FilterTypes = {
   ALL: `all`,
@@ -23,7 +23,7 @@ export default class Filter {
   render() {
     const oldNavigation = this._navigation;
     const isStatisticCheck = this._currentFilter === FilterTypes.STATISTIC;
-    this._navigation = new NavigationView(this._generateFilters(), isStatisticCheck);
+    this._navigation = new Navigation(this._generateFilters(), isStatisticCheck);
     this._navigation.setFilterChangeHandler(this._setChangeFilterHandlers);
     this._navigation.setStatisticClickHandler(this._setChangeFilterHandlers);
     if (oldNavigation) {
