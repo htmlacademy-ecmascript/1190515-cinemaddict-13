@@ -18,7 +18,7 @@ const comments = getAllComments;
 const moviesModel = new Movies(films);
 const commentsModel = new Comments(comments);
 
-render(headerContainer, new Profile(), POSITION.BEFOREEND);
+render(headerContainer, new Profile(moviesModel), POSITION.BEFOREEND);
 
 new Board(mainContainer, moviesModel, commentsModel).render();
 

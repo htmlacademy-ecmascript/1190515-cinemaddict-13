@@ -2,6 +2,7 @@ import AbstractSmartComponent from "./abstract-smart-component";
 // import dayjs from "dayjs";
 import {formatDateTime, formatFilmDuration} from "../utils/common";
 import {encode} from "he";
+import Keydown from "../const";
 
 const EMOJI_PATH = `./images/emoji/`;
 
@@ -146,9 +147,9 @@ export default class DetailCard extends AbstractSmartComponent {
     super();
     this._film = film;
     this._commentsModel = commentsModel;
-    this._onCloseButtonClick = null;
-    // this._closeClickHandler = null;
-    this._setFilterInputHandler = null;
+    // this._onCloseButtonClick = null;
+    this._onChangeFormFilterInput = null;
+    // this._setFilterInputHandler = null;
     this._onDeleteButtonClick = null;
     this._clickHandler = this._clickHandler.bind(this);
   }
@@ -211,23 +212,34 @@ export default class DetailCard extends AbstractSmartComponent {
   }
 
   setFormFilterInputChangeHandler(callback) {
-    this._callback.click = callback;
-    this.getElement().querySelector(`[name="watchlist"]`).addEventListener(`change`, this._clickHandler);
-    this.getElement().querySelector(`[name="watched"]`).addEventListener(`change`, this._clickHandler);
-    this.getElement().querySelector(`[name="favorite"]`).addEventListener(`change`, this._clickHandler);
+    this._callback.change = callback;
+    this.getElement().querySelector(`[name="watchlist"]`).addEventListener(`change`, callback);
+    this.getElement().querySelector(`[name="watched"]`).addEventListener(`change`, callback);
+    this.getElement().querySelector(`[name="favorite"]`).addEventListener(`change`, callback);
+    this._onChangeFormFilterInput = callback;
   }
 
   setDeleteCommentButtonClickHandler(callback) {
+    // this._callback.click = callback;
     this.getElement().querySelectorAll(`.film-details__comment-delete`).forEach((deleteButton) => {
       deleteButton.addEventListener(`click`, callback);
     });
     this._onDeleteButtonClick = callback;
   }
 
+  setFormSubmitHandler(callback) {
+    document.addEventListener(`keydown`, (evt) => {
+      if (evt.key === Keydown.ENT && (evt.ctrlKey || evt.metaKey)) {
+        callback();
+      }
+    });
+  }
+
   restoreHandlers() {
-    this.setCloseClickHandler(this._onCloseButtonClick);
+    this.setCloseClickHandler(this._callback.click);
     this.setFormElementsChangeHandler();
-    this.setFormFilterInputChangeHandler(this._setFilterInputHandler);
+    this.setFormSubmitHandler();
+    this.setFormFilterInputChangeHandler();
     this.setDeleteCommentButtonClickHandler(this._onDeleteButtonClick);
   }
 }

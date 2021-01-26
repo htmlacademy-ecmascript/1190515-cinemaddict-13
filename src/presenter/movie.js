@@ -27,7 +27,7 @@ export const renderFilms = (container, films, onDataChange, commentsModel) => {
 
 export default class Movie {
   constructor(container, onDataChange, commentsModel) {
-    this._bodyElement = document.querySelector(`body`);
+    // this._bodyElement = document.querySelector(`body`);
     this._container = container;
     this._onDataChange = onDataChange;
     this._mode = Mode.DEFAULT;
@@ -38,7 +38,7 @@ export default class Movie {
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
     this._onCardElementClick = this._onCardElementClick.bind(this);
     this._onCloseButtonClick = this._onCloseButtonClick.bind(this);
-    this._onEscapeKeyPress = this._onEscapeKeyPress.bind(this);
+    this._onKeyPress = this._onKeyPress.bind(this);
     this._setAddToWatchlist = this._setAddToWatchlist.bind(this);
     this._setMarkAsWatched = this._setMarkAsWatched.bind(this);
     this._setMarkAsFavorite = this._setMarkAsFavorite.bind(this);
@@ -56,8 +56,8 @@ export default class Movie {
   render(film) {
     this._film = film;
 
-    const oldFilmComponent = this._filmComponent;
-    const oldFilmDetailsComponent = this._filmDetailsComponent;
+    const prevFilmComponent = this._filmComponent;
+    const prevFilmDetailsComponent = this._filmDetailsComponent;
 
     this._filmComponent = new Card(film);
     this._filmDetailsComponent = new DetailCard(film, this._filmCommentsModel);
@@ -66,20 +66,31 @@ export default class Movie {
     this._filmComponent.setMarkAsWatchedButtonClickHandler(this._setMarkAsWatched);
     this._filmComponent.setMarkAsFavoriteButtonClickHandler(this._setMarkAsFavorite);
 
-    if (oldFilmComponent && oldFilmDetailsComponent) {
-      replace(oldFilmComponent, this._filmComponent);
-      replace(oldFilmDetailsComponent, this._filmDetailsComponent);
-    } else {
+    if (prevFilmComponent === null || prevFilmDetailsComponent === null) {
       render(this._container, this._filmComponent, POSITION.BEFOREEND);
+      this._setCardHandlers();
+      return;
     }
-    this._setCardHandlers();
+    if (this._mode === Mode.DEFAULT) {
+      replace(this._filmComponent, prevFilmComponent);
+    }
+    if (this._mode === Mode.EDIT) {
+      replace(this._filmDetailsComponent, prevFilmDetailsComponent);
+    }
+    remove(prevFilmComponent);
+    remove(prevFilmDetailsComponent);
   }
 
-  setDefaultView() {
-    if (this._mode !== Mode.DEFAULT) {
-      this._closeFilmDetails();
-    }
+  destroy() {
+    remove(this._filmComponent);
+    remove(this._filmDetailsComponent);
   }
+
+  // setDefaultView() {
+  //   if (this._mode !== Mode.DEFAULT) {
+  //     this._closeFilmDetails();
+  //   }
+  // }
 
   _setAddToWatchlist() {
     this._onDataChange(this._film, Object.assign({}, this._film, {
@@ -103,8 +114,9 @@ export default class Movie {
   _setCardHandlers() {
     this._filmComponent.setOpenCardClickHandler(this._onCardElementClick);
     this._filmDetailsComponent.setFormElementsChangeHandler();
-    // this._filmDetailsComponent.setCloseClickHandler(this._onCloseButtonClick);
+    this._filmDetailsComponent.setCloseClickHandler(this._onCloseButtonClick);
     this._filmDetailsComponent.setFormFilterInputChangeHandler(this._onChangeFormFilterInput);
+    this._filmDetailsComponent.setFormSubmitHandler(this._onSubmitForm);
     this._filmDetailsComponent.setDeleteCommentButtonClickHandler(this._onDeleteButtonClick);
   }
 
@@ -160,28 +172,25 @@ export default class Movie {
   _closeFilmDetails() {
     this._filmDetailsComponent.reset();
     toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
-    document.removeEventListener(`keydown`, this._onEscapeKeyPress);
-    this._bodyElement.classList.remove(`hide-overflow`);
+    document.removeEventListener(`keydown`, this._onKeyPress);
+    // this._bodyElement.classList.remove(`hide-overflow`);
     this._mode = Mode.DEFAULT;
   }
 
   _onCardElementClick() {
     this._mode = Mode.EDIT;
     toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
-    document.addEventListener(`keydown`, this._onEscapeKeyPress);
-    this._bodyElement.classList.add(`hide-overflow`);
-    this._filmDetailsComponent.setCloseClickHandler(this._onCloseButtonClick);
+    document.addEventListener(`keydown`, this._onKeyPress);
+    // this._bodyElement.classList.add(`hide-overflow`);
   }
 
   _onCloseButtonClick() {
     this._closeFilmDetails();
   }
 
-  _onEscapeKeyPress(evt) {
+  _onKeyPress(evt) {
     if (evt.key === Keydown.ESC) {
       this._closeFilmDetails();
-    } else if (evt.key === Keydown.ENT || (evt.ctrlKey || evt.metaKey)) {
-      this._onSubmitForm();
     }
   }
 
@@ -190,10 +199,5 @@ export default class Movie {
     this._filmCommentsModel.addCommentForDelete(id);
     evt.target.closest(`.film-details__comment`).remove();
     this._filmDetailsComponent.getElement().querySelector(`.film-details__comments-count`).textContent = this._filmDetailsComponent.getElement().querySelectorAll(`.film-details__comments-list > .film-details__comment`).length;
-  }
-
-  destroy() {
-    remove(this._filmComponent);
-    remove(this._filmDetailsComponent);
   }
 }
