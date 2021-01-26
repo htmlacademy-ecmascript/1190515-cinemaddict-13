@@ -27,7 +27,7 @@ export const renderFilms = (container, films, onDataChange, commentsModel) => {
 
 export default class Movie {
   constructor(container, onDataChange, commentsModel) {
-    // this._bodyElement = document.querySelector(`body`);
+    this._bodyElement = document.querySelector(`body`);
     this._container = container;
     this._onDataChange = onDataChange;
     this._mode = Mode.DEFAULT;
@@ -173,7 +173,7 @@ export default class Movie {
     this._filmDetailsComponent.reset();
     toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
     document.removeEventListener(`keydown`, this._onKeyPress);
-    // this._bodyElement.classList.remove(`hide-overflow`);
+    this._bodyElement.classList.remove(`hide-overflow`);
     this._mode = Mode.DEFAULT;
   }
 
@@ -181,7 +181,7 @@ export default class Movie {
     this._mode = Mode.EDIT;
     toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
     document.addEventListener(`keydown`, this._onKeyPress);
-    // this._bodyElement.classList.add(`hide-overflow`);
+    this._bodyElement.classList.add(`hide-overflow`);
   }
 
   _onCloseButtonClick() {

@@ -212,7 +212,7 @@ export default class DetailCard extends AbstractSmartComponent {
   }
 
   setFormFilterInputChangeHandler(callback) {
-    this._callback.change = callback;
+    // this._callback.change = callback;
     this.getElement().querySelector(`[name="watchlist"]`).addEventListener(`change`, callback);
     this.getElement().querySelector(`[name="watched"]`).addEventListener(`change`, callback);
     this.getElement().querySelector(`[name="favorite"]`).addEventListener(`change`, callback);
@@ -239,7 +239,7 @@ export default class DetailCard extends AbstractSmartComponent {
     this.setCloseClickHandler(this._callback.click);
     this.setFormElementsChangeHandler();
     this.setFormSubmitHandler();
-    this.setFormFilterInputChangeHandler();
+    this.setFormFilterInputChangeHandler(this._onChangeFormFilterInput);
     this.setDeleteCommentButtonClickHandler(this._onDeleteButtonClick);
   }
 }
