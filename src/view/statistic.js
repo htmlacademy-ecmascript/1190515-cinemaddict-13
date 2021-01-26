@@ -235,7 +235,7 @@ export default class Statistic extends AbstractSmartComponent {
   }
 
   _filterFilmsByWatchingDate() {
-    const toDay = dayjs();
+    const toDay = new Date();
     let startPeriodDate = null;
 
     switch (this._currentFilterType) {

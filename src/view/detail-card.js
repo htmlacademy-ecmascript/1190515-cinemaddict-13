@@ -145,6 +145,7 @@ const createFilmDetailsTemplate = (film, comments) => {
 export default class DetailCard extends AbstractSmartComponent {
   constructor(film, commentsModel) {
     super();
+    this._bodyElement = document.querySelector(`body`);
     this._film = film;
     this._commentsModel = commentsModel;
     // this._onCloseButtonClick = null;
@@ -169,6 +170,7 @@ export default class DetailCard extends AbstractSmartComponent {
     }
 
     this.updateElement();
+    this._bodyElement.classList.add(`hide-overflow`);
   }
 
   getTemplate() {

@@ -38,7 +38,7 @@ export default class Movie {
     this._closeFilmDetails = this._closeFilmDetails.bind(this);
     this._onCardElementClick = this._onCardElementClick.bind(this);
     this._onCloseButtonClick = this._onCloseButtonClick.bind(this);
-    this._onKeyPress = this._onKeyPress.bind(this);
+    this._onEscapeKeyPress = this._onEscapeKeyPress.bind(this);
     this._setAddToWatchlist = this._setAddToWatchlist.bind(this);
     this._setMarkAsWatched = this._setMarkAsWatched.bind(this);
     this._setMarkAsFavorite = this._setMarkAsFavorite.bind(this);
@@ -84,6 +84,7 @@ export default class Movie {
   destroy() {
     remove(this._filmComponent);
     remove(this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._onEscapeKeyPress);
   }
 
   // setDefaultView() {
@@ -172,7 +173,7 @@ export default class Movie {
   _closeFilmDetails() {
     this._filmDetailsComponent.reset();
     toggleElement(this._footerElement, this._filmDetailsComponent, `hide`);
-    document.removeEventListener(`keydown`, this._onKeyPress);
+    document.removeEventListener(`keydown`, this._onEscapeKeyPress);
     this._bodyElement.classList.remove(`hide-overflow`);
     this._mode = Mode.DEFAULT;
   }
@@ -180,7 +181,7 @@ export default class Movie {
   _onCardElementClick() {
     this._mode = Mode.EDIT;
     toggleElement(this._footerElement, this._filmDetailsComponent, `show`);
-    document.addEventListener(`keydown`, this._onKeyPress);
+    document.addEventListener(`keydown`, this._onEscapeKeyPress);
     this._bodyElement.classList.add(`hide-overflow`);
   }
 
@@ -188,7 +189,7 @@ export default class Movie {
     this._closeFilmDetails();
   }
 
-  _onKeyPress(evt) {
+  _onEscapeKeyPress(evt) {
     if (evt.key === Keydown.ESC) {
       this._closeFilmDetails();
     }
