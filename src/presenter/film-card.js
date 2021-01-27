@@ -1,7 +1,10 @@
 import FilmCardView from "../view/film-card";
-import FilmPopupView from "../view/film-popup";
-import CommentsPresenter from "../presenter/movie-comments";
-import Adapter from "../model/client-server-adapter";
+import FilmDetailsView from "../view/film-details";
+
+import CommentsPresenter from "../presenter/comments";
+
+import Adapter from "../models/adapter";
+
 import {render, replace, remove} from "../utils/render";
 import Keydown from "../const";
 
@@ -14,11 +17,11 @@ export default class FilmCardPresenter {
 
     this._film = null;
     this._filmCardComponent = null;
-    this._filmPopupComponent = null;
+    this._filmDetailsComponent = null;
     this._commentsPresenter = null;
 
-    this._closePopupHandler = this._closePopupHandler.bind(this);
-    this._showPopupHandler = this._showPopupHandler.bind(this);
+    this._closeFilmDetailsHandler = this._closeFilmDetailsHandler.bind(this);
+    this._showFilmDetailsHandler = this._showFilmDetailsHandler.bind(this);
     this._escapeButtonHandler = this._escapeButtonHandler.bind(this);
     this._changeData = this._changeData.bind(this);
     this._commentDeleteHandler = this._commentDeleteHandler.bind(this);
@@ -32,7 +35,7 @@ export default class FilmCardPresenter {
 
     this._filmCardComponent = new FilmCardView(film);
 
-    this._filmCardComponent.setClickHandlers(this._showPopupHandler);
+    this._filmCardComponent.setClickHandlers(this._showFilmDetailsHandler);
     this._filmCardComponent.setControlsClickHandler(this._changeData);
 
     if (prevFilmCardComponent) {
@@ -45,7 +48,7 @@ export default class FilmCardPresenter {
 
   _escapeButtonHandler(evt) {
     if (evt.key === Keydown.ESC) {
-      this._closePopupHandler();
+      this._closeFilmDetailsHandler();
     }
   }
 
@@ -64,28 +67,28 @@ export default class FilmCardPresenter {
     this._dataChangeHandler(this._film, newData);
   }
 
-  _showPopupHandler() {
+  _showFilmDetailsHandler() {
     this._viewChangeHandler();
-    this._filmPopupComponent = new FilmPopupView(this._film);
-    this._filmPopupComponent.setControlsHandler(this._changeData);
-    render(document.body, this._filmPopupComponent);
+    this._filmFilmDetailsComponent = new FilmDetailsView(this._film);
+    this._filmFilmDetailsComponent.setControlsHandler(this._changeData);
+    render(document.body, this._filmFilmDetailsComponent);
     this._api.getComment(this._film.id)
       .then((response) => {
         this._film.comments = response;
-        this._commentsPresenter = new CommentsPresenter(this._filmPopupComponent.getElement().querySelector(`form`), this._film.comments, this._commentDeleteHandler, this._commentAddHandler);
+        this._commentsPresenter = new CommentsPresenter(this._filmFilmDetailsComponent.getElement().querySelector(`form`), this._film.comments, this._commentDeleteHandler, this._commentAddHandler);
         this._commentsPresenter.render();
       });
 
-    this._filmPopupComponent.setCloseButtonClickHandler(this._closePopupHandler);
+    this._filmFilmDetailsComponent.setCloseButtonClickHandler(this._closeFilmDetailsHandler);
 
     document.body.classList.add(`hide-overflow`);
 
     document.addEventListener(`keydown`, this._escapeButtonHandler);
   }
 
-  _closePopupHandler() {
+  _closeFilmDetailsHandler() {
     this._commentsPresenter.destroy();
-    this._deletePopup();
+    this._deleteFilmDetails();
   }
 
   _commentAddHandler(comment) {
@@ -111,15 +114,15 @@ export default class FilmCardPresenter {
     remove(this._filmCardComponent);
   }
 
-  _deletePopup() {
-    if (this._filmPopupComponent) {
-      remove(this._filmPopupComponent);
+  _deleteFilmDetails() {
+    if (this._filmFilmDetailsComponent) {
+      remove(this._filmFilmDetailsComponent);
       document.removeEventListener(`keydown`, this._escapeButtonHandler);
       document.body.classList.remove(`hide-overflow`);
     }
   }
 
   setDefaultView() {
-    this._deletePopup();
+    this._deleteFilmDetails();
   }
 }
