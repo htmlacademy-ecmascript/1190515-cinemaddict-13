@@ -1,27 +1,47 @@
-import {POSITION, render} from "./utils/render";
-import Board from "./presenter/board";
-import {generateFilms, getAllComments} from "./mock/film";
-import Profile from "./view/profile";
-import FooterStatistics from "./view/footer-statistic";
-import Movies from "./model/movies";
-import Comments from "./model/comments";
+import ProfileRatingComponent from "./view/profile-rating";
+import MenuComponent from "./view/menu";
+import StatisticsComponent from "./view/statistics";
+import MovieListPresenter from "./presenter/movie";
+import FilterPresenter from "./presenter/filter";
+import FilmsModel from "./models/films";
+import {render} from "./utils/render";
+import API from "./api/api";
+import FooterStatisticsComponent from "./view/footer-statistics";
 
-const FILM_COUNT = 17;
+const AUTHORIZATION = `Basic 9723thu9iweu3t`;
+const END_POINT = `https://13.ecmascript.pages.academy/cinemaddict/`;
 
-const headerContainer = document.querySelector(`.header`);
-const mainContainer = document.querySelector(`.main`);
-const footerContainer = document.querySelector(`.footer`);
+const siteHeaderElement = document.querySelector(`.header`);
+const siteMainElement = document.querySelector(`.main`);
+const siteFooterElement = document.querySelector(`.footer`);
 
-const films = generateFilms(FILM_COUNT);
-const comments = getAllComments;
+const filmsModel = new FilmsModel();
 
-const moviesModel = new Movies(films);
-const commentsModel = new Comments(comments);
+const api = new API(END_POINT, AUTHORIZATION);
 
-render(headerContainer, new Profile(moviesModel), POSITION.BEFOREEND);
+const siteNavigationComponent = new MenuComponent();
+const pagePresenter = new MovieListPresenter(siteMainElement, filmsModel, api);
 
-new Board(mainContainer, moviesModel, commentsModel).render();
+render(siteMainElement, siteNavigationComponent);
+const statisticsComponent = new StatisticsComponent(filmsModel);
+render(siteMainElement, statisticsComponent);
+statisticsComponent.hide();
 
-const statisticsContainer = footerContainer.querySelector(`.footer__statistics`);
-render(statisticsContainer, new FooterStatistics(films.length), POSITION.BEFOREEND);
+api.getFilms()
+  .then((films) => {
+    filmsModel.setFilms(films);
+    render(siteHeaderElement, new ProfileRatingComponent(filmsModel));
+    new FilterPresenter(siteNavigationComponent.getElement(), filmsModel).render();
+    pagePresenter.render();
+    render(siteFooterElement, new FooterStatisticsComponent(films.length));
+  });
 
+siteNavigationComponent.setClickHandler((isStatistics) => {
+  if (isStatistics) {
+    pagePresenter.destroy();
+    statisticsComponent.show();
+  } else {
+    statisticsComponent.hide();
+    pagePresenter.render();
+  }
+});

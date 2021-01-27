@@ -2,7 +2,7 @@ import {FilterTypes} from "../presenter/filter";
 import {getFilmsSortByRating} from "../utils/film";
 import {SORT_TYPE} from "../view/sort";
 
-export default class Movies {
+export default class Films {
   constructor(films) {
     this._films = films;
     this._currentFilterType = FilterTypes.ALL;
