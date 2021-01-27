@@ -1,7 +1,9 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {getUserRank} from "../utils/utils";
+import {getUserRank} from "../utils/user-rank";
+
 import Chart from "chart";
 import ChartDataLabels from "chartjs-plugin-datalabels";
+
 import {MINUTES_IN_HOUR} from "../const";
 
 const BAR_HEIGHT = 50;

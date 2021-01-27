@@ -22,7 +22,7 @@ export default class FilmCardPresenter {
 
     this._closeFilmDetailsHandler = this._closeFilmDetailsHandler.bind(this);
     this._showFilmDetailsHandler = this._showFilmDetailsHandler.bind(this);
-    this._escapeButtonHandler = this._escapeButtonHandler.bind(this);
+    this._onEscapeDownHandler = this._onEscapeDownHandler.bind(this);
     this._changeData = this._changeData.bind(this);
     this._commentDeleteHandler = this._commentDeleteHandler.bind(this);
     this._commentAddHandler = this._commentAddHandler.bind(this);
@@ -46,7 +46,7 @@ export default class FilmCardPresenter {
     render(this._container, this._filmCardComponent);
   }
 
-  _escapeButtonHandler(evt) {
+  _onEscapeDownHandler(evt) {
     if (evt.key === Keydown.ESC) {
       this._closeFilmDetailsHandler();
     }
@@ -69,21 +69,21 @@ export default class FilmCardPresenter {
 
   _showFilmDetailsHandler() {
     this._viewChangeHandler();
-    this._filmFilmDetailsComponent = new FilmDetailsView(this._film);
-    this._filmFilmDetailsComponent.setControlsHandler(this._changeData);
-    render(document.body, this._filmFilmDetailsComponent);
+    this._filmDetailsComponent = new FilmDetailsView(this._film);
+    this._filmDetailsComponent.setControlsHandler(this._changeData);
+    render(document.body, this._filmDetailsComponent);
     this._api.getComment(this._film.id)
       .then((response) => {
         this._film.comments = response;
-        this._commentsPresenter = new CommentsPresenter(this._filmFilmDetailsComponent.getElement().querySelector(`form`), this._film.comments, this._commentDeleteHandler, this._commentAddHandler);
+        this._commentsPresenter = new CommentsPresenter(this._filmDetailsComponent.getElement().querySelector(`form`), this._film.comments, this._commentDeleteHandler, this._commentAddHandler);
         this._commentsPresenter.render();
       });
 
-    this._filmFilmDetailsComponent.setCloseButtonClickHandler(this._closeFilmDetailsHandler);
+    this._filmDetailsComponent.setCloseButtonClickHandler(this._closeFilmDetailsHandler);
 
     document.body.classList.add(`hide-overflow`);
 
-    document.addEventListener(`keydown`, this._escapeButtonHandler);
+    document.addEventListener(`keydown`, this._onEscapeDownHandler);
   }
 
   _closeFilmDetailsHandler() {
@@ -115,9 +115,9 @@ export default class FilmCardPresenter {
   }
 
   _deleteFilmDetails() {
-    if (this._filmFilmDetailsComponent) {
-      remove(this._filmFilmDetailsComponent);
-      document.removeEventListener(`keydown`, this._escapeButtonHandler);
+    if (this._filmDetailsComponent) {
+      remove(this._filmDetailsComponent);
+      document.removeEventListener(`keydown`, this._onEscapeDownHandler);
       document.body.classList.remove(`hide-overflow`);
     }
   }

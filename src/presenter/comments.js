@@ -24,7 +24,7 @@ export default class CommentsPresenter {
     this._commentsComponent = null;
 
     this.destroy = this.destroy.bind(this);
-    this._keydownEnterHandler = this._keydownEnterHandler.bind(this);
+    this._onPressEnterHandler = this._onPressEnterHandler.bind(this);
   }
 
   render() {
@@ -46,7 +46,7 @@ export default class CommentsPresenter {
 
   destroy() {
     this._commentsComponent.removeElement();
-    document.removeEventListener(`keydown`, this._keydownEnterHandler);
+    document.removeEventListener(`keydown`, this._onPressEnterHandler);
   }
 
   getComments() {
@@ -58,7 +58,7 @@ export default class CommentsPresenter {
     this.render();
   }
 
-  _keydownEnterHandler(evt) {
+  _onPressEnterHandler(evt) {
     if (evt.key === Keydown.ENT && (evt.ctrlKey || evt.metaKey)) {
       this._commentAddHandler(createComment(...Object.values(this._commentsComponent.getInput())));
     }
