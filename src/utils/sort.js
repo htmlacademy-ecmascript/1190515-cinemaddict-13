@@ -1,10 +1,10 @@
 import {SortType} from "../const";
 
-export const getSortedFilms = (films, filterType, from, to) => {
+export const getSortedFilms = (films, sortType) => {
   let sortedFilms = [];
   const shownFilms = films.slice();
 
-  switch (filterType) {
+  switch (sortType) {
     case SortType.DEFAULT:
       sortedFilms = shownFilms;
       break;
@@ -18,5 +18,5 @@ export const getSortedFilms = (films, filterType, from, to) => {
       sortedFilms = shownFilms.sort((a, b) => b.comments.length - a.comments.length);
       break;
   }
-  return sortedFilms.slice(from, to);
+  return sortedFilms;
 };

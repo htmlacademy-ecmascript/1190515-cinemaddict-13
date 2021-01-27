@@ -1,196 +1,208 @@
+import {
+  getRandomNumber,
+  getRandomIntegerNumber,
+  getRandomDate,
+  getRandomArrayElements,
+  getRandomArrayItem,
+  generateArray,
+} from "../utils/render";
 import {nanoid} from "nanoid";
-import dayjs from "dayjs";
 
-import {getRandomNumber, getRandomItemFromArray} from "../utils/common";
-
-const GENRES = [`action`, `adventure`, `comedy`, `crime & gangster`, `drama`, `horror`];
-const TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
-const EMOTIONS = [`smile`, `sleeping`, `puke`, `angry`];
-const FILM_POSTERS = [
-  `./images/posters/made-for-each-other.png`,
-  `./images/posters/made-for-each-other.png`,
-  `./images/posters/sagebrush-trail.jpg`,
-  `./images/posters/santa-claus-conquers-the-martians.jpg`,
-  `./images/posters/the-dance-of-life.jpg`,
-  `./images/posters/the-great-flamarion.jpg`,
-  `./images/posters/the-man-with-the-golden-arm.jpg`
-];
-const NAMES = [`Anthony`, `Anne`, `Heinz`, `Richard`, `Erich`, `Mary Beth`, `Dan`];
-const LASTNAMES = [`Mann`, `Wigton`, `Herald`, `Weil`, `von Stroheim`, `Hughes`, `Duryea`];
-const COUNTRIES = [`USA`, `Russia`, `France`, `UK`, `Italy`];
-const AGES = [0, 6, 12, 16, 18];
-const MONTHS = [
-  {
-    name: `January`,
-    dayCount: 31
-  },
-  {
-    name: `February`,
-    dayCount: 28
-  },
-  {
-    name: `March`,
-    dayCount: 31
-  },
-  {
-    name: `April`,
-    dayCount: 30
-  },
-  {
-    name: `May`,
-    dayCount: 31
-  },
-  {
-    name: `June`,
-    dayCount: 30
-  },
-  {
-    name: `July`,
-    dayCount: 31
-  },
-  {
-    name: `August`,
-    dayCount: 31
-  },
-  {
-    name: `September`,
-    dayCount: 30
-  },
-  {
-    name: `October`,
-    dayCount: 31
-  },
-  {
-    name: `November`,
-    dayCount: 30
-  },
-  {
-    name: `December`,
-    dayCount: 31
-  }
+const Titles = [
+  `Knok' on heaven doors`,
+  `Fight club`,
+  `Back to the Future`,
+  `Ghostbusters`,
+  `The Gentlemen`,
+  `Green book`,
 ];
 
-const generateText = function (text = TEXT) {
-  const sentences = text.split(`.`);
-  const sentencesCount = getRandomNumber(1, 5);
+const Descriptions = [
+  `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+  `Cras aliquet varius magna, non porta ligula feugiat eget.`,
+  `Fusce tristique felis at fermentum pharetra.`,
+  `Aliquam id orci ut lectus varius viverra.`,
+  `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
+  `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
+];
 
-  const resultSentences = [];
-  for (let i = 0; i < sentencesCount; i++) {
-    resultSentences.push(getRandomItemFromArray(sentences).trim());
-  }
+const Posters = [
+  `made-for-each-other.png`,
+  `popeye-meets-sinbad.png`,
+  `sagebrush-trail.jpg`,
+  `santa-claus-conquers-the-martians.jpg`,
+  `the-dance-of-life.jpg`,
+  `the-great-flamarion.jpg`,
+  `the-man-with-the-golden-arm.jpg`,
+];
 
-  return `${resultSentences.join(`. `)}.`;
+const DIRECTORS = [
+  `Steven Spielberg`,
+  `Martin Scorsese`,
+  `Alfred Hitchcock`,
+  `Stanley Kubrick`,
+  `Quentin Tarantino`,
+  `Peter Jackson`,
+];
+
+const WRITERS = [
+  `Anne Wigton`,
+  `Heinz Herald`,
+  `Richard Weil`,
+  `Ethan Coen and Joel Coen`,
+  `Francis Ford Coppola`,
+  `Quentin Tarantino`,
+];
+
+const ACTORS = [
+  `Jack Nicholson`,
+  `Tom Hardy`,
+  `Joaquin Phoenix`,
+  `Christian Bale`,
+  `Johnny Depp`,
+  `Brad Pitt`,
+  `Andjelina Joly`
+];
+
+const COUNTRIES = [
+  `USA`,
+  `Canada`,
+  `Russia`,
+  `Italy`,
+  `Poland`,
+  `Japan`,
+];
+
+const EMOJIS = [
+  `smile`,
+  `angry`,
+  `puke`,
+  `sleeping`,
+];
+
+const AUTHORS = [
+  `Movie Maker`,
+  `Kitty`,
+  `Boom_pow_wow`,
+  `Serinity`,
+  `Magnolia_Fan`,
+  `Kevin_Smith`,
+  `Arnie`,
+];
+
+const texts = [
+  `10 из 10!`,
+  `WTF???!`,
+  `Актёры ужасные, режиссёрская работа отвратительная, саундтрек хуже некуда, сюжета нет.`,
+  `Я заснул...`,
+  `Под пивко сойдёт!`,
+  `Хорошо провел время`,
+  `Вот так вот!`,
+  `Фигня`,
+  `Это ШЕДЕВР!`,
+  `Я-я-я-я-ЗЬ!`,
+  `Я вообще ничего не понимаю.`,
+  `Годнота, всем рекомендую.`,
+  `Фильм ацтой! `,
+];
+
+const FILM_GENRES = [
+  `Horror`,
+  `Action`,
+  `Adventure`,
+  `Musical`,
+  `Comedy`,
+  `Thriller`,
+  `Detective`,
+  `Anime`,
+  `Drama`,
+  `Melodrama`,
+  `Art house`,
+  `Fantasy`,
+  `Space opera`,
+];
+
+const filmAges = [`6+`, `12+`, `16+`, `18+`];
+
+const DescriptionLength = {
+  MIN: 1,
+  MAX: 5,
+};
+const CommentParameter = {
+  MIN: 0,
+  MAX: 20,
+  YEAR: 1970,
+  MONTH: 0,
+  DAY: 1,
 };
 
-export const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
+const RatingParameter = {
+  MIN: 0,
+  MAX: 10,
+  FIXED: 1,
 };
 
-const getRandomDate = (format) => {
-  const maxDayGap = 3600;
-  const daysGap = getRandomInteger(-maxDayGap);
-  const date = dayjs().add(daysGap, `day`).toDate();
-  return dayjs(date).format(format);
+const DurationParameter = {
+  MIN: 80,
+  MAX: 240,
 };
 
-export const getAllComments = [];
-
-const generateComments = () => {
-  const ids = [];
-  const commentsCount = getRandomNumber(0, 5);
-
-  for (let i = 0; i < commentsCount; i++) {
-    const id = nanoid() + i;
-    const comment = {
-      id,
-      comment: generateText(),
-      emotion: getRandomItemFromArray(EMOTIONS),
-      author: `Author Name ${i}`,
-      date: getRandomDate()
-    };
-    getAllComments.push(comment);
-    ids.push(id);
-  }
-
-  return ids;
+const GenreParameter = {
+  MIN: 1,
+  MAX: 3,
 };
 
-const generateNames = (count = 1) => {
-  const names = [];
-  for (let i = 0; i < count; i++) {
-    names.push(`${getRandomItemFromArray(NAMES)} ${getRandomItemFromArray(LASTNAMES)}`);
-  }
-  return names.join(`, `);
+const WriterParameter = {
+  MIN: 1,
+  MAX: 3,
 };
 
-const createFilm = (key) => {
-  const years = [2000];
-  for (let i = 0; i < 20; i++) {
-    years.push(years[years.length - 1] + 1);
-  }
-  const year = getRandomItemFromArray(years);
+const ActorParameter = {
+  MIN: 2,
+  MAX: 6
+};
 
-  const countGenres = getRandomNumber(1, GENRES.length);
-  const duration = getRandomNumber(90, 180);
-  const month = getRandomItemFromArray(MONTHS);
-  const name = `Film ${key || `Film Film`}`;
+const FilmStartDate = {
+  YEAR: 1900,
+  MONTH: 0,
+  DAY: 1,
+};
 
-  const isWatched = Math.random() > 0.5;
-
+const generateFilmComment = () => {
+  const commentDate = getRandomDate(new Date(CommentParameter.YEAR, CommentParameter.MONTH, CommentParameter.DAY), new Date());
   return {
-    id: dayjs() + getRandomNumber(1, 10000),
-    name,
-    originalName: `Original: ${name}`,
-    rating: getRandomNumber(0, 10),
-    year,
-    duration,
-    genres: GENRES.slice(countGenres).join(`, `),
-    description: generateText(),
-    comments: generateComments(),
-    poster: getRandomItemFromArray(FILM_POSTERS),
-    age: getRandomItemFromArray(AGES),
-    isWatchlist: Math.random() > 0.5,
-    isWatched,
-    isFavorites: Math.random() > 0.5,
-    watchingDate: isWatched ? getRandomDate() : null,
-    details: [
-      {
-        term: `Director`,
-        info: generateNames()
-      },
-      {
-        term: `Writers`,
-        info: generateNames(3)
-      },
-      {
-        term: `Actors`,
-        info: generateNames(4)
-      },
-      {
-        term: `Release Date`,
-        info: `${getRandomNumber(1, month.dayCount)} ${month.name} ${year}`
-      },
-      {
-        term: `Runtime`,
-        info: duration
-      },
-      {
-        term: `Country`,
-        info: getRandomItemFromArray(COUNTRIES)
-      },
-    ]
+    id: nanoid(5),
+    emoji: getRandomArrayItem(EMOJIS),
+    text: getRandomArrayItem(texts),
+    author: getRandomArrayItem(AUTHORS),
+    date: commentDate,
   };
 };
 
-const generateFilms = (count) => {
-  const result = [];
-  for (let i = 0; i < count; i++) {
-    result.push(createFilm(i));
-  }
-  return result;
+const generateFilmCard = () => {
+  const filmDate = getRandomDate(new Date(FilmStartDate.YEAR, FilmStartDate.MONTH, FilmStartDate.DAY), new Date());
+  return {
+    id: nanoid(),
+    title: getRandomArrayItem(Titles),
+    poster: getRandomArrayItem(Posters),
+    description: getRandomArrayElements(Descriptions, DescriptionLength.MIN, DescriptionLength.MAX).join(` `),
+    comments: generateArray(getRandomIntegerNumber(CommentParameter.MIN, CommentParameter.MAX), generateFilmComment),
+    rating: getRandomNumber(RatingParameter.MIN, RatingParameter.MAX).toFixed(RatingParameter.FIXED),
+    release: filmDate,
+    duration: getRandomIntegerNumber(DurationParameter.MIN, DurationParameter.MAX),
+    genres: getRandomArrayElements(FILM_GENRES, GenreParameter.MIN, GenreParameter.MAX),
+    age: getRandomArrayItem(filmAges),
+    director: getRandomArrayItem(DIRECTORS),
+    writers: getRandomArrayElements(WRITERS, WriterParameter.MIN, WriterParameter.MAX),
+    actors: getRandomArrayElements(ACTORS, ActorParameter.MIN, ActorParameter.MAX),
+    country: getRandomArrayItem(COUNTRIES),
+    controls: {
+      isInFavorites: Boolean(getRandomIntegerNumber()),
+      isInWatchlist: Boolean(getRandomIntegerNumber()),
+      isInHistory: Boolean(getRandomIntegerNumber()),
+    },
+    watchingDate: getRandomDate(new Date(2021, 1, 27), new Date()),
+  };
 };
 
-export {generateFilms};
+export const generateFilmsCard = (count) => generateArray(count, generateFilmCard);

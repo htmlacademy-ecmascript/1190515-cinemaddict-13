@@ -5,6 +5,13 @@ const Keydown = {
 
 export default Keydown;
 
+export const CardsCount = {
+  DEFAULT: 17,
+  ON_START: 5,
+  STEP: 5,
+  EXTRA: 2
+};
+
 export const UserRank = {
   NOVICE: `Novice`,
   FAN: `Fan`,
