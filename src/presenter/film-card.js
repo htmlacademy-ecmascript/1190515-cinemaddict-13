@@ -35,7 +35,7 @@ export default class FilmCardPresenter {
 
     this._filmCardComponent = new FilmCardView(film);
 
-    this._filmCardComponent.setClickHandlers(this._showFilmDetailsHandler);
+    this._filmCardComponent.setClickHandler(this._showFilmDetailsHandler);
     this._filmCardComponent.setControlsClickHandler(this._changeData);
 
     if (prevFilmCardComponent) {

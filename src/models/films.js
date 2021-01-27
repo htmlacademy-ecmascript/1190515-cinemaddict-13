@@ -1,4 +1,4 @@
-import {getFiltredFilms} from "../utils/filters";
+import {getFilteredFilms} from "../utils/filters";
 import {FilterType} from "../const";
 
 export default class FilmsModel {
@@ -15,11 +15,11 @@ export default class FilmsModel {
   }
 
   getWatchedFilms() {
-    return getFiltredFilms(this._films, FilterType.HISTORY);
+    return getFilteredFilms(this._films, FilterType.HISTORY);
   }
 
   getFilms() {
-    return getFiltredFilms(this._films, this._activeFilter);
+    return getFilteredFilms(this._films, this._activeFilter);
   }
 
   setFilms(films) {

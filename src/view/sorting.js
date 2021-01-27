@@ -28,7 +28,7 @@ export default class SortView extends AbstractComponent {
     return this._currentSortType;
   }
 
-  setSortTypeHandler(callback) {
+  setClickHandler(callback) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 

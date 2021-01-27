@@ -1,41 +1,72 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {getUserRank} from "../utils/user-rank";
+import {getUserRank} from "./profile-rating";
 
-import Chart from "chart";
+import Chart from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
-import {MINUTES_IN_HOUR} from "../const";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+dayjs.extend(duration);
 
 const BAR_HEIGHT = 50;
 
-const CHART = {
-  TYPE: `horizontalBar`,
-  DATASETS: {
-    BACKGROUND_COLOR: `#ffe800`,
-    HOVER_BACKGROUND_COLOR: `#ffe800`,
-    ANCHOR: `start`,
-    BAR_THICKNESS: 24,
-  },
-  DATALABELS: {
-    FONT_SIZE: 20,
-    COLOR: `#ffffff`,
-    ANCHOR: `start`,
-    ALIGN: `start`,
-    OFFSET: 40,
-  },
-  TICKS: {
-    FONT_COLOR: `#ffffff`,
-    PADDING: 100,
-    FONT_SIZE: 20,
-  },
-};
-
-const Period = {
-  ALL_TIME: `all-time`,
-  TODAY: `today`,
-  WEEK: `week`,
-  MONTH: `month`,
-  YEAR: `year`,
+const renderChart = (statisticCtx, stats) => {
+  return new Chart(statisticCtx, {
+    plugins: [ChartDataLabels],
+    type: `horizontalBar`,
+    data: {
+      labels: stats.map((stat) => stat.genre),
+      datasets: [{
+        data: stats.map((stat) => stat.count),
+        backgroundColor: `#ffe800`,
+        hoverBackgroundColor: `#ffe800`,
+        anchor: `start`
+      }]
+    },
+    options: {
+      plugins: {
+        datalabels: {
+          font: {
+            size: 20
+          },
+          color: `#ffffff`,
+          anchor: `start`,
+          align: `start`,
+          offset: 40,
+        }
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            fontColor: `#ffffff`,
+            padding: 100,
+            fontSize: 20
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+          barThickness: 24
+        }],
+        xAxes: [{
+          ticks: {
+            display: false,
+            beginAtZero: true
+          },
+          gridLines: {
+            display: false,
+            drawBorder: false
+          },
+        }],
+      },
+      legend: {
+        display: false
+      },
+      tooltips: {
+        enabled: false
+      }
+    }
+  });
 };
 
 const getTimeRange = (filter) => {
@@ -43,23 +74,23 @@ const getTimeRange = (filter) => {
   let dateFrom = new Date();
 
   switch (filter) {
-    case Period.ALL_TIME:
+    case `all-time`:
       dateFrom = null;
       break;
 
-    case Period.TODAY:
+    case `today`:
       dateFrom.setDate(dateTo.getDate() - 1);
       break;
 
-    case Period.WEEK:
+    case `week`:
       dateFrom.setDate(dateTo.getDate() - 7);
       break;
 
-    case Period.MONTH:
+    case `month`:
       dateFrom.setMonth(dateTo.getMonth() - 1);
       break;
 
-    case Period.YEAR:
+    case `year`:
       dateFrom.setFullYear(dateTo.getFullYear() - 1);
       break;
   }
@@ -113,20 +144,20 @@ const getFilmsByTimeRange = (films, filter) => {
   });
 };
 
-const createTotalDuration = (films) => {
+const createTotalDurationMarkup = (films) => {
   const totalDuration = films.reduce((sum, film) => {
     return sum + film.duration;
   }, 0);
 
-  const hours = `${Math.trunc(totalDuration / MINUTES_IN_HOUR)} <span class="statistic__item-description">h</span>`;
+  const hours = totalDuration >= 60 ? `${Math.trunc(totalDuration / 60)} <span class="statistic__item-description">h</span>` : ``;
 
-  const minutes = `${totalDuration % MINUTES_IN_HOUR} <span class="statistic__item-description">m</span>`;
+  const minutes = (totalDuration % 60) > 0 ? `${totalDuration % 60} <span class="statistic__item-description">m</span>` : ``;
 
-  return `${hours} ${minutes}`;
+  return hours && minutes ? `${hours} ${minutes}` : null;
 };
 
 const createStatisticsTemplate = (films, activeFilter) => {
-  const userRank = getUserRank(films.length);
+  const userTitle = getUserRank(films.length);
 
   const filteredFilms = getFilmsByTimeRange(films, activeFilter);
 
@@ -136,15 +167,15 @@ const createStatisticsTemplate = (films, activeFilter) => {
 
   const topGenre = filteredFilmsCount ? sortedByGenre[0].genre : null;
 
-  const totalDuration = createTotalDuration(filteredFilms);
+  const totalDurationMarkup = createTotalDurationMarkup(filteredFilms);
 
   return (
     `<section class="statistic">
-      ${userRank ?
+      ${userTitle ?
       `<p class="statistic__rank">
         Your rank
         <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-        <span class="statistic__rank-label">${userRank}</span>
+        <span class="statistic__rank-label">${userTitle}</span>
       </p>` : ``}
       <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
         <p class="statistic__filters-description">Show stats:</p>
@@ -167,7 +198,7 @@ const createStatisticsTemplate = (films, activeFilter) => {
       ${filteredFilmsCount ?
       ` <li class="statistic__text-item">
         <h4 class="statistic__item-title">Total duration</h4>
-        <p class="statistic__item-text">${totalDuration}</p>
+        <p class="statistic__item-text">${totalDurationMarkup}</p>
       </li>
       <li class="statistic__text-item">
         <h4 class="statistic__item-title">Top genre</h4>
@@ -182,18 +213,19 @@ const createStatisticsTemplate = (films, activeFilter) => {
   );
 };
 
-export default class StatisticsView extends AbstractSmartComponent {
+export default class Statistics extends AbstractSmartComponent {
   constructor(filmsModel) {
     super();
 
     this._filmsModel = filmsModel;
 
-    this._activeFilter = Period.ALL_TIME;
+    this._activeFilter = `all-time`;
 
     this._filmsChart = null;
+    this._statisticCtx = null;
 
     this._setFilterClickHandler();
-    this._renderChartBlock();
+    this._renderChart();
   }
 
   getTemplate() {
@@ -203,7 +235,7 @@ export default class StatisticsView extends AbstractSmartComponent {
   show() {
     super.show();
 
-    this._activeFilter = Period.ALL_TIME;
+    this._activeFilter = `all-time`;
 
     this.updateElement();
   }
@@ -215,7 +247,7 @@ export default class StatisticsView extends AbstractSmartComponent {
   updateElement() {
     super.updateElement();
 
-    this._renderChartBlock();
+    this._renderChart();
   }
 
   _setFilterClickHandler() {
@@ -226,7 +258,7 @@ export default class StatisticsView extends AbstractSmartComponent {
     });
   }
 
-  _renderChartBlock() {
+  _renderChart() {
     const statisticCtx = this.getElement().querySelector(`.statistic__chart`);
 
     this._resetCharts();
@@ -235,66 +267,7 @@ export default class StatisticsView extends AbstractSmartComponent {
 
     const genresStats = sortByGenre(filteredFilms);
 
-    this._renderChart(statisticCtx, genresStats);
-  }
-
-  _renderChart(statisticCtx, stats) {
-    return new Chart(statisticCtx, {
-      plugins: [ChartDataLabels],
-      type: CHART.TYPE,
-      data: {
-        labels: stats.map((stat) => stat.genre),
-        datasets: [{
-          data: stats.map((stat) => stat.count),
-          backgroundColor: CHART.DATASETS.BACKGROUND_COLOR,
-          hoverBackgroundColor: CHART.DATASETS.HOVER_BACKGROUND_COLOR,
-          anchor: CHART.DATASETS.ANCHOR,
-          barThickness: CHART.DATASETS.BAR_THICKNESS,
-        }]
-      },
-      options: {
-        plugins: {
-          datalabels: {
-            font: {
-              size: CHART.DATALABELS.FONT_SIZE
-            },
-            color: CHART.DATALABELS.COLOR,
-            anchor: CHART.DATALABELS.ANCHOR,
-            align: CHART.DATALABELS.ALIGN,
-            offset: CHART.DATALABELS.OFFSET,
-          }
-        },
-        scales: {
-          yAxes: [{
-            ticks: {
-              fontColor: CHART.TICKS.FONT_COLOR,
-              padding: CHART.TICKS.PADDING,
-              fontSize: CHART.TICKS.FONT_SIZE,
-            },
-            gridLines: {
-              display: false,
-              drawBorder: false
-            },
-          }],
-          xAxes: [{
-            ticks: {
-              display: false,
-              beginAtZero: true
-            },
-            gridLines: {
-              display: false,
-              drawBorder: false
-            },
-          }],
-        },
-        legend: {
-          display: false
-        },
-        tooltips: {
-          enabled: false
-        }
-      }
-    });
+    this._statisticCtx = renderChart(statisticCtx, genresStats);
   }
 
   _resetCharts() {
@@ -309,6 +282,7 @@ export default class StatisticsView extends AbstractSmartComponent {
 // import dayjs from "dayjs";
 // import duration from "dayjs/plugin/duration";
 // dayjs.extend(duration);
+
 // _filterFilmsByWatchingDate() {
 //   const toDay = new Date();
 //   let startPeriodDate = null;

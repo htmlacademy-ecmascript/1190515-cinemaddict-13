@@ -1,6 +1,6 @@
-import AbstractComponent from './abstract-component.js';
+import AbstractComponent from "./abstract-component";
 
-export default class SiteNavigationView extends AbstractComponent {
+export default class NavigationView extends AbstractComponent {
   getTemplate() {
     return `<nav class="main-navigation">
               <a href="#stats" class="main-navigation__additional">Stats</a>

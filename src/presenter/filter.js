@@ -2,11 +2,11 @@ import FilterView from "../view/filters";
 
 import {FilterType} from "../const";
 import {render, replace, RenderPosition} from "../utils/render";
-import {getFiltredFilms} from "../utils/filters";
+import {getFilteredFilms} from "../utils/filters";
 
 const createFilter = (filter, films, checkedFilter) => ({
   name: filter,
-  count: getFiltredFilms(films, filter).length,
+  count: getFilteredFilms(films, filter).length,
   isChecked: filter === checkedFilter,
 });
 
