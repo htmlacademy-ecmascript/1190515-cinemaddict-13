@@ -46,9 +46,42 @@ export const NAMES = [`Anthony Mannet`, `Anne Wigton`, `Heinz Herald`, `Richard 
 export const COUNTRIES = [`USA`, `Russia`, `Germany`, `France`, `Italy`];
 export const AGES = [0, 6, 10, 14, 18];
 
+//
+
 export const Keydown = {
   ENT: `Enter`,
   ESC: `Escape`,
 };
 
 export default Keydown;
+
+export const UserRank = {
+  NOVICE: `Novice`,
+  FAN: `Fan`,
+  MOVIE_BUFF: `Movie Buff`,
+};
+
+export const SortType = {
+  DEFAULT: `Sort by default`,
+  DATE: `Sort by date`,
+  RATING: `Sort by rating`,
+  COMMENTS: `Sort by comments`,
+};
+
+export const FilterType = {
+  ALL: `All movies`,
+  WATCHLIST: `Watchlist`,
+  HISTORY: `History`,
+  FAVORITES: `Favorites`,
+};
+
+export const MenuItem = {
+  FILMS: `films`,
+  STATS: `stats`,
+};
+
+export const MINUTES_IN_HOUR = 60;
+
+export const SNAKE_CLASS = `shake`;
+
+export const NAVIGATION_ACTIVE_CLASS = `main-navigation__item--active`;

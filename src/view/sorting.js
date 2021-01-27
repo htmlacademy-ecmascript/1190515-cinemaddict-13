@@ -1,36 +1,34 @@
 import AbstractComponent from "./abstract-component";
+import {SortType} from "../const";
 
-export const SORTING_DATA_TYPE = {
-  DEFAULT: `default`,
-  DATE: `date`,
-  RATING: `rating`
+const createSortTemplate = () => {
+  return (
+    `<ul class="sort">
+      <li><a href="#" data-sort-type="${SortType.DEFAULT}" class="sort__button sort__button--active"> Sort by default </a></li>
+      <li><a href="#" data-sort-type="${SortType.DATE}" class="sort__button"> Sort by date </a></li>
+      <li><a href="#" data-sort-type="${SortType.RATING}" class="sort__button"> Sort by rating </a></li>
+    </ul>`
+  );
 };
 
-export const createSortingTemplate = () => {
-  return `<ul class="sort">
-    <li><a href="#" class="sort__button sort__button--active" data-type="default">Sort by default</a></li>
-    <li><a href="#" class="sort__button" data-type="date">Sort by date</a></li>
-    <li><a href="#" class="sort__button" data-type="rating">Sort by rating</a></li>
-  </ul>`;
-};
-
-export default class SortingView extends AbstractComponent {
+export default class SortView extends AbstractComponent {
   constructor() {
     super();
-    this._currentSortingType = SORTING_DATA_TYPE.DEFAULT;
+    this._currentSortType = SortType.DEFAULT;
+
+    this._resetActiveClass = this._resetActiveClass.bind(this);
+    this._setActiveClass = this._setActiveClass.bind(this);
   }
 
-  getCurrentSortingType() {
-    return this._currentSortingType;
-  }
   getTemplate() {
-    return createSortingTemplate();
+    return createSortTemplate();
   }
-  _clickHandler(evt) {
-    evt.preventDefault();
-    this._callback.click();
+
+  getSortType() {
+    return this._currentSortType;
   }
-  setSortingTypeChangeHandler(callback) {
+
+  setSortTypeHandler(callback) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
@@ -38,36 +36,33 @@ export default class SortingView extends AbstractComponent {
         return;
       }
 
-      const sortingType = evt.target.dataset.type;
+      const sortType = evt.target.dataset.sortType;
 
-      if (this._currentSortingType === sortingType) {
+      if (this._currentSortType === sortType) {
         return;
       }
 
-      this.getElement().querySelectorAll(`.sort__button`).forEach((sortButton) => {
-        sortButton.classList.remove(`sort__button--active`);
-      });
-      evt.target.classList.add(`sort__button--active`);
+      this._resetActiveClass();
+      this._setActiveClass(evt.target);
 
-      this._currentSortingType = sortingType;
-
-      callback(this._currentSortingType);
+      this._currentSortType = sortType;
+      callback(this._currentSortType);
     });
   }
-  setDefaultSortingType() {
-    if (this._currentSortingType === SORTING_DATA_TYPE.DEFAULT) {
-      return;
-    }
 
-    this.getElement().querySelectorAll(`.sort__button`).forEach((sortButton) => {
-      if (sortButton.getAttribute(`data-type`) === SORTING_DATA_TYPE.DEFAULT) {
-        sortButton.classList.add(`sort__button--active`);
-      } else {
-        sortButton.classList.remove(`sort__button--active`);
-      }
-    });
+  setDefaultSortType() {
+    this._currentSortType = SortType.DEFAULT;
+    this._resetActiveClass();
+    this._setActiveClass(this._element.querySelector(`a:first-child`));
+  }
 
-    this._currentSortingType = SORTING_DATA_TYPE.DEFAULT;
+  _resetActiveClass() {
+    this._element
+      .querySelectorAll(`.sort__button`)
+      .forEach((it) => it.classList.remove(`sort__button--active`));
+  }
+
+  _setActiveClass(element) {
+    element.classList.add(`sort__button--active`);
   }
 }
-

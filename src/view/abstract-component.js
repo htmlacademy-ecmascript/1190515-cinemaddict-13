@@ -1,16 +1,18 @@
 import {createElement} from "../utils/render";
 
+const VISUALLY_HIDDEN = `visually-hidden`;
+
 export default class AbstractComponent {
   constructor() {
     if (new.target === AbstractComponent) {
       throw new Error(`Can't instantiate AbstractComponent, only concrete one.`);
     }
+
     this._element = null;
-    this._callback = {};
   }
 
   getTemplate() {
-    throw new Error(`Abstract method not implemented: getTemplate`);
+    throw new Error(`Abstract method not implemented: getTemplate.`);
   }
 
   getElement() {
@@ -24,4 +26,18 @@ export default class AbstractComponent {
   removeElement() {
     this._element = null;
   }
+
+  show() {
+    if (this._element) {
+      this._element.classList.remove(VISUALLY_HIDDEN);
+    }
+  }
+
+  hide() {
+    if (this._element) {
+      this._element.classList.add(VISUALLY_HIDDEN);
+    }
+  }
 }
+
+

@@ -9,7 +9,7 @@ export const createContentTemplate = () => {
           </section>`;
 };
 
-export default class ContentView extends AbstractComponent {
+export default class Content extends AbstractComponent {
   getTemplate() {
     return createContentTemplate();
   }

@@ -1,9 +1,9 @@
-export const generateFilters = (films) => {
+const generateFilters = (films) => {
   return [
     {
       name: `All movies`,
       link: `#all`,
-      count: films.length,
+      count: -1
     },
     {
       name: `Watchlist`,
@@ -23,4 +23,4 @@ export const generateFilters = (films) => {
   ];
 };
 
-export default generateFilters;
+export {generateFilters};

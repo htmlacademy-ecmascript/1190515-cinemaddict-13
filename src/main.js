@@ -1,29 +1,27 @@
 import {POSITION, render} from "./utils/render";
-import BoardPresenter from "./presenter/board";
-import {generateFilms, getAllComments} from "./mock/card-film";
-import ProfileView from "./view/profile";
-import FooterStatisticsView from "./view/footer-statistic";
-import {generateUserRank} from "./mock/user-rank";
-import MoviesModel from "./model/movies";
-import CommentsModel from "./model/comments";
+import Board from "./presenter/board";
+import {generateFilms, getAllComments} from "./mock/film";
+import Profile from "./view/profile";
+import FooterStatistics from "./view/footer-statistic";
+import Movies from "./model/movies";
+import Comments from "./model/comments";
 
 const FILM_COUNT = 17;
 
-const headerContainerElement = document.querySelector(`.header`);
-const mainContainerElement = document.querySelector(`.main`);
-const footerContainerElement = document.querySelector(`.footer`);
+const headerContainer = document.querySelector(`.header`);
+const mainContainer = document.querySelector(`.main`);
+const footerContainer = document.querySelector(`.footer`);
 
 const films = generateFilms(FILM_COUNT);
 const comments = getAllComments;
 
-const moviesModel = new MoviesModel(films);
-const commentsModel = new CommentsModel(comments);
+const moviesModel = new Movies(films);
+const commentsModel = new Comments(comments);
 
-const userRankLabel = generateUserRank(films);
-render(headerContainerElement, new ProfileView(userRankLabel), POSITION.BEFOREEND);
+render(headerContainer, new Profile(moviesModel), POSITION.BEFOREEND);
 
-new BoardPresenter(mainContainerElement, moviesModel, commentsModel).render(films);
+new Board(mainContainer, moviesModel, commentsModel).render();
 
-const statisticsContainer = footerContainerElement.querySelector(`.footer__statistics`);
-render(statisticsContainer, new FooterStatisticsView(films.length), POSITION.BEFOREEND);
+const statisticsContainer = footerContainer.querySelector(`.footer__statistics`);
+render(statisticsContainer, new FooterStatistics(films.length), POSITION.BEFOREEND);
 

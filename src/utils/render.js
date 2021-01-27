@@ -1,75 +1,43 @@
-import AbstractComponent from "../view/abstract-component";
-
-export const POSITION = {
+export const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`,
-  AFTEREND: `afterend`,
-};
-
-export const render = (container, child, place) => {
-  if (container instanceof AbstractComponent) {
-    container = container.getElement();
-  }
-
-  if (child instanceof AbstractComponent) {
-    child = child.getElement();
-  }
-  switch (place) {
-    case POSITION.AFTERBEGIN:
-      container.prepend(child);
-      break;
-    case POSITION.BEFOREEND:
-      container.append(child);
-      break;
-    case POSITION.AFTEREND:
-      container.after(child);
-      break;
-  }
+  BEFOREEND: `beforeend`
 };
 
 export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
+
   return newElement.firstChild;
 };
 
-export const remove = (component) => {
-  if (!(component instanceof AbstractComponent)) {
-    throw new Error(`Can remove only components`);
-  }
-  component.getElement().remove();
-  component.removeElement();
-};
-
-export const toggleElement = (container, component, action) => {
-  const element = component.getElement();
-  switch (action) {
-    case `show`:
-      container.appendChild(element);
+export const render = (container, component, place = RenderPosition.BEFOREEND) => {
+  switch (place) {
+    case RenderPosition.AFTERBEGIN:
+      container.prepend(component.getElement());
       break;
-    case `hide`:
-      if (container.contains(element)) {
-        container.removeChild(element);
-      }
+
+    case RenderPosition.BEFOREEND:
+      container.append(component.getElement());
       break;
   }
 };
 
-export const replace = (newChild, oldChild) => {
-  if (oldChild instanceof AbstractComponent) {
-    oldChild = oldChild.getElement();
-  }
-
-  if (newChild instanceof AbstractComponent) {
-    newChild = newChild.getElement();
-  }
-
-  const parent = oldChild.parentElement;
-
-  if (parent === null || oldChild === null || newChild === null) {
-    throw new Error(`Can't replace unexisting elements`);
-  }
-
-  parent.replaceChild(newChild, oldChild);
+export const removeChild = (childComponent) => {
+  const parent = childComponent.getElement().parentElement;
+  parent.removeChild(childComponent.getElement());
 };
 
+export const appendChild = (place, childComponent) => {
+  place.appendChild(childComponent.getElement());
+};
+
+export const replace = (newComponent, prevComponent) => {
+  const parentElement = prevComponent.getElement().parentElement;
+  const newChildElement = newComponent.getElement();
+  const prevChildElement = prevComponent.getElement();
+
+  const isExistElements = !!(parentElement && newChildElement && prevChildElement);
+  if (isExistElements && parentElement.contains(prevChildElement)) {
+    parentElement.replaceChild(newChildElement, prevChildElement);
+  }
+};

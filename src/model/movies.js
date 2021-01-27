@@ -1,16 +1,15 @@
 import {FilterTypes} from "../presenter/filter";
-import {getFilmsSortingByRating} from "../utils/film";
-import {SORTING_DATA_TYPE} from "../view/sorting";
-import dayjs from "dayjs";
+import {getFilmsSortByRating} from "../utils/film";
+import {SORT_TYPE} from "../view/sort";
 
-export default class MoviesModel {
+export default class Movies {
   constructor(films) {
     this._films = films;
     this._currentFilterType = FilterTypes.ALL;
     this._filterChangeHandlers = [];
     this._dataChangeHandlers = [];
     this._dataCommentsChangeHandlers = [];
-    this._extraBlockChangeHandlers = [];
+    this._additionBlockChangeHandlers = [];
   }
 
   getAllFilms() {
@@ -22,11 +21,16 @@ export default class MoviesModel {
       case FilterTypes.WATCHLIST:
         return this._films.filter((elm) => elm.isWatchlist);
       case FilterTypes.HISTORY:
-        return this._films.filter((elm) => elm.isWatched);
+        return this.getWatchedFilms();
       case FilterTypes.FAVORITES:
         return this._films.filter((elm) => elm.isFavorites);
     }
+
     return this._films;
+  }
+
+  getWatchedFilms() {
+    return this._films.filter((elm) => elm.isWatched);
   }
 
   updateData(id, newFilm) {
@@ -36,13 +40,14 @@ export default class MoviesModel {
       return;
     }
 
+    const isCommentsUpdate = !(this._films[index].comments === newFilm.comments);
+
     this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + +1));
     this._callHandlers(this._dataChangeHandlers);
 
-    const isCommentsUpdate = !(this._films[index].comments === newFilm.comments);
     if (isCommentsUpdate) {
       this._callHandlers(this._dataCommentsChangeHandlers);
-      this._callHandlers(this._extraBlockChangeHandlers);
+      this._callHandlers(this._additionBlockChangeHandlers);
     }
   }
 
@@ -51,41 +56,41 @@ export default class MoviesModel {
     this._callHandlers(this._filterChangeHandlers);
   }
 
-  setFilterChangeHandler(callback) {
-    this._filterChangeHandlers.push(callback);
+  setFilterChangeHandlers(handler) {
+    this._filterChangeHandlers.push(handler);
   }
 
-  setDataChangeHandler(callback) {
-    this._dataChangeHandlers.push(callback);
+  setDataChangeHandler(handler) {
+    this._dataChangeHandlers.push(handler);
   }
 
-  setExtraBlockChangeHandler(callback) {
-    this._extraBlockChangeHandlers.push(callback);
+  setAdditionBlockChangeHandler(handler) {
+    this._additionBlockChangeHandlers.push(handler);
   }
 
-  setCommentsDataChangeHandler(callback) {
-    this._dataCommentsChangeHandlers.push(callback);
+  setCommentsDataChangeHAndler(handler) {
+    this._dataCommentsChangeHandlers.push(handler);
   }
 
-  _callHandlers(callbacks) {
-    callbacks.forEach((callback) => callback());
+  _callHandlers(handlers) {
+    handlers.forEach((handler) => handler());
   }
 
-  _getFilmsSortingByRating(from, to) {
-    return getFilmsSortingByRating(this.getFilms(), from, to);
+  _getFilmsSortByRating(from, to) {
+    return getFilmsSortByRating(this.getFilms(), from, to);
   }
 
-  getSortedFilms(sortingType, from, to) {
-    switch (sortingType) {
-      case SORTING_DATA_TYPE.DATE:
+  getSortedFilms(sortType, from, to) {
+    switch (sortType) {
+      case SORT_TYPE.DATE:
         return this.getFilms().slice().sort((a, b) => {
-          const bDate = dayjs(b.details.find((detail) => detail.term === `Release Date`).info);
-          const aDate = dayjs(a.details.find((detail) => detail.term === `Release Date`).info);
+          const bDate = new Date(b.details.find((detail) => detail.term === `Release Date`).info);
+          const aDate = new Date(a.details.find((detail) => detail.term === `Release Date`).info);
           return bDate - aDate;
         }).slice(from, to);
-      case SORTING_DATA_TYPE.RATING:
-        return this._getFilmsSortingByRating(from, to);
-      case SORTING_DATA_TYPE.DEFAULT:
+      case SORT_TYPE.RATING:
+        return this._getFilmsSortByRating(from, to);
+      case SORT_TYPE.DEFAULT:
         return this.getFilms().slice(from, to);
     }
     return [];

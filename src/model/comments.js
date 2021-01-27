@@ -1,4 +1,4 @@
-export default class CommentsModel {
+export default class Comments {
   constructor(comments) {
     this._allComments = comments;
     this._commentForDeleteIds = [];
@@ -13,6 +13,7 @@ export default class CommentsModel {
   addComment(comment) {
     this._allComments = [].concat(this._allComments, comment);
   }
+
   deleteComments() {
     this._commentForDeleteIds.forEach((id) => {
       const deleteCommentIndex = this._allComments.findIndex((comment) => comment.id === id);

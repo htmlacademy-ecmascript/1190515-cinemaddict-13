@@ -1,40 +1,30 @@
 import dayjs from "dayjs";
+//
 
-export const getRandomInteger = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
+const getRandomNumber = (min, max) => {
+  return Math.floor(Math.random() * (max - min)) + min;
 };
 
-export let generateDate = (format) => {
-  const maxDayGap = 3600;
-  const daysGap = getRandomInteger(-maxDayGap, +maxDayGap);
-  const date = dayjs().add(daysGap, `day`).toDate();
-  return dayjs(date).format(format);
+const getRandomItemFromArray = (array) => {
+  const min = 0;
+  const max = array.length;
+  return array[getRandomNumber(min, max)];
 };
 
-export const formatFilmDuration = (duration) => {
-  return dayjs().minute(duration).format(`h[h] m[m]`);
+const formatDateTime = (date) => {
+  return dayjs(date).format(`DD MMMM YYYY`);
 };
 
-export const getRandomArrayItem = (dataArray) => {
-  const randomIndex = getRandomInteger(0, dataArray.length - 1);
-
-  return dataArray[randomIndex];
+const formatFilmDuration = (movieDuration) => {
+  return dayjs().minute(movieDuration).format(`h[h] m[m]`);
 };
 
-export const getSeveralRandomArrayItems = (dataArray, maxItemsCount) => {
-  const itemsCount = getRandomInteger(1, maxItemsCount);
+// const formatFilmDurationForStatistic = (movieDuration) => {
+//   return dayjs().duration(movieDuration, `minutes`).format(`h:m`);
+// };
 
-  return [...dataArray].sort(() => 0.5 - Math.random()).slice(0, itemsCount);
-};
-
-export const truncateString = (value, length) => {
-  return value.length > length ? `${value.slice(0, length)}...` : value;
-};
-
-export const sortingByDesc = (a, b) => {
+const sortByDesc = (a, b) => {
   return b - a;
 };
 
+export {getRandomNumber, getRandomItemFromArray, formatDateTime, sortByDesc, formatFilmDuration};

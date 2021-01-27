@@ -4,7 +4,7 @@ export const createLoadMoreTemplate = () => {
   return `<button class="films-list__show-more">Show more</button>`;
 };
 
-export default class LoadMoreButtonView extends AbstractComponent {
+export default class LoadMore extends AbstractComponent {
   constructor() {
     super();
     this._clickHandler = this._clickHandler.bind(this);
