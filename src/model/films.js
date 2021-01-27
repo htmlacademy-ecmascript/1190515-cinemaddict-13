@@ -1,62 +1,57 @@
-import {FilterTypes} from "../presenter/filter";
-import {getFilmsSortByRating} from "../utils/film";
-import {SORT_TYPE} from "../view/sort";
+import {getFiltredFilms} from "../utils/filters";
+import {FilterType} from "../const";
 
-export default class Films {
-  constructor(films) {
-    this._films = films;
-    this._currentFilterType = FilterTypes.ALL;
-    this._filterChangeHandlers = [];
+export default class FilmsModel {
+  constructor() {
+    this._films = [];
+    this._activeFilter = FilterType.ALL;
+
     this._dataChangeHandlers = [];
-    this._dataCommentsChangeHandlers = [];
-    this._additionBlockChangeHandlers = [];
+    this._filterChangeHandlers = [];
   }
 
   getAllFilms() {
     return this._films;
   }
 
-  getFilms() {
-    switch (this._currentFilterType) {
-      case FilterTypes.WATCHLIST:
-        return this._films.filter((elm) => elm.isWatchlist);
-      case FilterTypes.HISTORY:
-        return this.getWatchedFilms();
-      case FilterTypes.FAVORITES:
-        return this._films.filter((elm) => elm.isFavorites);
-    }
-
-    return this._films;
-  }
-
   getWatchedFilms() {
-    return this._films.filter((elm) => elm.isWatched);
+    return getFiltredFilms(this._films, FilterType.HISTORY);
   }
 
-  updateData(id, newFilm) {
-    const index = this._films.findIndex((film) => film.id === id);
+  getFilms() {
+    return getFiltredFilms(this._films, this._activeFilter);
+  }
 
-    if (index === -1) {
-      return;
-    }
+  setFilms(films) {
+    this._films = [...films];
 
-    const isCommentsUpdate = !(this._films[index].comments === newFilm.comments);
-
-    this._films = [].concat(this._films.slice(0, index), newFilm, this._films.slice(index + +1));
     this._callHandlers(this._dataChangeHandlers);
-
-    if (isCommentsUpdate) {
-      this._callHandlers(this._dataCommentsChangeHandlers);
-      this._callHandlers(this._additionBlockChangeHandlers);
-    }
   }
 
   setFilter(filterType) {
-    this._currentFilterType = filterType;
+    this._activeFilter = filterType;
     this._callHandlers(this._filterChangeHandlers);
   }
 
-  setFilterChangeHandlers(handler) {
+  updateFilm(id, film) {
+    const index = this._films.findIndex((it) => it.id === id);
+
+    if (index === -1) {
+      return false;
+    }
+
+    if (this._films[index].controls.isInHistory !== film.controls.isInHistory && film.controls.isInHistory) {
+      film.watchingDate = new Date();
+    }
+
+    this._films = [...this._films.slice(0, index), film, ...this._films.slice(index + 1)];
+
+    this._callHandlers(this._dataChangeHandlers);
+
+    return true;
+  }
+
+  setFilterChangeHandler(handler) {
     this._filterChangeHandlers.push(handler);
   }
 
@@ -64,35 +59,7 @@ export default class Films {
     this._dataChangeHandlers.push(handler);
   }
 
-  setAdditionBlockChangeHandler(handler) {
-    this._additionBlockChangeHandlers.push(handler);
-  }
-
-  setCommentsDataChangeHAndler(handler) {
-    this._dataCommentsChangeHandlers.push(handler);
-  }
-
   _callHandlers(handlers) {
     handlers.forEach((handler) => handler());
-  }
-
-  _getFilmsSortByRating(from, to) {
-    return getFilmsSortByRating(this.getFilms(), from, to);
-  }
-
-  getSortedFilms(sortType, from, to) {
-    switch (sortType) {
-      case SORT_TYPE.DATE:
-        return this.getFilms().slice().sort((a, b) => {
-          const bDate = new Date(b.details.find((detail) => detail.term === `Release Date`).info);
-          const aDate = new Date(a.details.find((detail) => detail.term === `Release Date`).info);
-          return bDate - aDate;
-        }).slice(from, to);
-      case SORT_TYPE.RATING:
-        return this._getFilmsSortByRating(from, to);
-      case SORT_TYPE.DEFAULT:
-        return this.getFilms().slice(from, to);
-    }
-    return [];
   }
 }

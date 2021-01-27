@@ -1,6 +1,6 @@
-import ProfileRatingComponent from "./view/profile-rating";
-import MenuComponent from "./view/menu";
-import StatisticsComponent from "./view/statistics";
+import ProfileRatingView from "./view/profile-rating";
+import MenuView from "./view/menu";
+import StatisticsView from "./view/statistics";
 import MovieListPresenter from "./presenter/movie";
 import FilterPresenter from "./presenter/filter";
 import FilmsModel from "./models/films";
@@ -19,24 +19,24 @@ const filmsModel = new FilmsModel();
 
 const api = new API(END_POINT, AUTHORIZATION);
 
-const siteNavigationComponent = new MenuComponent();
+const MenuComponent = new MenuView();
 const pagePresenter = new MovieListPresenter(siteMainElement, filmsModel, api);
 
-render(siteMainElement, siteNavigationComponent);
-const statisticsComponent = new StatisticsComponent(filmsModel);
+render(siteMainElement, MenuComponent);
+const statisticsComponent = new StatisticsView(filmsModel);
 render(siteMainElement, statisticsComponent);
 statisticsComponent.hide();
 
 api.getFilms()
   .then((films) => {
     filmsModel.setFilms(films);
-    render(siteHeaderElement, new ProfileRatingComponent(filmsModel));
-    new FilterPresenter(siteNavigationComponent.getElement(), filmsModel).render();
+    render(siteHeaderElement, new ProfileRatingView(filmsModel));
+    new FilterPresenter(MenuComponent.getElement(), filmsModel).render();
     pagePresenter.render();
     render(siteFooterElement, new FooterStatisticsComponent(films.length));
   });
 
-siteNavigationComponent.setClickHandler((isStatistics) => {
+MenuComponent.setClickHandler((isStatistics) => {
   if (isStatistics) {
     pagePresenter.destroy();
     statisticsComponent.show();
