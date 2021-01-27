@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {SNAKE_CLASS} from "../const.js";
+import {SHAKE_MOTION} from "../const.js";
 import dayjs from "dayjs";
 import he from "he";
 
@@ -75,8 +75,8 @@ export default class FilmDetailsCommentsView extends AbstractSmartComponent {
   }
 
   _disableComment(comment) {
-    if (comment.classList.contains(SNAKE_CLASS)) {
-      comment.classList.remove(SNAKE_CLASS);
+    if (comment.classList.contains(SHAKE_MOTION)) {
+      comment.classList.remove(SHAKE_MOTION);
     }
     comment.disabled = true;
   }
@@ -93,6 +93,6 @@ export default class FilmDetailsCommentsView extends AbstractSmartComponent {
 
   _activateComment(comment) {
     comment.disabled = false;
-    comment.classList.add(SNAKE_CLASS);
+    comment.classList.add(SHAKE_MOTION);
   }
 }

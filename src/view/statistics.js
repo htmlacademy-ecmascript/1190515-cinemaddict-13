@@ -1,6 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
 import {getUserRank} from "../utils/utils";
-
 import Chart from "chart";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 import {MINUTES_IN_HOUR} from "../const";
@@ -303,3 +302,25 @@ export default class StatisticsView extends AbstractSmartComponent {
     }
   }
 }
+
+
+// import dayjs from "dayjs";
+// import duration from "dayjs/plugin/duration";
+// dayjs.extend(duration);
+// _filterFilmsByWatchingDate() {
+//   const toDay = new Date();
+//   let startPeriodDate = null;
+
+//   switch (this._currentFilterType) {
+//     case FilterTypes.TODAY:
+//       return this._watchedFilms.filter((film) => formatDate(film.watchingDate) === formatDate(toDay));
+//     case FilterTypes.WEEK:
+//       startPeriodDate = dayjs(toDay).add(-7, `days`).format(`DD MMMM YYYY`);
+//       break;
+//     case FilterTypes.MONTH:
+//       startPeriodDate = dayjs(toDay).add(-1, `month`).format(`DD MMMM YYYY`);
+//       break;
+//     case FilterTypes.YEAR:
+//       startPeriodDate = dayjs(toDay).add(-1, `year`).format(`DD MMMM YYYY`);
+//       break;
+//   }

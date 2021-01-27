@@ -22,6 +22,11 @@ export const render = (container, component, place = RenderPosition.BEFOREEND) =
   }
 };
 
+export const remove = (component) => {
+  component.getElement().remove();
+  component.removeElement();
+};
+
 export const removeChild = (childComponent) => {
   const parent = childComponent.getElement().parentElement;
   parent.removeChild(childComponent.getElement());

@@ -6,7 +6,7 @@ const createGenresTemplate = (genres) => {
   return genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join(`\n`);
 };
 
-const getWordGenre = (genres) => genres.length > 1 ? `Genres` : `Genre`;
+const getDifferentGenre = (genres) => genres.length > 1 ? `Genres` : `Genre`;
 
 const createFilmDetailsTemplate = (film) => {
   const {title, altTitle, poster, description, rating, releaseDate, duration, genres, age, director, writers, actors, country} = film;
@@ -62,7 +62,7 @@ const createFilmDetailsTemplate = (film) => {
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">${getWordGenre(genres)}</td>
+                  <td class="film-details__term">${getDifferentGenre(genres)}</td>
                   <td class="film-details__cell">
                     ${createGenresTemplate(genres)}
                 </tr>

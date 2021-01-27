@@ -8,7 +8,7 @@ const Description = {
   MIN: 0,
 };
 
-const getComments = (comments) => comments ? comments.length : 0;
+const getCommentsLength = (comments) => comments ? comments.length : 0;
 
 const getActiveState = (isCheckedParameter) => isCheckedParameter ? `film-card__controls-item--active` : ``;
 
@@ -27,7 +27,7 @@ const createFilmCardTemplate = (film) => {
       </p>
       <img src="./${poster}" alt="${title}" class="film-card__poster">
       <p class="film-card__description">${getDescription(description)}</p>
-      <a class="film-card__comments">${getComments(comments)} comments</a>
+      <a class="film-card__comments">${getCommentsLength(comments)} comments</a>
       <form class="film-card__controls">
         <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${getActiveState(isInWatchlist)}">Add to watchlist</button>
         <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${getActiveState(isInHistory)}">Mark as watched</button>

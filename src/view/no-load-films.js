@@ -1,13 +1,9 @@
 import AbstractComponent from "./abstract-component";
 
-const NO_LOAD_FILMS_TEXT = `There are no movies in our database`;
-
-export const getNoLoadFilms = () => {
-  return `<h2 class="films-list__title">${NO_LOAD_FILMS_TEXT}</h2>`;
-};
-
-export default class NoLoadFilms extends AbstractComponent {
+export default class NoLoadFilmsView extends AbstractComponent {
   getTemplate() {
-    return getNoLoadFilms();
+    return `<section class="films-list">
+              <h2 class="films-list__title">There are no movies in our database</h2>
+            </section>`;
   }
 }

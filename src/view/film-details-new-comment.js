@@ -1,6 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {SNAKE_CLASS} from "../const";
-import Keydown from "../const";
+import {SHAKE_MOTION, Keydown} from "../const";
 
 const Emoji = {
   SMILE: `smile`,
@@ -69,10 +68,10 @@ export default class FilmDetailsNewCommentView extends AbstractSmartComponent {
     document.removeEventListener(`keydown`, this._newCommentSubmitHandler);
   }
 
-  snakeBlock() {
+  shakeBlock() {
     const textarea = this.getElement().querySelector(`.film-details__comment-input`);
     textarea.disabled = false;
-    textarea.classList.add(SNAKE_CLASS);
+    textarea.classList.add(SHAKE_MOTION);
   }
 
   reset() {
@@ -121,8 +120,8 @@ export default class FilmDetailsNewCommentView extends AbstractSmartComponent {
     const isCtrlEnterPressed = Keydown.ENT && (evt.ctrlKey || evt.metaKey);
     const textarea = this.getElement().querySelector(`.film-details__comment-input`);
 
-    if (textarea.classList.contains(SNAKE_CLASS)) {
-      textarea.classList.remove(SNAKE_CLASS);
+    if (textarea.classList.contains(SHAKE_MOTION)) {
+      textarea.classList.remove(SHAKE_MOTION);
     }
 
     if (isCtrlEnterPressed && this._comment && this._emoji) {
@@ -136,7 +135,7 @@ export default class FilmDetailsNewCommentView extends AbstractSmartComponent {
 
       this._callback(comment);
     } else if (isCtrlEnterPressed && (this._comment || this._emoji)) {
-      this.snakeBlock();
+      this.shakeBlock();
     }
   }
 }
