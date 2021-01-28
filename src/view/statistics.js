@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {getUserRank} from "./profile-rating";
+import {getUserRank} from "../utils/user-rank";
 
 import Chart from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -79,19 +79,19 @@ const getTimeRange = (filter) => {
       break;
 
     case `today`:
-      dateFrom.setDate(dateTo.getDate() - 1);
+      dateFrom = dayjs(dateTo).format(`DD MMMM YYYY`);
       break;
 
     case `week`:
-      dateFrom.setDate(dateTo.getDate() - 7);
+      dateFrom = dayjs(dateTo).add(-7, `days`).format(`DD MMMM YYYY`);
       break;
 
     case `month`:
-      dateFrom.setMonth(dateTo.getMonth() - 1);
+      dateFrom = dayjs(dateTo).add(-1, `month`).format(`DD MMMM YYYY`);
       break;
 
     case `year`:
-      dateFrom.setFullYear(dateTo.getFullYear() - 1);
+      dateFrom = dayjs(dateTo).add(-1, `year`).format(`DD MMMM YYYY`);
       break;
   }
 
@@ -169,10 +169,9 @@ const createStatisticsTemplate = (films, activeFilter) => {
 
   const totalDurationMarkup = createTotalDurationMarkup(filteredFilms);
 
-  return (
-    `<section class="statistic">
+  return `<section class="statistic">
       ${userTitle ?
-      `<p class="statistic__rank">
+    `<p class="statistic__rank">
         Your rank
         <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
         <span class="statistic__rank-label">${userTitle}</span>
@@ -196,7 +195,7 @@ const createStatisticsTemplate = (films, activeFilter) => {
           <p class="statistic__item-text">${filteredFilmsCount} <span class="statistic__item-description">movies</span></p>
         </li>
       ${filteredFilmsCount ?
-      ` <li class="statistic__text-item">
+    ` <li class="statistic__text-item">
         <h4 class="statistic__item-title">Total duration</h4>
         <p class="statistic__item-text">${totalDurationMarkup}</p>
       </li>
@@ -209,8 +208,7 @@ const createStatisticsTemplate = (films, activeFilter) => {
       <div class="statistic__chart-wrap">
         <canvas class="statistic__chart" width="1000" height="${BAR_HEIGHT * sortedByGenre.length}"></canvas>
       </div>
-    </section>`
-  );
+    </section>`;
 };
 
 export default class Statistics extends AbstractSmartComponent {
@@ -237,15 +235,15 @@ export default class Statistics extends AbstractSmartComponent {
 
     this._activeFilter = `all-time`;
 
-    this.updateElement();
+    this.rerender();
   }
 
   restoreHandlers() {
     this._setFilterClickHandler();
   }
 
-  updateElement() {
-    super.updateElement();
+  rerender() {
+    super.rerender();
 
     this._renderChart();
   }
@@ -254,7 +252,7 @@ export default class Statistics extends AbstractSmartComponent {
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`change`, (evt) => {
       this._activeFilter = evt.target.value;
 
-      this.updateElement();
+      this.rerender();
     });
   }
 

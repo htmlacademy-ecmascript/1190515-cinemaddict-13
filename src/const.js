@@ -1,15 +1,23 @@
-const Keydown = {
+export const Keydown = {
   ENT: `Enter`,
   ESC: `Escape`,
 };
-
-export default Keydown;
 
 export const CardsCount = {
   DEFAULT: 17,
   ON_START: 5,
   STEP: 5,
   EXTRA: 2
+};
+
+export const ButtonText = {
+  DELETE: `Delete`,
+  DELETING: `Deleting...`
+};
+
+export const NavigationItem = {
+  FILMS: `films`,
+  STATS: `stats`,
 };
 
 export const UserRank = {
@@ -32,10 +40,17 @@ export const FilterType = {
   FAVORITES: `Favorites`,
 };
 
-export const MenuItem = {
-  FILMS: `films`,
-  STATS: `stats`,
+export const TimePeriod = {
+  ALL_TIME: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`,
 };
+
+export const SHAKE_ANIMATION_TIMEOUT = 600;
+
+export const MAIN = document.querySelector(`.main`);
 
 export const MINUTES_IN_HOUR = 60;
 

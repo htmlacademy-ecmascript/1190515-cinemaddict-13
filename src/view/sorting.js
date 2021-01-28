@@ -2,13 +2,11 @@ import AbstractComponent from "./abstract-component";
 import {SortType} from "../const";
 
 const createSortTemplate = () => {
-  return (
-    `<ul class="sort">
-      <li><a href="#" id="${SortType.DEFAULT}" data-sort-type="${SortType.DEFAULT}" class="sort__button sort__button--active"> Sort by default </a></li>
-      <li><a href="#" id="${SortType.DATE}" data-sort-type="${SortType.DATE}" class="sort__button"> Sort by date </a></li>
-      <li><a href="#" id="${SortType.RATING}" data-sort-type="${SortType.RATING}" class="sort__button"> Sort by rating </a></li>
-    </ul>`
-  );
+  return `<ul class="sort">
+      <li><a href="#" data-sort-type="${SortType.DEFAULT}" class="sort__button sort__button--active"> Sort by default </a></li>
+      <li><a href="#" data-sort-type="${SortType.DATE}" class="sort__button"> Sort by date </a></li>
+      <li><a href="#" data-sort-type="${SortType.RATING}" class="sort__button"> Sort by rating </a></li>
+    </ul>`;
 };
 
 export default class SortView extends AbstractComponent {
@@ -16,8 +14,8 @@ export default class SortView extends AbstractComponent {
     super();
     this._currentSortType = SortType.DEFAULT;
 
-    // this._resetActiveClass = this._resetActiveClass.bind(this);
-    // this._setActiveClass = this._setActiveClass.bind(this);
+    this._resetActiveClass = this._resetActiveClass.bind(this);
+    this._setActiveClass = this._setActiveClass.bind(this);
   }
 
   getTemplate() {
@@ -28,7 +26,7 @@ export default class SortView extends AbstractComponent {
     return this._currentSortType;
   }
 
-  setClickHandler(callback) {
+  setSortTypeHandler(callback) {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
@@ -42,14 +40,8 @@ export default class SortView extends AbstractComponent {
         return;
       }
 
-      // this._resetActiveClass();
-      // this._setActiveClass(evt.target);
-      const sortList = evt.currentTarget;
-      const sortElement = evt.target;
-      const sortElements = sortList.querySelectorAll(`.sort__button`);
-
-      sortElements.forEach((element) => element.classList.remove(`sort__button--active`));
-      sortElement.classList.add(`sort__button--active`);
+      this._resetActiveClass();
+      this._setActiveClass(evt.target);
 
       this._currentSortType = sortType;
       callback(this._currentSortType);
@@ -65,7 +57,7 @@ export default class SortView extends AbstractComponent {
   _resetActiveClass() {
     this._element
       .querySelectorAll(`.sort__button`)
-      .forEach((it) => it.classList.remove(`sort__button--active`));
+      .forEach((btn) => btn.classList.remove(`sort__button--active`));
   }
 
   _setActiveClass(element) {

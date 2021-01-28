@@ -1,29 +1,28 @@
 import AbstractComponent from "./abstract-component";
-import {FilterType} from "../const";
+import {FilterType, NavigationItem} from "../const";
+import {NAVIGATION_ITEM_ACTIVE} from "./navigation";
 
 const createFiltersTemplate = (filters) => {
-  return filters.map(({name, count, isChecked}) => {
-    return `<a href="${name}" data-filter="${name}"
-    class="main-navigation__item ${isChecked ? `main-navigation__item--active` : ``}">
-    ${name} ${name === FilterType.ALL ? `` : `<span class="main-navigation__item-count">${count}</span>`}
-    </a>`;
+  return filters.map(({address, name, count, isChecked}) => {
+    return `<a href="#${address}"
+         data-id="${NavigationItem.FILMS}"
+         data-filter-type="${name}"
+         class="main-navigation__item${isChecked ? ` ${NAVIGATION_ITEM_ACTIVE}` : ``}">
+         ${name}
+         ${name === FilterType.ALL ? `` : `<span  class="main-navigation__item-count">${count}</span>`}
+      </a>`;
   }).join(`\n`);
 };
 
 const createFilterTemplate = (filters) => {
-  const filtersTemplate = createFiltersTemplate(filters);
-
-  return (
-    `<div class="main-navigation__items">
-      ${filtersTemplate}
-    </div>`
-  );
+  return `<div class="main-navigation__items">
+      ${createFiltersTemplate(filters)}
+    </div>`;
 };
 
-export default class FiltersView extends AbstractComponent {
+export default class Filter extends AbstractComponent {
   constructor(filters) {
     super();
-
     this._filters = filters;
   }
 
@@ -32,14 +31,16 @@ export default class FiltersView extends AbstractComponent {
   }
 
   setFilterChangeHandler(callback) {
+
     this.getElement().addEventListener(`click`, (evt) => {
-      if (evt.target.tagName === `A` || evt.target.parentElement.tagName === `A`) {
-        evt.preventDefault();
+      evt.preventDefault();
 
-        const filterName = evt.target.tagName === `A` ? evt.target.dataset.filter : evt.target.parentElement.dataset.filter;
-
-        callback(filterName);
+      if (evt.target.tagName !== `A`) {
+        return;
       }
+      document.querySelector(`.main-navigation__additional`).classList.remove(NAVIGATION_ITEM_ACTIVE);
+
+      callback(evt.target.dataset.filterType);
     });
   }
 }

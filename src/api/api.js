@@ -30,7 +30,7 @@ export default class Api {
     return this._sendRequest({
       url: `movies/${id}`,
       method: Method.PUT,
-      body: JSON.stringify(film),
+      body: JSON.stringify(film.adaptToServer()),
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then(Api.toJSON)

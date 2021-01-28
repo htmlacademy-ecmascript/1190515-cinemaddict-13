@@ -1,4 +1,4 @@
-import AbstractComponent from "./abstract-component";
+import AbstractSmartComponent from "./abstract-smart-component";
 import dayjs from "dayjs";
 
 const createGenresTemplate = (genres) => {
@@ -6,14 +6,11 @@ const createGenresTemplate = (genres) => {
 };
 
 const createFilmDetailsTemplate = (film) => {
-  const {title, poster, description, rating, releaseDate, duration, genres, age, director, writers, actors, country, altTitle} = film;
-  const {isInFavorites, isInWatchlist, isInHistory} = film.controls;
+  const {title, altTitle, poster, description, rating, releaseDate, duration, genres, age, director, writers, actors, country} = film;
 
   const genresTemplate = createGenresTemplate(genres);
 
-  const getDifferentGenre = () => genres.length > 1 ? `Genres` : `Genre`;
-
-  const getCheckedStatus = (isChecked) => isChecked ? `checked` : ``;
+  const getDifferentGenreGenre = () => genres.length > 1 ? `Genres` : `Genre`;
 
   return (
     `<section class="film-details">
@@ -25,7 +22,7 @@ const createFilmDetailsTemplate = (film) => {
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="./${poster}" alt="${title}">
-              <p class="film-details__age">${age}</p>
+              <p class="film-details__age">${age}+</p>
             </div>
             <div class="film-details__info">
               <div class="film-details__info-head">
@@ -63,7 +60,7 @@ const createFilmDetailsTemplate = (film) => {
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">${getDifferentGenre()}</td>
+                  <td class="film-details__term">${getDifferentGenreGenre()}</td>
                   <td class="film-details__cell">
                     ${genresTemplate}
                 </tr>
@@ -73,41 +70,26 @@ const createFilmDetailsTemplate = (film) => {
               </p>
             </div>
           </div>
-          <section class="film-details__controls">
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" data-control="isInWatchlist" ${getCheckedStatus(isInWatchlist)}>
-            <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" data-control="isInHistory" ${getCheckedStatus(isInHistory)}>
-            <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
-            <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" data-control="isInFavorites" ${getCheckedStatus(isInFavorites)}>
-            <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
-          </section>
+        </div>
+        <div class="film-details__bottom-container">
         </div>
       </form>
     </section>`
   );
 };
 
-export default class FilmDetailsView extends AbstractComponent {
+export default class FilmDetails extends AbstractSmartComponent {
   constructor(film) {
     super();
+
     this._film = film;
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._film);
+    return createFilmDetailsTemplate(this._film, this._comments);
   }
 
   setClickHandler(callback) {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, callback);
-  }
-
-  setCloseButtonClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
-  }
-
-  setControlsHandler(handler) {
-    this.getElement().querySelector(`.film-details__controls`).addEventListener(`change`, (evt) => {
-      handler(evt.target.dataset.control);
-    });
   }
 }
