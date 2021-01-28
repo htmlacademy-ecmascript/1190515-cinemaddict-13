@@ -14,7 +14,7 @@ const createFilmDetailsControlsTemplate = ({isInWatchlist, isInHistory, isInFavo
     </section>`;
 };
 
-export default class FilmDetailsControlsView extends AbstractSmartComponent {
+export default class FilmDetailsControls extends AbstractSmartComponent {
   constructor(controls) {
     super();
 
@@ -29,7 +29,7 @@ export default class FilmDetailsControlsView extends AbstractSmartComponent {
     this.getElement().querySelector(`input[name="watchlist"]`).addEventListener(`change`, callback);
   }
 
-  setAddToWatchedHandler(callback) {
+  setAlreadyWatchedHandler(callback) {
     this.getElement().querySelector(`input[name="watched"]`).addEventListener(`change`, callback);
   }
 

@@ -1,7 +1,9 @@
-export const Keydown = {
+const Keydown = {
   ENT: `Enter`,
   ESC: `Escape`,
 };
+
+export default Keydown;
 
 export const CardsCount = {
   DEFAULT: 17,

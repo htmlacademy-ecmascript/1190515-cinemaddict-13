@@ -235,15 +235,15 @@ export default class Statistics extends AbstractSmartComponent {
 
     this._activeFilter = `all-time`;
 
-    this.rerender();
+    this.updateElement();
   }
 
   restoreHandlers() {
     this._setFilterClickHandler();
   }
 
-  rerender() {
-    super.rerender();
+  updateElement() {
+    super.updateElement();
 
     this._renderChart();
   }
@@ -252,7 +252,7 @@ export default class Statistics extends AbstractSmartComponent {
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`change`, (evt) => {
       this._activeFilter = evt.target.value;
 
-      this.rerender();
+      this.updateElement();
     });
   }
 

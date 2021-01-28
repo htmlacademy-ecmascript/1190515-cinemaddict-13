@@ -20,7 +20,7 @@ const createFilterTemplate = (filters) => {
     </div>`;
 };
 
-export default class Filter extends AbstractComponent {
+export default class FilterView extends AbstractComponent {
   constructor(filters) {
     super();
     this._filters = filters;

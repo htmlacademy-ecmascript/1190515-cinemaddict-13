@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {Keydown, SHAKE_ANIMATION_TIMEOUT} from "../const";
+import Keydown, {SHAKE_ANIMATION_TIMEOUT} from "../const";
 import dayjs from "dayjs";
 
 const EmojiAddress = {
@@ -39,7 +39,7 @@ const createFilmDetailsCommentSectionTemplate = (comment, emojiTemplate, emoji) 
       </div>`;
 };
 
-export default class FilmDetailsNewComment extends AbstractSmartComponent {
+export default class FilmDetailsNewCommentView extends AbstractSmartComponent {
   constructor() {
     super();
 

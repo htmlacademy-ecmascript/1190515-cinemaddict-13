@@ -78,7 +78,7 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export default class FilmDetails extends AbstractSmartComponent {
+export default class FilmDetailsView extends AbstractSmartComponent {
   constructor(film) {
     super();
 

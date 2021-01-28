@@ -37,7 +37,7 @@ const createFilmDetailsCommentsTemplate = (comments) => {
   );
 };
 
-export default class FilmDetailsComments extends AbstractSmartComponent {
+export default class FilmDetailsCommentsView extends AbstractSmartComponent {
   constructor(comments) {
     super();
 
