@@ -5,7 +5,7 @@ import he from "he";
 
 const createCommentsTemplate = (allComments) => {
   return allComments.map(({emotion, comment, date, author, id}) => {
-    const setDateView = (commentDate) => new Date().setMonth(new Date().getMonth() - 1) > commentDate ? dayjs(commentDate).format(`DD MM YYYY`) : dayjs(commentDate).fromNow();
+    const setDateView = (commentDate) => new Date().setMonth(new Date().getMonth() - 1) > commentDate ? dayjs(commentDate).format(`DD MM YYYY`) : dayjs(commentDate).toDate();
     return (
       `<li class="film-details__comment">
         <span class="film-details__comment-emoji">

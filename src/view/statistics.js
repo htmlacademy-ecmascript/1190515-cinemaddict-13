@@ -8,6 +8,8 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 dayjs.extend(duration);
 
+import {TimePeriod} from "../const";
+
 const BAR_HEIGHT = 50;
 
 const renderChart = (statisticCtx, stats) => {
@@ -74,24 +76,24 @@ const getTimeRange = (filter) => {
   let dateFrom = new Date();
 
   switch (filter) {
-    case `all-time`:
+    case TimePeriod.ALL_TIME:
       dateFrom = null;
       break;
 
-    case `today`:
-      dateFrom = dayjs(dateTo).format(`DD MMMM YYYY`);
+    case TimePeriod.TODAY:
+      dateFrom.setDate(dateTo.getDate() - 1);
       break;
 
-    case `week`:
-      dateFrom = dayjs(dateTo).add(-7, `days`).format(`DD MMMM YYYY`);
+    case TimePeriod.WEEK:
+      dateFrom.setDate(dateTo.getDate() - 7);
       break;
 
-    case `month`:
-      dateFrom = dayjs(dateTo).add(-1, `month`).format(`DD MMMM YYYY`);
+    case TimePeriod.MONTH:
+      dateFrom.setMonth(dateTo.getMonth() - 1);
       break;
 
-    case `year`:
-      dateFrom = dayjs(dateTo).add(-1, `year`).format(`DD MMMM YYYY`);
+    case TimePeriod.YEAR:
+      dateFrom.setFullYear(dateTo.getFullYear() - 1);
       break;
   }
 
@@ -211,13 +213,13 @@ const createStatisticsTemplate = (films, activeFilter) => {
     </section>`;
 };
 
-export default class Statistics extends AbstractSmartComponent {
+export default class StatisticsView extends AbstractSmartComponent {
   constructor(filmsModel) {
     super();
 
     this._filmsModel = filmsModel;
 
-    this._activeFilter = `all-time`;
+    this._activeFilter = TimePeriod.ALL_TIME;
 
     this._filmsChart = null;
     this._statisticCtx = null;
@@ -233,7 +235,7 @@ export default class Statistics extends AbstractSmartComponent {
   show() {
     super.show();
 
-    this._activeFilter = `all-time`;
+    this._activeFilter = TimePeriod.ALL_TIME;
 
     this.updateElement();
   }

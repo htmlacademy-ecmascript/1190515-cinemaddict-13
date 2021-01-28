@@ -1,4 +1,4 @@
-import Adapter from "../models/adapter";
+import AdapterModel from "../models/adapter";
 
 const Method = {
   GET: `GET`,
@@ -23,7 +23,7 @@ export default class Api {
       url: `movies`
     })
       .then(Api.toJSON)
-      .then(Adapter.createFilms);
+      .then(AdapterModel.createFilms);
   }
 
   updateFilm(id, film) {
@@ -34,7 +34,7 @@ export default class Api {
       headers: new Headers({"Content-Type": `application/json`})
     })
       .then(Api.toJSON)
-      .then(Adapter.createFilm);
+      .then(AdapterModel.createFilm);
   }
 
   getComment(id) {

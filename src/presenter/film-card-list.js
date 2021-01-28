@@ -134,14 +134,16 @@ export default class FilmCardListPresenter {
     }
   }
 
-  _onSortTypeChange(sortType) {
+  _updateList(sortType) {
     this._currentCardsCount = CardCount.ON_START;
-    const sortedFilms = getSortedFilms(this._filmsModel.getFilms(), sortType, 0, CardCount.ON_START);
-
     this._removeFilms();
-    this._renderFilms(sortedFilms, this._filmsListContainer);
+    this._renderFilms(getSortedFilms(this._filmsModel.getFilms(), sortType, 0, this._currentCardsCount), this._filmsListContainer);
     this._renderShowMoreButton();
     this._renderExtraFilmList();
+  }
+
+  _onSortTypeChange(sortType) {
+    this._updateList(sortType);
   }
 
   _onDataChange(filmPresenter, oldData, newData) {
@@ -163,7 +165,7 @@ export default class FilmCardListPresenter {
     }
     this._sortComponent.setDefaultSortType();
     this._onSortTypeChange(SortType.DEFAULT);
-    this._updateFilms(CardCount.ON_START);
+    this._updateList(this._sortComponent.getSortType());
   }
 
   hide() {

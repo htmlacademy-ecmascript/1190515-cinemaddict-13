@@ -195,7 +195,7 @@ export default class FilmCardPresenter {
         this._comments = this._commentsModel.getComments();
         this._filmDetailsCommentsComponent = new FilmDetailsCommentsView(this._comments);
 
-        appendChild(this._filmDetailsComponent.getElement().querySelector(`.form-details__bottom-container`), this._filmDetailsCommentsComponent);
+        appendChild(this._filmDetailsComponent.getElement().querySelector(`.film-details__bottom-container`), this._filmDetailsCommentsComponent);
 
         this._filmDetailsCommentsComponent.setDeleteButtonHandler((commentId) => {
           if (this._mode === Mode.OPEN) {

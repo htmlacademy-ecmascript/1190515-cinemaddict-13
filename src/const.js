@@ -5,6 +5,14 @@ const Keydown = {
 
 export default Keydown;
 
+export const Timeperiod = {
+  ALL_TIME: `all-time`,
+  TODAY: `today`,
+  WEEK: `week`,
+  MONTH: `month`,
+  YEAR: `year`
+};
+
 export const CardsCount = {
   DEFAULT: 17,
   ON_START: 5,
