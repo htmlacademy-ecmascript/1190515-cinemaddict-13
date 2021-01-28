@@ -77,7 +77,6 @@ export default class FilmCardListPresenter {
 
     this._renderFilms(currentFilms, this._filmsListContainer);
     this._renderShowMoreButton();
-    this._renderExtraFilmList();
   }
 
   _renderFilmPresenters(films, container) {
@@ -106,7 +105,6 @@ export default class FilmCardListPresenter {
     this._removeFilms();
     this._renderFilms(this._filmsModel.getFilms().slice(0, count), this._filmsListContainer);
     this._renderShowMoreButton();
-    this._renderExtraFilmList();
   }
 
   _renderShowMoreButton() {
@@ -139,7 +137,6 @@ export default class FilmCardListPresenter {
     this._removeFilms();
     this._renderFilms(getSortedFilms(this._filmsModel.getFilms(), sortType, 0, this._currentCardsCount), this._filmsListContainer);
     this._renderShowMoreButton();
-    this._renderExtraFilmList();
   }
 
   _onSortTypeChange(sortType) {

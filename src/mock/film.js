@@ -8,6 +8,10 @@ import {
 } from "../utils/render";
 import {nanoid} from "nanoid";
 
+const MIN_DATE = new Date(2021, 1, 27);
+const MIN_СOMMENTS = 5;
+
+
 const Titles = [
   `Knok' on heaven doors`,
   `Fight club`,
@@ -171,7 +175,7 @@ const FilmStartDate = {
 const generateFilmComment = () => {
   const commentDate = getRandomDate(new Date(CommentParameter.YEAR, CommentParameter.MONTH, CommentParameter.DAY), new Date());
   return {
-    id: nanoid(5),
+    id: nanoid(MIN_СOMMENTS),
     emoji: getRandomArrayItem(EMOJIS),
     text: getRandomArrayItem(texts),
     author: getRandomArrayItem(AUTHORS),
@@ -201,7 +205,7 @@ const generateFilmCard = () => {
       isInWatchlist: Boolean(getRandomIntegerNumber()),
       isInHistory: Boolean(getRandomIntegerNumber()),
     },
-    watchingDate: getRandomDate(new Date(2021, 1, 27), new Date()),
+    watchingDate: getRandomDate(MIN_DATE, new Date()),
   };
 };
 

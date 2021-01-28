@@ -76,22 +76,19 @@ const getTimeRange = (filter) => {
   let dateFrom = new Date();
 
   switch (filter) {
+
     case TimePeriod.ALL_TIME:
       dateFrom = null;
       break;
-
     case TimePeriod.TODAY:
       dateFrom.setDate(dateTo.getDate() - 1);
       break;
-
     case TimePeriod.WEEK:
       dateFrom.setDate(dateTo.getDate() - 7);
       break;
-
     case TimePeriod.MONTH:
       dateFrom.setMonth(dateTo.getMonth() - 1);
       break;
-
     case TimePeriod.YEAR:
       dateFrom.setFullYear(dateTo.getFullYear() - 1);
       break;
@@ -142,7 +139,7 @@ const getFilmsByTimeRange = (films, filter) => {
   }
 
   return films.filter((film) => {
-    return film.watchingDate >= dateFrom && film.watchingDate <= dateTo;
+    return film.watchingDate <= dateFrom && film.watchingDate <= dateTo;
   });
 };
 
@@ -151,11 +148,11 @@ const createTotalDurationMarkup = (films) => {
     return sum + film.duration;
   }, 0);
 
-  const hours = totalDuration >= 60 ? `${Math.trunc(totalDuration / 60)} <span class="statistic__item-description">h</span>` : ``;
+  const hours = `${Math.trunc(totalDuration / 60)} <span class="statistic__item-description">h</span>`;
 
-  const minutes = (totalDuration % 60) > 0 ? `${totalDuration % 60} <span class="statistic__item-description">m</span>` : ``;
+  const minutes = `${totalDuration % 60} <span class="statistic__item-description">m</span>`;
 
-  return hours && minutes ? `${hours} ${minutes}` : null;
+  return `${hours} ${minutes}`;
 };
 
 const createStatisticsTemplate = (films, activeFilter) => {

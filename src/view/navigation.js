@@ -1,5 +1,5 @@
 import AbstractComponent from "./abstract-component";
-import NavigationItem from "../const";
+import {NavigationItem} from "../const";
 
 export const NAVIGATION_ITEM_ACTIVE = `main-navigation__item--active`;
 
