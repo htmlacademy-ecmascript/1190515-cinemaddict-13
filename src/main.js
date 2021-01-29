@@ -3,7 +3,7 @@ import API from "./api/api";
 import FooterStatisticView from "./view/footer-statistic";
 import UserProfileRatingView from "./view/user-profile-rating";
 import NavigationView from "./view/navigation";
-import StatisticsView from "./view/statistics";
+import StatisticsView from "./view/statistic";
 
 import FilmsModel from "./models/films";
 
@@ -14,7 +14,7 @@ import {render} from "./utils/render";
 import {getUserRank} from "./utils/user-rank";
 import {NavigationItem} from "./const";
 
-const AUTHORIZATION = `Basic 798125yuiwbtgq23`;
+const AUTHORIZATION = `Basic h79h9h78hw9ohtgfseg`;
 const END_POINT = `https://13.ecmascript.pages.academy/cinemaddict`;
 
 const siteHeaderElement = document.querySelector(`.header`);

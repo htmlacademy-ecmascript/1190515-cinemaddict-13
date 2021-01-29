@@ -1,13 +1,15 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
+import {SHAKE_CLASS, ButtonText} from "../const.js";
+
 import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+
 import he from "he";
 
 const createCommentsTemplate = (allComments) => {
   return allComments.map(({emotion, comment, date, author, id}) => {
-    const setDateView = (commentDate) => new Date().setMonth(new Date().getMonth() - 1) > commentDate ? dayjs(commentDate).format(`DD MM YYYY`) : dayjs(commentDate).toDate();
-    return (
-      `<li class="film-details__comment">
+    return `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
           <img src="./images/emoji/${emotion}.png" width="55" height="55" alt="emoji-${emotion}">
         </span>
@@ -15,12 +17,11 @@ const createCommentsTemplate = (allComments) => {
           <p class="film-details__comment-text">${he.encode(comment)}</p>
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${author}</span>
-            <span class="film-details__comment-day">${setDateView(date)}</span>
+            <span class="film-details__comment-day">${dayjs(date).fromNow()}</span>
             <button data-id="${id}" class="film-details__comment-delete">Delete</button>
           </p>
         </div>
-      </li>`
-    );
+      </li>`;
   }).join(`\n`);
 };
 
@@ -54,8 +55,8 @@ export default class FilmDetailsCommentsView extends AbstractSmartComponent {
         return;
       }
       evt.preventDefault();
-      evt.target.disabled = true;
-      evt.target.textContent = `Deleting...`;
+      this._disableComment(evt.target.closest(`.film-details__comment`));
+      this._disableDeleteButton(evt.target);
       callback(evt.target.dataset.id);
     });
   }
@@ -63,12 +64,31 @@ export default class FilmDetailsCommentsView extends AbstractSmartComponent {
   shakeComment(commentId) {
     const index = this._comments.findIndex((comment) => comment.id === commentId);
     const comment = this.getElement().querySelectorAll(`.film-details__comment`)[index];
+    const deleteButton = comment.querySelector(`.film-details__comment-delete`);
+
+    this._activateComment(comment);
+    this._activateDeleteButton(deleteButton);
+  }
+
+  _disableComment(comment) {
+    if (comment.classList.contains(SHAKE_CLASS)) {
+      comment.classList.remove(SHAKE_CLASS);
+    }
+    comment.disabled = true;
+  }
+
+  _disableDeleteButton(button) {
+    button.disabled = true;
+    button.textContent = ButtonText.DELETING;
+  }
+
+  _activateDeleteButton(button) {
+    button.disabled = false;
+    button.textContent = ButtonText.DELETE;
+  }
+
+  _activateComment(comment) {
     comment.disabled = false;
-    comment.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
-
-    setTimeout(() => {
-      comment.style.animation = ``;
-
-    }, SHAKE_ANIMATION_TIMEOUT);
+    comment.classList.add(SHAKE_CLASS);
   }
 }

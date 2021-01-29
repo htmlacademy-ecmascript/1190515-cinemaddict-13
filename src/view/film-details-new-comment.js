@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import Keydown, {SHAKE_ANIMATION_TIMEOUT} from "../const";
+import Keydown, {SHAKE_CLASS} from "../const";
 import dayjs from "dayjs";
 
 const EmojiAddress = {
@@ -114,29 +114,30 @@ export default class FilmDetailsNewCommentView extends AbstractSmartComponent {
   _newCommentSubmitHandler(evt) {
     const isCommentPush = evt.ctrlKey && evt.key === Keydown.ENT;
 
+    const textarea = this.getElement().querySelector(`.film-details__comment-input`);
+
+    if (textarea.classList.contains(SHAKE_CLASS)) {
+      textarea.classList.remove(SHAKE_CLASS);
+    }
+
     if (isCommentPush && this._comment && this._emoji) {
-      this.getElement().querySelector(`.film-details__comment-input`).disabled = true;
+      textarea.disabled = true;
 
       const comment = {
         'emotion': this._emoji,
         'comment': this._comment,
         'date': dayjs(),
       };
+
       this._callback(comment);
     } else if (isCommentPush && (this._comment || this._emoji)) {
       this.shakeBlock();
     }
   }
-
   shakeBlock() {
     const textarea = this.getElement().querySelector(`.film-details__comment-input`);
     textarea.disabled = false;
-    textarea.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
-
-    setTimeout(() => {
-      textarea.style.animation = ``;
-
-    }, SHAKE_ANIMATION_TIMEOUT);
+    textarea.classList.add(SHAKE_CLASS);
   }
 }
 

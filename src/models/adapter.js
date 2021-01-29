@@ -1,24 +1,24 @@
 export default class AdapterModel {
   constructor(film) {
-    this.id = film[`id`];
-    this.comments = film[`comments`];
-    this.title = film[`film_info`][`title`];
-    this.altTitle = film[`film_info`][`alternative_title`];
-    this.poster = film[`film_info`][`poster`];
-    this.description = film[`film_info`][`description`];
-    this.rating = film[`film_info`][`total_rating`];
-    this.releaseDate = new Date(film[`film_info`][`release`][`date`]);
-    this.country = film[`film_info`][`release`][`release_country`];
-    this.duration = film[`film_info`][`runtime`];
-    this.genres = film[`film_info`][`genre`];
-    this.age = film[`film_info`][`age_rating`];
-    this.director = film[`film_info`][`director`];
-    this.writers = film[`film_info`][`writers`];
-    this.actors = film[`film_info`][`actors`];
-    this.isInFavorites = film[`user_details`][`favorite`];
-    this.isInWatchlist = film[`user_details`][`watchlist`];
-    this.isInHistory = film[`user_details`][`already_watched`];
-    this.watchingDate = new Date(film[`user_details`][`watching_date`]);
+    this.id = film.id;
+    this.comments = film.comments;
+    this.title = film.film_info.title;
+    this.altTitle = film.film_info.alternative_title;
+    this.poster = film.film_info.poster;
+    this.description = film.film_info.description;
+    this.rating = film.film_info.total_rating;
+    this.releaseDate = new Date(film.film_info.release.date);
+    this.country = film.film_info.release.release_country;
+    this.duration = film.film_info.runtime;
+    this.genres = film.film_info.genre;
+    this.age = film.film_info.age_rating;
+    this.director = film.film_info.director;
+    this.writers = film.film_info.writers;
+    this.actors = film.film_info.actors;
+    this.isInFavorites = film.user_details.favorite;
+    this.isInWatchlist = film.user_details.watchlist;
+    this.isInHistory = film.user_details.already_watched;
+    this.watchingDate = new Date(film.user_details.watching_date);
   }
 
   adaptToServer() {

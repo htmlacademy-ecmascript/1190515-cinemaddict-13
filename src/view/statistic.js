@@ -4,11 +4,8 @@ import {getUserRank} from "../utils/user-rank";
 import Chart from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
-import dayjs from "dayjs";
-import duration from "dayjs/plugin/duration";
-dayjs.extend(duration);
-
 import {TimePeriod} from "../const";
+import dayjs from "dayjs";
 
 const BAR_HEIGHT = 50;
 
@@ -22,7 +19,8 @@ const renderChart = (statisticCtx, stats) => {
         data: stats.map((stat) => stat.count),
         backgroundColor: `#ffe800`,
         hoverBackgroundColor: `#ffe800`,
-        anchor: `start`
+        anchor: `start`,
+        barThickness: 24
       }]
     },
     options: {
@@ -48,7 +46,6 @@ const renderChart = (statisticCtx, stats) => {
             display: false,
             drawBorder: false
           },
-          barThickness: 24
         }],
         xAxes: [{
           ticks: {
@@ -72,8 +69,8 @@ const renderChart = (statisticCtx, stats) => {
 };
 
 const getTimeRange = (filter) => {
-  const dateTo = new Date();
-  let dateFrom = new Date();
+  const dateTo = dayjs().toDate();
+  let dateFrom = dayjs().toDate();
 
   switch (filter) {
 
@@ -81,16 +78,16 @@ const getTimeRange = (filter) => {
       dateFrom = null;
       break;
     case TimePeriod.TODAY:
-      dateFrom.setDate(dateTo.getDate() - 1);
+      dateFrom.setDate(dateTo.getDate() - TimePeriod.PERONEPERIOD);
       break;
     case TimePeriod.WEEK:
-      dateFrom.setDate(dateTo.getDate() - 7);
+      dateFrom.setDate(dateTo.getDate() - TimePeriod.PERWEEK);
       break;
     case TimePeriod.MONTH:
-      dateFrom.setMonth(dateTo.getMonth() - 1);
+      dateFrom.setMonth(dateTo.getMonth() - TimePeriod.PERONEPERIOD);
       break;
     case TimePeriod.YEAR:
-      dateFrom.setFullYear(dateTo.getFullYear() - 1);
+      dateFrom.setFullYear(dateTo.getFullYear() - TimePeriod.PERONEPERIOD);
       break;
   }
 
@@ -156,7 +153,7 @@ const createTotalDurationMarkup = (films) => {
 };
 
 const createStatisticsTemplate = (films, activeFilter) => {
-  const userTitle = getUserRank(films.length);
+  const userRank = getUserRank(films.length);
 
   const filteredFilms = getFilmsByTimeRange(films, activeFilter);
 
@@ -168,12 +165,10 @@ const createStatisticsTemplate = (films, activeFilter) => {
 
   const totalDurationMarkup = createTotalDurationMarkup(filteredFilms);
 
-  return `<section class="statistic">
-      ${userTitle ?
-    `<p class="statistic__rank">
-        Your rank
+  return `<section class="statistic">${userRank ?
+    `<p class="statistic__rank">Your rank
         <img class="statistic__img" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
-        <span class="statistic__rank-label">${userTitle}</span>
+        <span class="statistic__rank-label">${userRank}</span>
       </p>` : ``}
       <form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
         <p class="statistic__filters-description">Show stats:</p>
@@ -275,25 +270,3 @@ export default class StatisticsView extends AbstractSmartComponent {
   }
 }
 
-
-// import dayjs from "dayjs";
-// import duration from "dayjs/plugin/duration";
-// dayjs.extend(duration);
-
-// _filterFilmsByWatchingDate() {
-//   const toDay = new Date();
-//   let startPeriodDate = null;
-
-//   switch (this._currentFilterType) {
-//     case FilterTypes.TODAY:
-//       return this._watchedFilms.filter((film) => formatDate(film.watchingDate) === formatDate(toDay));
-//     case FilterTypes.WEEK:
-//       startPeriodDate = dayjs(toDay).add(-7, `days`).format(`DD MMMM YYYY`);
-//       break;
-//     case FilterTypes.MONTH:
-//       startPeriodDate = dayjs(toDay).add(-1, `month`).format(`DD MMMM YYYY`);
-//       break;
-//     case FilterTypes.YEAR:
-//       startPeriodDate = dayjs(toDay).add(-1, `year`).format(`DD MMMM YYYY`);
-//       break;
-//   }
