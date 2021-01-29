@@ -1,7 +1,9 @@
 const Keydown = {
   ENT: `Enter`,
-  ESC: `Escape`,
+  ESC: `Esc`,
+  ESCAPE: `Escape`
 };
+
 
 export default Keydown;
 

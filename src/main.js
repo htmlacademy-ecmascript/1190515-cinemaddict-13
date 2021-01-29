@@ -14,7 +14,7 @@ import {render} from "./utils/render";
 import {getUserRank} from "./utils/user-rank";
 import {NavigationItem} from "./const";
 
-const AUTHORIZATION = `Basic h79h9hw4hhywe4yhhgdrhfseg`;
+const AUTHORIZATION = `Basic h79h9hwyhhgdrhfseg`;
 const END_POINT = `https://13.ecmascript.pages.academy/cinemaddict`;
 
 const siteHeaderElement = document.querySelector(`.header`);

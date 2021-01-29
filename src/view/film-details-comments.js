@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {SHAKE_CLASS, SHAKE_ANIMATION_TIMEOUT, ButtonText} from "../const.js";
+import {SHAKE_CLASS, ButtonText} from "../const.js";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -65,14 +65,8 @@ export default class FilmDetailsCommentsView extends AbstractSmartComponent {
     const index = this._comments.findIndex((comment) => comment.id === commentId);
     const comment = this.getElement().querySelectorAll(`.film-details__comment`)[index];
     const deleteButton = comment.querySelector(`.film-details__comment-delete`);
-    // comment.disabled = false;
-    comment.classList.add(SHAKE_CLASS);
-    // deleteButton.disabled = false;
-    deleteButton.textContent = `Delete`;
-
-    setTimeout(() => {
-      comment.classList.remove(SHAKE_CLASS);
-    }, SHAKE_ANIMATION_TIMEOUT);
+    this._activateComment(comment);
+    this._activateDeleteButton(deleteButton);
   }
 
   _disableComment(comment) {

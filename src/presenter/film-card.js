@@ -57,7 +57,7 @@ export default class FilmCardPresenter {
   }
 
   _closePopupOnEscPress(evt) {
-    if (evt.key === Keydown.ESC) {
+    if (evt.key === Keydown.ESC || evt.key === Keydown.ESCAPE) {
       this._onViewChange();
 
       this._mode = Mode.CLOSED;
