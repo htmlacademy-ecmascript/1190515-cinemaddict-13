@@ -54,6 +54,8 @@ export const TimePeriod = {
 
 export const SHAKE_CLASS = `shake`;
 
+export const SHAKE_ANIMATION_TIMEOUT = 600;
+
 export const MAIN = document.querySelector(`.main`);
 
 export const MINUTES_IN_HOUR = 60;
