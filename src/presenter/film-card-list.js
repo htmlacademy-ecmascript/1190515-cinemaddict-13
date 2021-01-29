@@ -1,5 +1,5 @@
 import BoardView from "../view/board";
-import SortView from "../view/sorting";
+import SortView from "../view/sort";
 import ShowMoreButtonView from "../view/show-more-button";
 import FilmsListComponent from "../view/films-list";
 import FilmListContainerView from "../view/film-list-container";

@@ -5,14 +5,6 @@ const Keydown = {
 
 export default Keydown;
 
-export const Timeperiod = {
-  ALL_TIME: `all-time`,
-  TODAY: `today`,
-  WEEK: `week`,
-  MONTH: `month`,
-  YEAR: `year`
-};
-
 export const CardsCount = {
   DEFAULT: 17,
   ON_START: 5,
@@ -53,17 +45,17 @@ export const FilterType = {
 export const TimePeriod = {
   ALL_TIME: `all-time`,
   TODAY: `today`,
+  PERONEPERIOD: 1,
   WEEK: `week`,
+  PERWEEK: 7,
   MONTH: `month`,
   YEAR: `year`,
 };
 
-export const SHAKE_ANIMATION_TIMEOUT = 600;
+export const SHAKE_CLASS = `shake`;
 
 export const MAIN = document.querySelector(`.main`);
 
 export const MINUTES_IN_HOUR = 60;
-
-export const SHAKE_MOTION = `shake`;
 
 export const NAVIGATION_ACTIVE_CLASS = `main-navigation__item--active`;
