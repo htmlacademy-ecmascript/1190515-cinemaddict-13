@@ -1,23 +1,20 @@
 import AbstractSmartComponent from "./abstract-smart-component";
 
-const getCheckedState = (isChecked) => isChecked ? `checked` : ``;
-
 const createFilmDetailsControlsTemplate = ({isInWatchlist, isInHistory, isInFavorites}) => {
-  return (
-    `<section class="film-details__controls">
-      <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${getCheckedState(isInWatchlist)}>
+  const getCheckState = (isChecked) => isChecked ? `checked` : ``;
+  return `<section class="film-details__controls">
+      <input type="checkbox" class="film-details__control-input visually-hidden" id="watchlist" name="watchlist" ${getCheckState(isInWatchlist)}>
       <label for="watchlist" class="film-details__control-label film-details__control-label--watchlist">Add to watchlist</label>
 
-      <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${getCheckedState(isInHistory)}>
+      <input type="checkbox" class="film-details__control-input visually-hidden" id="watched" name="watched" ${getCheckState(isInHistory)}>
       <label for="watched" class="film-details__control-label film-details__control-label--watched">Already watched</label>
 
-      <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${getCheckedState(isInFavorites)}>
+      <input type="checkbox" class="film-details__control-input visually-hidden" id="favorite" name="favorite" ${getCheckState(isInFavorites)}>
       <label for="favorite" class="film-details__control-label film-details__control-label--favorite">Add to favorites</label>
-    </section>`
-  );
+    </section>`;
 };
 
-export default class FilmDetailsControlsView extends AbstractSmartComponent {
+export default class FilmDetailsControls extends AbstractSmartComponent {
   constructor(controls) {
     super();
 
@@ -32,7 +29,7 @@ export default class FilmDetailsControlsView extends AbstractSmartComponent {
     this.getElement().querySelector(`input[name="watchlist"]`).addEventListener(`change`, callback);
   }
 
-  setAddToWatchedHandler(callback) {
+  setAlreadyWatchedHandler(callback) {
     this.getElement().querySelector(`input[name="watched"]`).addEventListener(`change`, callback);
   }
 

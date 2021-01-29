@@ -2,22 +2,21 @@ import AbstractSmartComponent from "./abstract-smart-component";
 import dayjs from "dayjs";
 import {MINUTES_IN_HOUR} from "../const";
 
-const Description = {
+const DescriptionLength = {
   MAX: 140,
   REQUIRE: 139,
   MIN: 0,
 };
 
-const getComments = (comments) => comments ? comments.length : 0;
+const getCommentsLength = (comments) => comments ? comments.length : 0;
 
-const getActiveState = (isCheckedParameter) => isCheckedParameter ? `film-card__controls-item--active` : ``;
+const getActiveState = (isChecked) => isChecked ? `film-card__controls-item--active` : ``;
 
-const getDescription = (description) => description.length > Description.MAX ? `${description.substring(Description.MIN, Description.REQUIRE)}...` : description;
+const getDescription = (description) => description.length > DescriptionLength.MAX ? `${description.substring(DescriptionLength.MIN, DescriptionLength.REQUIRE)}...` : description;
 
 const createFilmCardTemplate = (film) => {
   const {title, poster, description, comments, rating, releaseDate, duration, genres, isInFavorites, isInWatchlist, isInHistory} = film;
-  return (
-    `<article class="film-card">
+  return `<article class="film-card">
       <h3 class="film-card__title">${title}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
@@ -27,14 +26,13 @@ const createFilmCardTemplate = (film) => {
       </p>
       <img src="./${poster}" alt="${title}" class="film-card__poster">
       <p class="film-card__description">${getDescription(description)}</p>
-      <a class="film-card__comments">${getComments(comments)} comments</a>
+      <a class="film-card__comments">${getCommentsLength(comments)} comments</a>
       <form class="film-card__controls">
         <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${getActiveState(isInWatchlist)}">Add to watchlist</button>
         <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${getActiveState(isInHistory)}">Mark as watched</button>
         <button class="film-card__controls-item button film-card__controls-item--favorite ${getActiveState(isInFavorites)}">Mark as favorite</button>
       </form>
-    </article>`
-  );
+    </article>`;
 };
 
 export default class FilmCardView extends AbstractSmartComponent {
@@ -63,5 +61,16 @@ export default class FilmCardView extends AbstractSmartComponent {
 
   setAddToFavoritesHandler(callback) {
     this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, callback);
+  }
+  setControlsClickHandler(callback) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      if (evt.target.tagName !== `BUTTON`) {
+        return;
+      }
+
+      evt.preventDefault();
+
+      callback(evt.target.dataset.control);
+    });
   }
 }

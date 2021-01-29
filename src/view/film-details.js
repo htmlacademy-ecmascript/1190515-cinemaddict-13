@@ -1,15 +1,17 @@
 import AbstractSmartComponent from "./abstract-smart-component";
 import dayjs from "dayjs";
-import {MINUTES_IN_HOUR} from "../const";
 
 const createGenresTemplate = (genres) => {
   return genres.map((genre) => `<span class="film-details__genre">${genre}</span>`).join(`\n`);
 };
 
-const getWordGenre = (genres) => genres.length > 1 ? `Genres` : `Genre`;
-
 const createFilmDetailsTemplate = (film) => {
   const {title, altTitle, poster, description, rating, releaseDate, duration, genres, age, director, writers, actors, country} = film;
+
+  const genresTemplate = createGenresTemplate(genres);
+
+  const getDifferentGenreGenre = () => genres.length > 1 ? `Genres` : `Genre`;
+
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -20,22 +22,18 @@ const createFilmDetailsTemplate = (film) => {
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
               <img class="film-details__poster-img" src="./${poster}" alt="${title}">
-
               <p class="film-details__age">${age}+</p>
             </div>
-
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${title}</h3>
                   <p class="film-details__title-original">Original: ${altTitle}</p>
                 </div>
-
                 <div class="film-details__rating">
                   <p class="film-details__total-rating">${rating}</p>
                 </div>
               </div>
-
               <table class="film-details__table">
                 <tr class="film-details__row">
                   <td class="film-details__term">Director</td>
@@ -55,28 +53,25 @@ const createFilmDetailsTemplate = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${Math.trunc(duration / MINUTES_IN_HOUR)}h ${duration % MINUTES_IN_HOUR}m</td>
+                  <td class="film-details__cell">${Math.trunc(duration / 60)}h ${duration % 60}m</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">${getWordGenre(genres)}</td>
+                  <td class="film-details__term">${getDifferentGenreGenre()}</td>
                   <td class="film-details__cell">
-                    ${createGenresTemplate(genres)}
+                    ${genresTemplate}
                 </tr>
               </table>
-
               <p class="film-details__film-description">
                 ${description}
               </p>
             </div>
           </div>
         </div>
-
-        <div class="form-details__bottom-container">
-
+        <div class="film-details__bottom-container">
         </div>
       </form>
     </section>`
@@ -91,7 +86,7 @@ export default class FilmDetailsView extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    return createFilmDetailsTemplate(this._film);
+    return createFilmDetailsTemplate(this._film, this._comments);
   }
 
   setClickHandler(callback) {

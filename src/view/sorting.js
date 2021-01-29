@@ -2,13 +2,11 @@ import AbstractComponent from "./abstract-component";
 import {SortType} from "../const";
 
 const createSortTemplate = () => {
-  return (
-    `<ul class="sort">
+  return `<ul class="sort">
       <li><a href="#" data-sort-type="${SortType.DEFAULT}" class="sort__button sort__button--active"> Sort by default </a></li>
       <li><a href="#" data-sort-type="${SortType.DATE}" class="sort__button"> Sort by date </a></li>
       <li><a href="#" data-sort-type="${SortType.RATING}" class="sort__button"> Sort by rating </a></li>
-    </ul>`
-  );
+    </ul>`;
 };
 
 export default class SortView extends AbstractComponent {
@@ -59,7 +57,7 @@ export default class SortView extends AbstractComponent {
   _resetActiveClass() {
     this._element
       .querySelectorAll(`.sort__button`)
-      .forEach((it) => it.classList.remove(`sort__button--active`));
+      .forEach((btn) => btn.classList.remove(`sort__button--active`));
   }
 
   _setActiveClass(element) {

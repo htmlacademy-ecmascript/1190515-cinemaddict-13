@@ -1,4 +1,4 @@
-import {UserRank} from '../const.js';
+import {UserRank} from "../const";
 
 const FilmsCount = {
   NOVICE: 1,

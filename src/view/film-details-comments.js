@@ -1,17 +1,11 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {SNAKE_CLASS} from "../const.js";
+import {SHAKE_ANIMATION_TIMEOUT} from "../const.js";
 import dayjs from "dayjs";
 import he from "he";
 
-const ButtonText = {
-  DELETE: `Delete`,
-  DELETING: `Deleting...`
-};
-
-const setDate = (date) => new Date().setMonth(new Date().getMonth() - 1) > date ? dayjs(date).format(`DD MM YYYY HH:mm`) : dayjs(date).toDate();
-
 const createCommentsTemplate = (allComments) => {
   return allComments.map(({emotion, comment, date, author, id}) => {
+    const setDateView = (commentDate) => new Date().setMonth(new Date().getMonth() - 1) > commentDate ? dayjs(commentDate).format(`DD MM YYYY`) : dayjs(commentDate).toDate();
     return (
       `<li class="film-details__comment">
         <span class="film-details__comment-emoji">
@@ -21,7 +15,7 @@ const createCommentsTemplate = (allComments) => {
           <p class="film-details__comment-text">${he.encode(comment)}</p>
           <p class="film-details__comment-info">
             <span class="film-details__comment-author">${author}</span>
-            <span class="film-details__comment-day">${setDate(date)}</span>
+            <span class="film-details__comment-day">${setDateView(date)}</span>
             <button data-id="${id}" class="film-details__comment-delete">Delete</button>
           </p>
         </div>
@@ -31,12 +25,13 @@ const createCommentsTemplate = (allComments) => {
 };
 
 const createFilmDetailsCommentsTemplate = (comments) => {
+  const commentsTemplate = createCommentsTemplate(comments);
 
   return (
     `<section class="film-details__comments-wrap">
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments ? comments.length : `0`} </span></h3>
         <ul class="film-details__comments-list">
-          ${createCommentsTemplate(comments)}
+          ${commentsTemplate}
         </ul>
       </section>`
   );
@@ -59,8 +54,8 @@ export default class FilmDetailsCommentsView extends AbstractSmartComponent {
         return;
       }
       evt.preventDefault();
-      this._disableComment(evt.target.closest(`.film-details__comment`));
-      this._disableDeleteButton(evt.target);
+      evt.target.disabled = true;
+      evt.target.textContent = `Deleting...`;
       callback(evt.target.dataset.id);
     });
   }
@@ -68,31 +63,12 @@ export default class FilmDetailsCommentsView extends AbstractSmartComponent {
   shakeComment(commentId) {
     const index = this._comments.findIndex((comment) => comment.id === commentId);
     const comment = this.getElement().querySelectorAll(`.film-details__comment`)[index];
-    const deleteButton = comment.querySelector(`.film-details__comment-delete`);
-
-    this._activateComment(comment);
-    this._activateDeleteButton(deleteButton);
-  }
-
-  _disableComment(comment) {
-    if (comment.classList.contains(SNAKE_CLASS)) {
-      comment.classList.remove(SNAKE_CLASS);
-    }
-    comment.disabled = true;
-  }
-
-  _disableDeleteButton(button) {
-    button.disabled = true;
-    button.textContent = ButtonText.DELETING;
-  }
-
-  _activateDeleteButton(button) {
-    button.disabled = false;
-    button.textContent = ButtonText.DELETE;
-  }
-
-  _activateComment(comment) {
     comment.disabled = false;
-    comment.classList.add(SNAKE_CLASS);
+    comment.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+    setTimeout(() => {
+      comment.style.animation = ``;
+
+    }, SHAKE_ANIMATION_TIMEOUT);
   }
 }

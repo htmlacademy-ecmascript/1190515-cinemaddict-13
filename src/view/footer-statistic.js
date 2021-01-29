@@ -1,18 +1,12 @@
 import AbstractComponent from "./abstract-component";
 
-export const createStatisticTemplate = (count) => {
-  return (
-    `${count} movies inside`
-  );
-};
-
-export default class FooterStatistic extends AbstractComponent {
-  constructor(count) {
+export default class FooterStatisticView extends AbstractComponent {
+  constructor(filmsCount) {
     super();
-    this._count = count;
+    this._filmsCount = filmsCount;
   }
 
   getTemplate() {
-    return createStatisticTemplate(this._count);
+    return `<p>${this._filmsCount} movies inside</p>`;
   }
 }

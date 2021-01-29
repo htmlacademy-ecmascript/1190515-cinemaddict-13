@@ -1,40 +1,30 @@
 import AbstractComponent from "./abstract-component";
+import {NavigationItem} from "../const";
 
-const renderFilters = (filters) => {
-  return filters
-    .map((filter) => {
-      const {link, name, count, checked} = filter;
-      return `<a href="${link}" class="main-navigation__item${checked ? ` main-navigation__item--active` : ``}">${name}${count > -1 ? ` <span class="main-navigation__item-count">${count}</span>` : ``}</a>`;
-    }).join(`\n`);
-};
+export const NAVIGATION_ITEM_ACTIVE = `main-navigation__item--active`;
 
-const createNavigationTemplate = (filters, isStatisticCheck = false) => {
-  return `<nav class="main-navigation">
-            <div class="main-navigation__items">
-              ${renderFilters(filters)}
-            </div>
-            <a href="#stats" class="main-navigation__additional${isStatisticCheck ? ` main-navigation__item--active` : ``}">Stats</a>
-          </nav>`;
-};
-
-export default class Navigation extends AbstractComponent {
-  constructor(filters, isStatisticCheck) {
-    super();
-    this._filters = filters;
-    this._isStatisticCheck = isStatisticCheck;
-  }
-
+export default class NavigationView extends AbstractComponent {
   getTemplate() {
-    return createNavigationTemplate(this._filters, this._isStatisticCheck);
+    return `<nav class="main-navigation">
+        <a href="#stats" data-id="${NavigationItem.STATS}" class="main-navigation__additional">Stats</a>
+      </nav>`;
   }
 
-  setFilterChangeHandler(callback) {
-    this.getElement().querySelectorAll(`.main-navigation__item`).forEach((link) => {
-      link.addEventListener(`click`, callback);
+  setOnChangeHandler(callback) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
+      if (evt.target.tagName !== `A` && evt.target.tagName !== `SPAN`) {
+        return;
+      }
+
+      if (evt.target.dataset.id === NavigationItem.STATS) {
+        document.querySelectorAll(`.main-navigation__item`).forEach((item) => {
+          item.classList.remove(NAVIGATION_ITEM_ACTIVE);
+        });
+      }
+
+      callback(evt.target.dataset.id);
+      evt.target.classList.add(NAVIGATION_ITEM_ACTIVE);
     });
-  }
-
-  setStatisticClickHandler(callback) {
-    this.getElement().querySelector(`.main-navigation__additional`).addEventListener(`click`, callback);
   }
 }

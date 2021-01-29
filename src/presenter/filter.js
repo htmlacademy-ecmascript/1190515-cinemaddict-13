@@ -1,76 +1,49 @@
-import {render, POSITION, replace} from "../utils/render";
-import Navigation from "../view/navigation";
+import FilterView from "../view/filters";
 
-export const FilterTypes = {
-  ALL: `all`,
-  WATCHLIST: `watchlist`,
-  HISTORY: `history`,
-  FAVORITES: `favorites`,
-  STATISTIC: `stats`
-};
+import {FilterType} from "../const";
+import {render, replace, RenderPosition} from "../utils/render";
+import {getFilteredFilms} from "../utils/filters";
 
-export default class Filter {
-  constructor(container, moviesModel) {
+export default class FilterPresenter {
+  constructor(container, filmsModel) {
     this._container = container;
-    this._moviesModel = moviesModel;
-    this._currentFilter = FilterTypes.ALL;
-    this._navigation = null;
-    this._setChangeFilterHandlers = this._setChangeFilterHandlers.bind(this);
+    this._filmsModel = filmsModel;
+
+    this._activeFilterType = FilterType.ALL;
+    this._filterComponent = null;
+
     this._onDataChange = this._onDataChange.bind(this);
-    this._moviesModel.setDataChangeHandler(this._onDataChange);
+    this._onFilterChange = this._onFilterChange.bind(this);
+
+    this._filmsModel.setDataChangeHandlers(this._onDataChange);
   }
 
   render() {
-    const oldNavigation = this._navigation;
-    const isStatisticCheck = this._currentFilter === FilterTypes.STATISTIC;
-    this._navigation = new Navigation(this._generateFilters(), isStatisticCheck);
-    this._navigation.setFilterChangeHandler(this._setChangeFilterHandlers);
-    this._navigation.setStatisticClickHandler(this._setChangeFilterHandlers);
-    if (oldNavigation) {
-      replace(oldNavigation, this._navigation);
+    const prevComponent = this._filterComponent;
+    this._filterComponent = new FilterView(this._createFilters());
+    this._filterComponent.setFilterChangeHandler(this._onFilterChange);
+
+    if (prevComponent) {
+      replace(this._filterComponent, prevComponent);
     } else {
-      render(this._container, this._navigation, POSITION.AFTERBEGIN);
+      render(this._container, this._filterComponent, RenderPosition.AFTERBEGIN);
     }
   }
 
-  getCurrentFilterType() {
-    return this._currentFilter;
+  _createFilters() {
+    return Object.values(FilterType).map((filterType) => ({
+      name: filterType,
+      count: getFilteredFilms(this._filmsModel.getAllFilms(), filterType).length,
+      address: filterType.replace(/\s+/g, ``).trim().toLowerCase(),
+      isChecked: filterType === this._activeFilterType,
+    })
+    );
   }
 
-  _setChangeFilterHandlers(evt) {
-    evt.preventDefault();
-    this._currentFilter = evt.target.getAttribute(`href`).replace(`#`, ``);
-    this._moviesModel.setFilter(this._currentFilter);
+  _onFilterChange(filterType) {
+    this._filmsModel.setFilter(filterType);
+    this._activeFilterType = filterType;
     this.render();
-  }
-
-  _generateFilters() {
-    return [
-      {
-        name: `All movies`,
-        link: `#all`,
-        count: -1,
-        checked: this._currentFilter === `all`
-      },
-      {
-        name: `Watchlist`,
-        link: `#watchlist`,
-        count: this._moviesModel.getAllFilms().filter((elm) => elm.isWatchlist).length,
-        checked: this._currentFilter === `watchlist`
-      },
-      {
-        name: `History`,
-        link: `#history`,
-        count: this._moviesModel.getAllFilms().filter((elm) => elm.isWatched).length,
-        checked: this._currentFilter === `history`
-      },
-      {
-        name: `Favorites`,
-        link: `#favorites`,
-        count: this._moviesModel.getAllFilms().filter((elm) => elm.isFavorites).length,
-        checked: this._currentFilter === `favorites`
-      }
-    ];
   }
 
   _onDataChange() {
