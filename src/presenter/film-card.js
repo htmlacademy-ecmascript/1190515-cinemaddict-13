@@ -4,7 +4,7 @@ import FilmDetailsCommentsView from "../view/film-details-comments";
 import FilmDetailsControlsView from "../view/film-details-controls";
 import FilmDetailsNewCommentView from "../view/film-details-new-comment";
 
-import CommentsModel from "../models/commentss";
+import CommentsModel from "../models/comments";
 import AdapterModel from "../models/adapter";
 
 import {render, removeChild, appendChild, replace, remove} from "../utils/render";
@@ -44,6 +44,8 @@ export default class FilmCardPresenter {
     this._showPopupOnClick = this._showPopupOnClick.bind(this);
     this._closePopupOnClick = this._closePopupOnClick.bind(this);
     this._changeData = this._changeData.bind(this);
+    this._deleteComment = this._deleteComment.bind(this);
+    this._addComment = this._addComment.bind(this);
   }
 
   destroy() {
@@ -55,7 +57,7 @@ export default class FilmCardPresenter {
   }
 
   _closePopupOnEscPress(evt) {
-    if (evt.key === Keydown.ESC) {
+    if (evt.key === Keydown.ESC || evt.key === Keydown.ESCAPE) {
       this._onViewChange();
 
       this._mode = Mode.CLOSED;
@@ -198,32 +200,45 @@ export default class FilmCardPresenter {
 
         appendChild(this._filmDetailsComponent.getElement().querySelector(`.film-details__bottom-container`), this._filmDetailsCommentsComponent);
 
-        this._filmDetailsCommentsComponent.setDeleteButtonHandler((commentId) => {
-          if (this._mode === Mode.OPEN) {
-            this._api.deleteComment(commentId)
-              .then(() => {
-                this._commentsModel.removeComment(commentId);
-                this._renderComments();
-                this._filmsModel.updateFilms(commentId, this._film);
-              })
-              .catch(() => {
-                this._filmDetailsCommentsComponent.shakeComment(commentId);
-              });
-          }
-        });
+        this._filmDetailsCommentsComponent.setDeleteButtonHandler(this._deleteComment);
 
         appendChild(this._filmDetailsComponent.getElement().querySelector(`.film-details__comments-wrap`), this._filmDetailsNewCommentComponent);
       });
+  }
+
+  _addComment(comment) {
+    if (this._mode === Mode.OPEN) {
+      this._api.addComment(this._film.id, JSON.stringify(comment))
+        .then((response) => {
+          this._commentsModel.setComments(response.comments);
+          this._resetTextarea();
+          this._renderComments();
+        })
+        .catch(() => {
+          this._filmDetailsNewCommentComponent.shakeBlock();
+        });
+    }
+  }
+
+  _deleteComment(commentId) {
+    this._api.deleteComment(commentId)
+      .then(() => {
+        this._commentsModel.removeComment(commentId);
+        this._renderComments();
+      })
+      .catch(() => {
+        this._filmDetailsCommentsComponent.shakeComment(commentId);
+      });
+  }
+
+  _resetTextarea() {
+    this._filmDetailsNewCommentComponent.reset();
   }
 
   setDefaultView() {
     if (this._mode !== Mode.CLOSED) {
       this._closePopup();
     }
-  }
-
-  _resetTextarea() {
-    this._filmDetailsNewCommentComponent.reset();
   }
 
   _changeData(film, field) {

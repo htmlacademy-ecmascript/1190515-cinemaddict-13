@@ -1,7 +1,9 @@
 const Keydown = {
   ENT: `Enter`,
-  ESC: `Escape`,
+  ESC: `Esc`,
+  ESCAPE: `Escape`
 };
+
 
 export default Keydown;
 
@@ -53,6 +55,8 @@ export const TimePeriod = {
 };
 
 export const SHAKE_CLASS = `shake`;
+
+export const SHAKE_ANIMATION_TIMEOUT = 600;
 
 export const MAIN = document.querySelector(`.main`);
 

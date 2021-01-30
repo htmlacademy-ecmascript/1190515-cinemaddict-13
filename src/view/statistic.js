@@ -4,7 +4,7 @@ import {getUserRank} from "../utils/user-rank";
 import Chart from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
-import {TimePeriod} from "../const";
+import {TimePeriod, MINUTES_IN_HOUR} from "../const";
 import dayjs from "dayjs";
 
 const BAR_HEIGHT = 50;
@@ -145,9 +145,9 @@ const createTotalDurationMarkup = (films) => {
     return sum + film.duration;
   }, 0);
 
-  const hours = `${Math.trunc(totalDuration / 60)} <span class="statistic__item-description">h</span>`;
+  const hours = `${Math.trunc(totalDuration / MINUTES_IN_HOUR)} <span class="statistic__item-description">h</span>`;
 
-  const minutes = `${totalDuration % 60} <span class="statistic__item-description">m</span>`;
+  const minutes = `${totalDuration % MINUTES_IN_HOUR} <span class="statistic__item-description">m</span>`;
 
   return `${hours} ${minutes}`;
 };
