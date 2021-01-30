@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import Keydown, {SHAKE_CLASS, SHAKE_ANIMATION_TIMEOUT} from "../const.js";
+import Keydown, {SHAKE_CLASS} from "../const.js";
 import dayjs from "dayjs";
 
 const EmojiAddress = {
@@ -139,10 +139,6 @@ export default class FilmDetailsNewCommentView extends AbstractSmartComponent {
     const textarea = this.getElement().querySelector(`.film-details__comment-input`);
     textarea.disabled = false;
     textarea.classList.add(SHAKE_CLASS);
-
-    setTimeout(() => {
-      textarea.classList.remove(SHAKE_CLASS);
-    }, SHAKE_ANIMATION_TIMEOUT);
   }
 }
 
