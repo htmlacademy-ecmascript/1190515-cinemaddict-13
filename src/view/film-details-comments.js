@@ -44,20 +44,13 @@ export default class FilmDetailsCommentsView extends AbstractSmartComponent {
 
     this._comments = comments;
 
-    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmDetailsCommentsTemplate(this._comments);
   }
 
-  _clickHandler(evt) {
-    evt.preventDefault();
-    this._callback.click();
-  }
-
   setDeleteButtonHandler(callback) {
-    this._callback.click = callback;
     this.getElement().addEventListener(`click`, (evt) => {
       if (evt.target.tagName !== `BUTTON`) {
         return;
@@ -65,7 +58,7 @@ export default class FilmDetailsCommentsView extends AbstractSmartComponent {
       evt.preventDefault();
       this._disableComment(evt.target.closest(`.film-details__comment`));
       this._disableDeleteButton(evt.target);
-      this._clickHandler(evt.target.dataset.id);
+      callback(evt.target.dataset.id);
     });
   }
 
