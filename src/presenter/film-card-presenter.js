@@ -4,8 +4,8 @@ import FilmDetailsCommentsView from "../view/film-details-comments-view";
 import FilmDetailsControlsView from "../view/film-details-controls-view";
 import FilmDetailsNewCommentView from "../view/film-details-new-comment-view";
 
-import CommentsModel from "../models/comments-models";
-import AdapterModel from "../models/adapter-models";
+import CommentsModel from "../model/comments-model";
+import AdapterModel from "../model/adapter-model";
 
 import {render, removeChild, appendChild, replace, remove} from "../utils/render-utils";
 import Keydown from "../const";

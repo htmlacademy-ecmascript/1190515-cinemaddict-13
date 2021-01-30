@@ -5,7 +5,7 @@ import UserProfileRatingView from "./view/user-profile-rating-view";
 import NavigationView from "./view/navigation-view";
 import StatisticsView from "./view/statistic-view";
 
-import FilmsModel from "./models/films-models";
+import FilmsModel from "./model/films-model";
 
 import FilterPresenter from "./presenter/filter-presenter";
 import FilmCardListPresenter from "./presenter/film-card-list";
