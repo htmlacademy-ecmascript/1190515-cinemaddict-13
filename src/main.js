@@ -8,9 +8,9 @@ import StatisticsView from "./view/statistic-view";
 import FilmsModel from "./model/films-model";
 
 import FilterPresenter from "./presenter/filter-presenter";
-import FilmCardListPresenter from "./presenter/film-card-list";
+import FilmCardListPresenter from "./presenter/films-card-list-presenter";
 
-import {render} from "./utils/render";
+import {render} from "./utils/render-utils";
 import {getUserRank} from "./utils/user-rank-utils";
 import {NavigationItem} from "./const";
 
