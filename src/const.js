@@ -8,7 +8,6 @@ const Keydown = {
 export default Keydown;
 
 export const CardsCount = {
-  DEFAULT: 17,
   ON_START: 5,
   STEP: 5,
   EXTRA: 2
@@ -56,10 +55,6 @@ export const TimePeriod = {
 
 export const SHAKE_CLASS = `shake`;
 
-export const SHAKE_ANIMATION_TIMEOUT = 600;
-
-export const MAIN = document.querySelector(`.main`);
-
 export const MINUTES_IN_HOUR = 60;
 
-export const NAVIGATION_ACTIVE_CLASS = `main-navigation__item--active`;
+

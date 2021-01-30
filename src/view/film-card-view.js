@@ -1,4 +1,4 @@
-import AbstractSmartComponent from "./abstract-smart-component";
+import AbstractSmartView from "./abstract-smart-view";
 import dayjs from "dayjs";
 import {MINUTES_IN_HOUR} from "../const";
 
@@ -35,7 +35,7 @@ const createFilmCardTemplate = (film) => {
     </article>`;
 };
 
-export default class FilmCardView extends AbstractSmartComponent {
+export default class FilmCardView extends AbstractSmartView {
   constructor(film) {
     super();
     this._film = film;
@@ -49,6 +49,12 @@ export default class FilmCardView extends AbstractSmartComponent {
     this.getElement()
       .querySelectorAll(`.film-card__poster, .film-card__title, .film-card__comments`)
       .forEach((element) => element.addEventListener(`click`, callback));
+  }
+
+  removeClickHandler(callback) {
+    this.getElement()
+      .querySelectorAll(`.film-card__poster, .film-card__title, .film-card__comments`)
+      .forEach((element) => element.removeEventListener(`click`, callback));
   }
 
   setAddToWatchlistHandler(callback) {
@@ -67,8 +73,6 @@ export default class FilmCardView extends AbstractSmartComponent {
       if (evt.target.tagName !== `BUTTON`) {
         return;
       }
-
-      evt.preventDefault();
 
       callback(evt.target.dataset.control);
     });

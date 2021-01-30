@@ -1,6 +1,6 @@
-import AbstractComponent from "./abstract-component";
+import AbstractView from "./abstract-view";
 
-export default class UserProfileRatingView extends AbstractComponent {
+export default class UserProfileRatingView extends AbstractView {
   constructor(profile) {
     super();
 
