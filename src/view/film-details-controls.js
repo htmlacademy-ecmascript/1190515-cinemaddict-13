@@ -19,21 +19,30 @@ export default class FilmDetailsControls extends AbstractSmartComponent {
     super();
 
     this._controls = controls;
+    this._changeHandler = this._changeHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmDetailsControlsTemplate(this._controls);
   }
 
+  _changeHandler(evt) {
+    evt.preventDefault();
+    this._callback.change();
+  }
+
   setAddToWatchlistHandler(callback) {
-    this.getElement().querySelector(`input[name="watchlist"]`).addEventListener(`change`, callback);
+    this._callback.change = callback;
+    this.getElement().querySelector(`input[name="watchlist"]`).addEventListener(`change`, this._changeHandler);
   }
 
   setAlreadyWatchedHandler(callback) {
-    this.getElement().querySelector(`input[name="watched"]`).addEventListener(`change`, callback);
+    this._callback.change = callback;
+    this.getElement().querySelector(`input[name="watched"]`).addEventListener(`change`, this._changeHandler);
   }
 
   setAddToFavoritesHandler(callback) {
-    this.getElement().querySelector(`input[name="favorite"]`).addEventListener(`change`, callback);
+    this._callback.change = callback;
+    this.getElement().querySelector(`input[name="favorite"]`).addEventListener(`change`, this._changeHandler);
   }
 }

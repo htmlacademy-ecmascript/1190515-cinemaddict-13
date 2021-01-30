@@ -9,17 +9,10 @@ import NoLoadFilmsView from "../view/no-load-films";
 import LoadFilmsView from "../view/load-films";
 
 import {render, remove} from "../utils/render";
-import {SortType} from "../const.js";
+import {SortType, CardsCount} from "../const";
 import {getSortedFilms} from "../utils/sort";
 
 import FilmCardPresenter from "../presenter/film-card";
-
-const CardCount = {
-  DEFAULT: 17,
-  ON_START: 5,
-  STEP: 5,
-  EXTRA: 2
-};
 
 export default class FilmCardListPresenter {
   constructor(container, filmsModel, api) {
@@ -28,7 +21,7 @@ export default class FilmCardListPresenter {
     this._api = api;
 
     this._currentFilmPresenters = [];
-    this._currentCardsCount = CardCount.ON_START;
+    this._currentCardsCount = CardsCount.ON_START;
 
     this._filmsListContainer = null;
 
@@ -119,12 +112,12 @@ export default class FilmCardListPresenter {
   }
 
   _onShowMoreButtonClick() {
-    const previousCardCount = this._currentCardsCount;
+    const previousCardsCount = this._currentCardsCount;
     const films = this._filmsModel.getFilms();
 
-    this._currentCardsCount += CardCount.STEP;
+    this._currentCardsCount += CardsCount.STEP;
 
-    const sortedFilms = getSortedFilms(films, this._sortComponent.getSortType(), previousCardCount, this._currentCardsCount);
+    const sortedFilms = getSortedFilms(films, this._sortComponent.getSortType(), previousCardsCount, this._currentCardsCount);
     this._renderFilms(sortedFilms, this._filmsListContainer);
 
     if (this._currentCardsCount >= films.length) {
@@ -133,7 +126,7 @@ export default class FilmCardListPresenter {
   }
 
   _updateList(sortType) {
-    this._currentCardsCount = CardCount.ON_START;
+    this._currentCardsCount = CardsCount.ON_START;
     this._removeFilms();
     this._renderFilms(getSortedFilms(this._filmsModel.getFilms(), sortType, 0, this._currentCardsCount), this._filmsListContainer);
     this._renderShowMoreButton();
@@ -188,11 +181,11 @@ export default class FilmCardListPresenter {
     render(this._filmsComponent.getElement(), this._topRatedFilmsComponent);
     render(this._filmsComponent.getElement(), this._mostCommentedFilmsComponent);
 
-    this._currentTopRatedFilms = getSortedFilms(this._filmsModel.getAllFilms(), SortType.RATING, 0, CardCount.EXTRA);
+    this._currentTopRatedFilms = getSortedFilms(this._filmsModel.getAllFilms(), SortType.RATING, 0, CardsCount.EXTRA);
 
     this._renderFilmPresenters(this._currentTopRatedFilms, this._topRatedFilmsComponent.getElement().querySelector(`.films-list__container`));
 
-    this._currentMostCommentedFilms = getSortedFilms(this._filmsModel.getAllFilms(), SortType.COMMENTS, 0, CardCount.EXTRA);
+    this._currentMostCommentedFilms = getSortedFilms(this._filmsModel.getAllFilms(), SortType.COMMENTS, 0, CardsCount.EXTRA);
 
     this._renderFilmPresenters(this._currentMostCommentedFilms, this._mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`));
   }

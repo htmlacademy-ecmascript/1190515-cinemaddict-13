@@ -83,7 +83,6 @@ export const getRandomArrayElements = (array, min, max) => {
 
 export const getRandomDate = (start, end) => new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
 
-
 export const generateArray = (count, func) => {
   return new Array(count).fill(``).map(func);
 };

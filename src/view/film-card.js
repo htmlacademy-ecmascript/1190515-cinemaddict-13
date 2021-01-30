@@ -39,30 +39,43 @@ export default class FilmCardView extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
+    this._clickHandler = this._clickHandler.bind(this);
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
 
+  _clickHandler(evt) {
+    evt.preventDefault();
+    this._callback.click();
+  }
+
   setClickHandler(callback) {
+    // eslint-disable-next-line no-console
+    console.log(`123`, callback);
+    this._callback.click = callback;
     this.getElement()
       .querySelectorAll(`.film-card__poster, .film-card__title, .film-card__comments`)
-      .forEach((element) => element.addEventListener(`click`, callback));
+      .forEach((element) => element.addEventListener(`click`, this._clickHandler));
   }
 
   setAddToWatchlistHandler(callback) {
-    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, callback);
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, this._clickHandler);
   }
 
   setAlreadyWatchedHandler(callback) {
-    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).addEventListener(`click`, callback);
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).addEventListener(`click`, this._clickHandler);
   }
 
   setAddToFavoritesHandler(callback) {
-    this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, callback);
+    this._callback.click = callback;
+    this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, this._clickHandler);
   }
   setControlsClickHandler(callback) {
+    this._callback.click = callback;
     this.getElement().addEventListener(`click`, (evt) => {
       if (evt.target.tagName !== `BUTTON`) {
         return;
@@ -70,7 +83,7 @@ export default class FilmCardView extends AbstractSmartComponent {
 
       evt.preventDefault();
 
-      callback(evt.target.dataset.control);
+      this._clickHandler(evt.target.dataset.control);
     });
   }
 }

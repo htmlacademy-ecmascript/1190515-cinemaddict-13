@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import Keydown, {SHAKE_CLASS} from "../const.js";
+import Keydown, {SHAKE_CLASS} from "../const";
 import dayjs from "dayjs";
 
 const EmojiAddress = {
