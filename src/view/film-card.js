@@ -60,6 +60,15 @@ export default class FilmCardView extends AbstractSmartComponent {
       .forEach((element) => element.addEventListener(`click`, this._clickHandler));
   }
 
+  removeClickHandler(callback) {
+    // eslint-disable-next-line no-console
+    console.log(`123`, callback);
+    this._callback.click = callback;
+    this.getElement()
+      .querySelectorAll(`.film-card__poster, .film-card__title, .film-card__comments`)
+      .forEach((element) => element.removeEventListener(`click`, this._clickHandler));
+  }
+
   setAddToWatchlistHandler(callback) {
     this._callback.click = callback;
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, this._clickHandler);
@@ -80,8 +89,6 @@ export default class FilmCardView extends AbstractSmartComponent {
       if (evt.target.tagName !== `BUTTON`) {
         return;
       }
-
-      evt.preventDefault();
 
       this._clickHandler(evt.target.dataset.control);
     });
