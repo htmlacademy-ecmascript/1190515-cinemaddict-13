@@ -1,5 +1,5 @@
 import AbstractSmartComponent from "./abstract-smart-component";
-import {SHAKE_CLASS, ButtonText} from "../const.js";
+import {SHAKE_CLASS, ButtonText} from "../const";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";

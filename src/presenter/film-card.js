@@ -223,7 +223,7 @@ export default class FilmCardPresenter {
   _deleteComment(commentId) {
     this._api.deleteComment(commentId)
       .then(() => {
-        this._commentsModel.remove(commentId);
+        this._commentsModel.removeComment(commentId);
         this._renderComments();
       })
       .catch(() => {
