@@ -1,6 +1,6 @@
-import AbstractComponent from "./abstract-component";
+import AbstractView from "./abstract-view";
 
-export default class FooterStatisticView extends AbstractComponent {
+export default class FooterStatisticView extends AbstractView {
   constructor(filmsCount) {
     super();
     this._filmsCount = filmsCount;

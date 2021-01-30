@@ -1,4 +1,4 @@
-import AbstractSmartComponent from "./abstract-smart-component";
+import AbstractSmartView from "./abstract-smart-view";
 import dayjs from "dayjs";
 
 const createGenresTemplate = (genres) => {
@@ -78,7 +78,7 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export default class FilmDetailsView extends AbstractSmartComponent {
+export default class FilmDetailsView extends AbstractSmartView {
   constructor(film) {
     super();
 

@@ -1,6 +1,6 @@
-import AbstractComponent from "./abstract-component";
+import AbstractView from "./abstract-view";
 
-export default class AbstractSmartComponent extends AbstractComponent {
+export default class AbstractSmartView extends AbstractView {
   constructor() {
     super();
     this._data = {};

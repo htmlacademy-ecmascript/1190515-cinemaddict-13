@@ -1,4 +1,4 @@
-import AdapterModel from "../models/adapter";
+import AdapterModel from "../models/adapter-models";
 
 const Method = {
   GET: `GET`,

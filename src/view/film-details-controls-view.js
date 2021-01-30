@@ -1,4 +1,4 @@
-import AbstractSmartComponent from "./abstract-smart-component";
+import AbstractSmartView from "./abstract-smart-view";
 
 const createFilmDetailsControlsTemplate = ({isInWatchlist, isInHistory, isInFavorites}) => {
   const getCheckState = (isChecked) => isChecked ? `checked` : ``;
@@ -14,7 +14,7 @@ const createFilmDetailsControlsTemplate = ({isInWatchlist, isInHistory, isInFavo
     </section>`;
 };
 
-export default class FilmDetailsControls extends AbstractSmartComponent {
+export default class FilmDetailsControls extends AbstractSmartView {
   constructor(controls) {
     super();
 

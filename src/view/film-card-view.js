@@ -1,4 +1,4 @@
-import AbstractSmartComponent from "./abstract-smart-component";
+import AbstractSmartView from "./abstract-smart-view";
 import dayjs from "dayjs";
 import {MINUTES_IN_HOUR} from "../const";
 
@@ -35,7 +35,7 @@ const createFilmCardTemplate = (film) => {
     </article>`;
 };
 
-export default class FilmCardView extends AbstractSmartComponent {
+export default class FilmCardView extends AbstractSmartView {
   constructor(film) {
     super();
     this._film = film;

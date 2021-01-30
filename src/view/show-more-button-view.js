@@ -1,6 +1,6 @@
-import AbstractComponent from "./abstract-component";
+import AbstractView from "./abstract-view";
 
-export default class ShowMoreButtonView extends AbstractComponent {
+export default class ShowMoreButtonView extends AbstractView {
   getTemplate() {
     return `<button class="films-list__show-more">Show more</button>`;
   }

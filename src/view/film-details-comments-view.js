@@ -1,4 +1,4 @@
-import AbstractSmartComponent from "./abstract-smart-component";
+import AbstractSmartView from "./abstract-smart-view";
 import {SHAKE_CLASS, ButtonText} from "../const";
 
 import dayjs from "dayjs";
@@ -38,7 +38,7 @@ const createFilmDetailsCommentsTemplate = (comments) => {
   );
 };
 
-export default class FilmDetailsCommentsView extends AbstractSmartComponent {
+export default class FilmDetailsCommentsView extends AbstractSmartView {
   constructor(comments) {
     super();
 

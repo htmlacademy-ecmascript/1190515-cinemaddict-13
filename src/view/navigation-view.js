@@ -1,9 +1,9 @@
-import AbstractComponent from "./abstract-component";
+import AbstractView from "./abstract-view";
 import {NavigationItem} from "../const";
 
 export const NAVIGATION_ITEM_ACTIVE = `main-navigation__item--active`;
 
-export default class NavigationView extends AbstractComponent {
+export default class NavigationView extends AbstractView {
   getTemplate() {
     return `<nav class="main-navigation">
         <a href="#stats" data-id="${NavigationItem.STATS}" class="main-navigation__additional">Stats</a>

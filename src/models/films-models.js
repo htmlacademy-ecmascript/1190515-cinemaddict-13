@@ -1,4 +1,4 @@
-import {getFilteredFilms} from "../utils/filters";
+import {getFilteredFilms} from "../utils/filters-utils";
 import {FilterType} from "../const";
 
 export default class FilmsModel {

@@ -1,17 +1,17 @@
 import API from "./api/api";
 
-import FooterStatisticView from "./view/footer-statistic";
-import UserProfileRatingView from "./view/user-profile-rating";
-import NavigationView from "./view/navigation";
-import StatisticsView from "./view/statistic";
+import FooterStatisticView from "./view/footer-statistic-view";
+import UserProfileRatingView from "./view/user-profile-rating-view";
+import NavigationView from "./view/navigation-view";
+import StatisticsView from "./view/statistic-view";
 
-import FilmsModel from "./models/films";
+import FilmsModel from "./models/films-models";
 
-import FilterPresenter from "./presenter/filter";
+import FilterPresenter from "./presenter/filter-presenter";
 import FilmCardListPresenter from "./presenter/film-card-list";
 
 import {render} from "./utils/render";
-import {getUserRank} from "./utils/user-rank";
+import {getUserRank} from "./utils/user-rank-utils";
 import {NavigationItem} from "./const";
 
 const AUTHORIZATION = `Basic h79hwgegsefegseggsergdrhfseg`;
@@ -30,32 +30,32 @@ const api = new API(END_POINT, AUTHORIZATION);
 
 const filmsModel = new FilmsModel();
 
-const navigationComponent = new NavigationView();
-render(siteMainElement, navigationComponent);
+const navigationView = new NavigationView();
+render(siteMainElement, navigationView);
 
 const mainNavigation = siteMainElement.querySelector(`.main-navigation`);
 
 new FilterPresenter(mainNavigation, filmsModel).render();
 
-const statisticsComponent = new StatisticsView(filmsModel);
-statisticsComponent.hide();
-render(siteMainElement, statisticsComponent);
+const statisticsView = new StatisticsView(filmsModel);
+statisticsView.hide();
+render(siteMainElement, statisticsView);
 
 const filmCardListPresenter = new FilmCardListPresenter(siteMainElement, filmsModel, api);
 filmCardListPresenter.showPreloader();
 
 
-navigationComponent.setOnChangeHandler((navigationItem) => {
+navigationView.setOnChangeHandler((navigationItem) => {
 
   switch (navigationItem) {
     case NavigationItem.FILMS:
-      statisticsComponent.hide();
+      statisticsView.hide();
       filmCardListPresenter.show();
       break;
 
     case NavigationItem.STATS:
       filmCardListPresenter.hide();
-      statisticsComponent.show();
+      statisticsView.show();
       break;
   }
 });

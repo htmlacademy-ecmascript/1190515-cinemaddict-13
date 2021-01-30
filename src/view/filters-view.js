@@ -1,6 +1,6 @@
-import AbstractComponent from "./abstract-component";
+import AbstractView from "./abstract-view";
 import {FilterType, NavigationItem} from "../const";
-import {NAVIGATION_ITEM_ACTIVE} from "./navigation";
+import {NAVIGATION_ITEM_ACTIVE} from "./navigation-view";
 
 const createFiltersTemplate = (filters) => {
   return filters.map(({address, name, count, isChecked}) => {
@@ -20,7 +20,7 @@ const createFilterTemplate = (filters) => {
     </div>`;
 };
 
-export default class FilterView extends AbstractComponent {
+export default class FilterView extends AbstractView {
   constructor(filters) {
     super();
     this._filters = filters;
