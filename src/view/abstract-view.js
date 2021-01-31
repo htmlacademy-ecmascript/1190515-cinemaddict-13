@@ -1,6 +1,6 @@
 import {createElement} from "../utils/render-utils";
 
-const VISUALLY_HIDDEN = `visually-hidden`;
+const CLASS_HIDDEN = `visually-hidden`;
 
 export default class AbstractView {
   constructor() {
@@ -29,13 +29,13 @@ export default class AbstractView {
 
   show() {
     if (this._element) {
-      this._element.classList.remove(VISUALLY_HIDDEN);
+      this._element.classList.remove(CLASS_HIDDEN);
     }
   }
 
   hide() {
     if (this._element) {
-      this._element.classList.add(VISUALLY_HIDDEN);
+      this._element.classList.add(CLASS_HIDDEN);
     }
   }
 }
