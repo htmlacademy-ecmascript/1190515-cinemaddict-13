@@ -3,7 +3,7 @@ import API from "./api/api";
 import FooterStatisticView from "./view/footer-statistic-view";
 import UserProfileRatingView from "./view/user-profile-rating-view";
 import NavigationView from "./view/navigation-view";
-import StatisticsView from "./view/statistic-view";
+import StatisticView from "./view/statistic-view";
 
 import FilmsModel from "./model/films-model";
 
@@ -14,7 +14,7 @@ import {render} from "./utils/render-utils";
 import {getUserRank} from "./utils/user-rank-utils";
 import {NavigationItem} from "./const";
 
-const AUTHORIZATION = `Basic h79hwgegsefegseggsergdrhfseg`;
+const AUTHORIZATION = `Basic h7gdrhdrsdrgdrhfseg`;
 const END_POINT = `https://13.ecmascript.pages.academy/cinemaddict`;
 
 const siteHeaderElement = document.querySelector(`.header`);
@@ -37,7 +37,7 @@ const mainNavigation = siteMainElement.querySelector(`.main-navigation`);
 
 new FilterPresenter(mainNavigation, filmsModel).render();
 
-const statisticsView = new StatisticsView(filmsModel);
+const statisticsView = new StatisticView(filmsModel);
 statisticsView.hide();
 render(siteMainElement, statisticsView);
 

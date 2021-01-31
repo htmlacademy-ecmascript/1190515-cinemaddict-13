@@ -3,8 +3,6 @@ import SortView from "../view/sort-view";
 import ShowMoreButtonView from "../view/show-more-button-view";
 import FilmsListView from "../view/films-list-view";
 import FilmListContainerView from "../view/film-list-container-view";
-import MostCommentedFilmsView from "../view/most-commented-films-view";
-import TopRatedFilmsView from "../view/top-rated-films-view";
 import NoLoadFilmsView from "../view/no-load-films-view";
 import LoadFilmsView from "../view/load-films-view";
 
@@ -26,8 +24,6 @@ export default class FilmCardListPresenter {
     this._filmsListContainer = null;
 
     this._films = [];
-    this._currentTopRatedFilms = [];
-    this._currentMostCommentedFilms = [];
 
     this._filmsLoadView = new LoadFilmsView();
     this._sortView = new SortView(SortType.DEFAULT);
@@ -36,15 +32,12 @@ export default class FilmCardListPresenter {
     this._filmsListContainerView = new FilmListContainerView();
     this._noFilmsView = new NoLoadFilmsView();
     this._showMoreButtonView = new ShowMoreButtonView();
-    this._mostCommentedFilmsView = new MostCommentedFilmsView();
-    this._topRatedFilmsView = new TopRatedFilmsView();
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onViewChange = this._onViewChange.bind(this);
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onShowMoreButtonClick = this._onShowMoreButtonClick.bind(this);
-
 
     this._sortView.setSortTypeHandler(this._onSortTypeChange);
     this._filmsModel.setFilterChangeHandler(this._onFilterChange);
@@ -90,7 +83,7 @@ export default class FilmCardListPresenter {
   }
 
   _removeFilms() {
-    this._currentFilmPresenters.forEach((filmController) => filmController.destroy());
+    this._currentFilmPresenters.forEach((filmPresenter) => filmPresenter.destroy());
     this._currentFilmPresenters = [];
   }
 
@@ -136,11 +129,11 @@ export default class FilmCardListPresenter {
     this._updateList(sortType);
   }
 
-  _onDataChange(filmPresenter, oldData, newData) {
+  _onDataChange(filmPresenter, prevData, newData) {
 
-    this._api.updateFilm(oldData.id, newData)
+    this._api.updateFilm(prevData.id, newData)
       .then((film) => {
-        this._filmsModel.updateFilms(oldData.id, film);
+        this._filmsModel.updateFilms(prevData.id, film);
         filmPresenter.updateElement(film);
       });
   }
@@ -175,18 +168,5 @@ export default class FilmCardListPresenter {
 
   removePreloader() {
     remove(this._filmsLoadView);
-  }
-
-  _renderExtraFilmList() {
-    render(this._filmsView.getElement(), this._topRatedFilmsView);
-    render(this._filmsView.getElement(), this._mostCommentedFilmsView);
-
-    this._currentTopRatedFilms = getSortedFilms(this._filmsModel.getAllFilms(), SortType.RATING, 0, CardsCount.EXTRA);
-
-    this._renderFilmPresenters(this._currentTopRatedFilms, this._topRatedFilmsView.getElement().querySelector(`.films-list__container`));
-
-    this._currentMostCommentedFilms = getSortedFilms(this._filmsModel.getAllFilms(), SortType.COMMENTS, 0, CardsCount.EXTRA);
-
-    this._renderFilmPresenters(this._currentMostCommentedFilms, this._mostCommentedFilmsView.getElement().querySelector(`.films-list__container`));
   }
 }
