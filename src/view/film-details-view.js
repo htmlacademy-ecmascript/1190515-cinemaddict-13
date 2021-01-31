@@ -92,9 +92,4 @@ export default class FilmDetailsView extends AbstractSmartView {
   setClickHandler(callback) {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, callback);
   }
-
-  removeClickHandler(callback) {
-    this.getElement().querySelector(`.film-details__close-btn`).removeEventListener(`click`, callback);
-  }
-
 }

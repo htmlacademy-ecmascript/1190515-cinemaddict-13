@@ -1,6 +1,7 @@
 import FilterView from "../view/filters-view";
 
 import {FilterType} from "../const";
+
 import {render, replace, RenderPosition} from "../utils/render-utils";
 import {getFilteredFilms} from "../utils/filters-utils";
 

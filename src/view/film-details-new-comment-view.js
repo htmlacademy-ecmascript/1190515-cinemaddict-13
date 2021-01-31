@@ -68,19 +68,6 @@ export default class FilmDetailsNewCommentView extends AbstractSmartView {
     this._subscribeOnEvents();
   }
 
-  updateElement() {
-    const prevElement = this.getElement();
-    const parent = prevElement.parentElement;
-
-    this.removeElement();
-
-    const newElement = this.getElement();
-
-    parent.replaceChild(newElement, prevElement);
-
-    this.restoreHandlers();
-  }
-
   _inputChangeHandler(evt) {
     this._emoji = evt.target.value;
     this._emojiTemplate = createEmojiImageTemplate(this._emoji);
@@ -112,7 +99,7 @@ export default class FilmDetailsNewCommentView extends AbstractSmartView {
   }
 
   _newCommentSubmitHandler(evt) {
-    const isCommentPush = (evt.ctrlKey || evt.metaKey) && evt.key === Keydown.ENT;
+    const onCtrlAndEnterPressed = (evt.ctrlKey || evt.metaKey) && evt.key === Keydown.ENT;
 
     const textarea = this.getElement().querySelector(`.film-details__comment-input`);
 
@@ -120,7 +107,7 @@ export default class FilmDetailsNewCommentView extends AbstractSmartView {
       textarea.classList.remove(SHAKE_CLASS);
     }
 
-    if (isCommentPush && this._comment && this._emoji) {
+    if (onCtrlAndEnterPressed && this._comment && this._emoji) {
       textarea.disabled = true;
 
       const comment = {
@@ -130,7 +117,7 @@ export default class FilmDetailsNewCommentView extends AbstractSmartView {
       };
 
       this._callback(comment);
-    } else if (isCommentPush && (this._comment || this._emoji)) {
+    } else if (onCtrlAndEnterPressed && (this._comment || this._emoji)) {
       this.shakeBlock();
     }
   }

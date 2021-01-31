@@ -51,12 +51,6 @@ export default class FilmCardView extends AbstractSmartView {
       .forEach((element) => element.addEventListener(`click`, callback));
   }
 
-  removeClickHandler(callback) {
-    this.getElement()
-      .querySelectorAll(`.film-card__poster, .film-card__title, .film-card__comments`)
-      .forEach((element) => element.removeEventListener(`click`, callback));
-  }
-
   setAddToWatchlistHandler(callback) {
     this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, callback);
   }
