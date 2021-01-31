@@ -4,7 +4,6 @@ const Keydown = {
   ESCAPE: `Escape`
 };
 
-
 export default Keydown;
 
 export const CardsCount = {

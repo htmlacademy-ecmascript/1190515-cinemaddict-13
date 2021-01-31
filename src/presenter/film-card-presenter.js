@@ -127,7 +127,6 @@ export default class FilmCardPresenter {
       this._changeData(film, Field.FAVORITE);
     });
 
-
     if (prevFilmCardView) {
       replace(this._filmCardView, prevFilmCardView);
     } else {
