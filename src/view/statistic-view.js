@@ -4,10 +4,20 @@ import {getUserRank} from "../utils/user-rank-utils";
 import Chart from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
-import {TimePeriod, MINUTES_IN_HOUR} from "../const";
+import {MINUTES_IN_HOUR} from "../const";
 import dayjs from "dayjs";
 
 const BAR_HEIGHT = 50;
+
+const TimePeriod = {
+  ALL_TIME: `all-time`,
+  TODAY: `today`,
+  PERONEPERIOD: 1,
+  WEEK: `week`,
+  PERWEEK: 7,
+  MONTH: `month`,
+  YEAR: `year`,
+};
 
 const renderChart = (statisticCtx, stats) => {
   return new Chart(statisticCtx, {

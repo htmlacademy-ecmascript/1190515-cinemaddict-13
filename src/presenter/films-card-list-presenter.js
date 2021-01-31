@@ -7,10 +7,15 @@ import NoLoadFilmsView from "../view/no-load-films-view";
 import LoadFilmsView from "../view/load-films-view";
 
 import {render, remove} from "../utils/render-utils";
-import {SortType, CardsCount} from "../const";
+import {SortType} from "../const";
 import {getSortedFilms} from "../utils/sort-utils";
 
 import FilmCardPresenter from "./film-card-presenter";
+
+const CardsCount = {
+  ON_START: 5,
+  STEP: 5
+};
 
 export default class FilmCardListPresenter {
   constructor(container, filmsModel, api) {

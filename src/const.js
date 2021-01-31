@@ -6,17 +6,6 @@ const Keydown = {
 
 export default Keydown;
 
-export const CardsCount = {
-  ON_START: 5,
-  STEP: 5,
-  EXTRA: 2
-};
-
-export const ButtonText = {
-  DELETE: `Delete`,
-  DELETING: `Deleting...`
-};
-
 export const NavigationItem = {
   FILMS: `films`,
   STATS: `stats`,
@@ -42,18 +31,6 @@ export const FilterType = {
   FAVORITES: `Favorites`,
 };
 
-export const TimePeriod = {
-  ALL_TIME: `all-time`,
-  TODAY: `today`,
-  PERONEPERIOD: 1,
-  WEEK: `week`,
-  PERWEEK: 7,
-  MONTH: `month`,
-  YEAR: `year`,
-};
-
 export const SHAKE_CLASS = `shake`;
 
 export const MINUTES_IN_HOUR = 60;
-
-

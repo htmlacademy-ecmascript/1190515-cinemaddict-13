@@ -1,11 +1,16 @@
 import AbstractSmartView from "./abstract-smart-view";
-import {SHAKE_CLASS, ButtonText} from "../const";
+import {SHAKE_CLASS} from "../const";
 
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 import he from "he";
+
+const ButtonText = {
+  DELETE: `Delete`,
+  DELETING: `Deleting...`
+};
 
 const createCommentsTemplate = (allComments) => {
   return allComments.map(({emotion, comment, date, author, id}) => {
