@@ -105,22 +105,22 @@ const getTimeRange = (filter) => {
 };
 
 const sortByGenre = (films) => {
-  const uniqGenres = [];
+  const uniqueGenres = [];
   const genresOfEveryFilm = films.map((film) => film.genres);
 
   genresOfEveryFilm.forEach((genres) => {
     genres.forEach((genre) => {
-      if (!uniqGenres.some((uniqGenre) => uniqGenre === genre)) {
-        uniqGenres.push(genre);
+      if (!uniqueGenres.some((uniqueGenre) => uniqueGenre === genre)) {
+        uniqueGenres.push(genre);
       }
     });
   });
 
   const genresStat = [];
 
-  uniqGenres.forEach((uniqGenre) => {
-    const uniqGenreCount = genresOfEveryFilm.reduce((acc, genres) => {
-      const isThere = genres.some((genre) => genre === uniqGenre);
+  uniqueGenres.forEach((uniqueGenre) => {
+    const uniqueGenreCount = genresOfEveryFilm.reduce((acc, genres) => {
+      const isThere = genres.some((genre) => genre === uniqueGenre);
 
       if (isThere) {
         return acc + 1;
@@ -130,8 +130,8 @@ const sortByGenre = (films) => {
     }, 0);
 
     genresStat.push({
-      genre: uniqGenre,
-      count: uniqGenreCount,
+      genre: uniqueGenre,
+      count: uniqueGenreCount,
     });
   });
 
