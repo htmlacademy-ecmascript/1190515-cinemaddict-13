@@ -70,7 +70,6 @@ export default class FilmCardPresenter {
     this._onViewChange();
     this._renderComments();
     document.querySelector(`body`).classList.add(`hide-overflow`);
-    document.addEventListener(`keydown`, this._closePopupOnEscPress);
 
     this._filmDetailsNewCommentView.setAddCommentHandler((comment) => {
       if (this._mode === Mode.OPEN) {
@@ -196,6 +195,7 @@ export default class FilmCardPresenter {
 
     this._api.getComment(this._film.id)
       .then((comments) => {
+        document.addEventListener(`keydown`, this._closePopupOnEscPress);
         this._commentsModel.setComments(comments);
         this._comments = this._commentsModel.getComments();
         this._filmDetailsCommentsView = new FilmDetailsCommentsView(this._comments);
