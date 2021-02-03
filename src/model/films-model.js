@@ -1,13 +1,12 @@
 import {getFilteredFilms} from "../utils/filters-utils";
-import Observer from "../utils/observer-utils";
 import {FilterType} from "../const";
 
-export default class FilmsModel extends Observer {
+export default class FilmsModel {
   constructor() {
-    super();
     this._films = [];
     this._activeFilterType = FilterType.ALL;
 
+    this._dataChangeHandlers = [];
     this._filterChangeHandlers = [];
   }
 
@@ -43,6 +42,10 @@ export default class FilmsModel extends Observer {
   setFilter(filterType) {
     this._activeFilterType = filterType;
     this._callHandlers(this._filterChangeHandlers);
+  }
+
+  setDataChangeHandlers(handler) {
+    this._dataChangeHandlers.push(handler);
   }
 
   setFilterChangeHandler(handler) {

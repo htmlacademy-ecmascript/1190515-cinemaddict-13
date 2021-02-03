@@ -43,6 +43,8 @@ export default class FilmCardListPresenter {
     this._onSortTypeChange = this._onSortTypeChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onShowMoreButtonClick = this._onShowMoreButtonClick.bind(this);
+    this._onPopupDataChange = this._onPopupDataChange.bind(this);
+    this._onCardDataChange = this._onCardDataChange.bind(this);
 
     this._sortView.setSortTypeHandler(this._onSortTypeChange);
     this._filmsModel.setFilterChangeHandler(this._onFilterChange);
@@ -72,7 +74,7 @@ export default class FilmCardListPresenter {
 
   _renderFilmPresenters(films, container) {
     return films.map((film) => {
-      const filmPresenter = new FilmCardPresenter(film, container, this._onDataChange, this._onViewChange, this._api);
+      const filmPresenter = new FilmCardPresenter(film, container, this._onDataChange, this._onPopupDataChange, this._onCardDataChange, this._onViewChange, this._api);
       filmPresenter.render(film);
       this._currentFilmPresenters.push(filmPresenter);
     });
@@ -91,6 +93,12 @@ export default class FilmCardListPresenter {
     this._currentFilmPresenters.forEach((filmPresenter) => filmPresenter.destroy());
     this._currentFilmPresenters = [];
   }
+
+  // _updateFilms(count) {
+  //   this._removeFilms();
+  //   this._renderFilms(this._filmsModel.getFilms().slice(0, count), this._filmsListContainer);
+  //   this._renderShowMoreButton();
+  // }
 
   _renderShowMoreButton() {
     remove(this._showMoreButtonView);
@@ -128,13 +136,31 @@ export default class FilmCardListPresenter {
     this._updateList(sortType);
   }
 
-  _onDataChange(filmPresenter, newData) {
-    this._api.updateFilm(newData.id, newData)
+  _onPopupDataChange() {
+    this._removeFilms();
+    this._renderFilms(getSortedFilms(this._filmsModel.getFilms(), this._sortView.getSortType(), 0, this._currentCardsCount), this._filmsListContainer);
+    this._renderShowMoreButton();
+  }
+
+  _onCardDataChange(filmPresenter, prevData, newData) {
+    this._onDataChange(filmPresenter, prevData, newData);
+    this._removeFilms();
+    this._renderFilms(getSortedFilms(this._filmsModel.getFilms(), this._sortView.getSortType(), 0, this._currentCardsCount), this._filmsListContainer);
+    this._renderShowMoreButton();
+  }
+
+  _onDataChange(filmPresenter, prevData, newData) {
+
+    this._api.updateFilm(prevData.id, newData)
       .then((film) => {
-        this._filmsModel.updateFilms(film.id, film);
+        this._filmsModel.updateFilms(prevData.id, film);
         filmPresenter.updateElement(film);
-        this._updateList(this._sortView.getSortType());
+        // this._onFilterChange();
+        // this._onPopupDataChange(this._sortView.getSortType());
       });
+    // this._sortView.setDefaultSortType();
+    // this._onSortTypeChange(SortType.DEFAULT);
+    // this._updateList(this._sortView.getSortType());
   }
 
   _onViewChange() {
