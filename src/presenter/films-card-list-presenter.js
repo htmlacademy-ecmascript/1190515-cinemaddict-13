@@ -138,9 +138,7 @@ export default class FilmCardListPresenter {
 
   _onCardDataChange(filmPresenter, prevData, newData) {
     this._onDataChange(filmPresenter, prevData, newData, () => {
-      this._removeFilms();
-      this._renderFilms(getSortedFilms(this._filmsModel.getFilms(), this._sortView.getSortType(), 0, this._currentCardsCount), this._filmsListContainer);
-      this._renderShowMoreButton();
+      this._onPopupDataChange();
     });
   }
 
