@@ -94,12 +94,6 @@ export default class FilmCardListPresenter {
     this._currentFilmPresenters = [];
   }
 
-  // _updateFilms(count) {
-  //   this._removeFilms();
-  //   this._renderFilms(this._filmsModel.getFilms().slice(0, count), this._filmsListContainer);
-  //   this._renderShowMoreButton();
-  // }
-
   _renderShowMoreButton() {
     remove(this._showMoreButtonView);
 
@@ -155,12 +149,7 @@ export default class FilmCardListPresenter {
       .then((film) => {
         this._filmsModel.updateFilms(prevData.id, film);
         filmPresenter.updateElement(film);
-        // this._onFilterChange();
-        // this._onPopupDataChange(this._sortView.getSortType());
       });
-    // this._sortView.setDefaultSortType();
-    // this._onSortTypeChange(SortType.DEFAULT);
-    // this._updateList(this._sortView.getSortType());
   }
 
   _onViewChange() {

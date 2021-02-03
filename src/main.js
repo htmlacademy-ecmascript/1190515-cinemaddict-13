@@ -13,7 +13,7 @@ import UserProfileRatingPresenter from "./presenter/user-profile-rating-presente
 import {render} from "./utils/render-utils";
 import {NavigationItem} from "./const";
 
-const AUTHORIZATION = `Basic hhhrsewdrgdrdrhseg`;
+const AUTHORIZATION = `Basic hhhrserhseg`;
 const END_POINT = `https://13.ecmascript.pages.academy/cinemaddict`;
 
 const siteHeaderElement = document.querySelector(`.header`);
