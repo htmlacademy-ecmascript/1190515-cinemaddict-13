@@ -103,8 +103,9 @@ export default class FilmCardPresenter {
     document.querySelector(`body`).classList.remove(`hide-overflow`);
     this._filmDetailsNewCommentView.removeCommentHandler();
     this._mode = Mode.CLOSED;
-    this._onDataChange(this, this._film, AdapterModel.clone(this._film));
-    this._onPopupDataChange();
+    this._onDataChange(this, this._film, AdapterModel.clone(this._film), () => {
+      this._onPopupDataChange();
+    });
   }
 
   _renderFilmCard(film) {
