@@ -5,7 +5,7 @@ import FilmDetailsControlsView from "../view/film-details-controls-view";
 import FilmDetailsNewCommentView from "../view/film-details-new-comment-view";
 
 import CommentsModel from "../model/comments-model";
-import AdapterModel from "../model/adapter-model";
+// import AdapterModel from "../model/adapter-model";
 
 import {render, removeChild, appendChild, replace, remove} from "../utils/render-utils";
 import Keydown from "../const";
@@ -102,7 +102,7 @@ export default class FilmCardPresenter {
     document.querySelector(`body`).classList.remove(`hide-overflow`);
     this._filmDetailsNewCommentView.removeCommentHandler();
     this._mode = Mode.CLOSED;
-    this._onDataChange(this, this._film, AdapterModel.clone(this._film));
+    this._onDataChange(this, this._film);
   }
 
   _renderFilmCard(film) {
@@ -241,15 +241,12 @@ export default class FilmCardPresenter {
   }
 
   _changeData(film, field) {
-    const newFilm = AdapterModel.clone(film);
-    newFilm[field] = !newFilm[field];
+    film[field] = !film[field];
 
-    if (newFilm[field] === Field.HISTORY) {
-      newFilm.watchingDate = new Date();
-    } else {
-      newFilm.watchingDate = null;
+    if (field === Field.HISTORY) {
+      film.watchingDate = film[field] ? new Date() : null;
     }
 
-    this._onDataChange(this, film, newFilm);
+    this._onDataChange(this, film);
   }
 }

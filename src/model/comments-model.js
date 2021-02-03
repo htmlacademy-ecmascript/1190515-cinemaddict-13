@@ -1,5 +1,8 @@
-export default class CommentsModel {
+import Observer from "../utils/observer-utils";
+
+export default class CommentsModel extends Observer {
   constructor() {
+    super();
     this._comments = [];
     this._dataChangeHandlers = [];
   }

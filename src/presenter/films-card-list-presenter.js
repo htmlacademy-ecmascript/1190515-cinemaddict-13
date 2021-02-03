@@ -92,13 +92,6 @@ export default class FilmCardListPresenter {
     this._currentFilmPresenters = [];
   }
 
-  // _updateFilms(sortType) {
-  //   this._currentCardsCount = CardsCount.ON_START;
-  //   this._removeFilms();
-  //   this._renderFilms(getSortedFilms(this._filmsModel.getFilms(), sortType, 0, this._currentCardsCount), this._filmsListContainer);
-  //   this._renderShowMoreButton();
-  // }
-
   _renderShowMoreButton() {
     remove(this._showMoreButtonView);
 
@@ -135,22 +128,13 @@ export default class FilmCardListPresenter {
     this._updateList(sortType);
   }
 
-  // _onDataChange(filmPresenter, prevData, newData) {
-
-  //   this._api.updateFilm(prevData.id, newData)
-  //     .then((film) => {
-  //       this._filmsModel.updateFilms(prevData.id, film);
-  //       filmPresenter.updateElement(film);
-  //     });
-  // }
-
   _onDataChange(filmPresenter, newData) {
-
     this._api.updateFilm(newData.id, newData)
       .then((film) => {
         this._filmsModel.updateFilms(film.id, film);
         filmPresenter.updateElement(film);
       });
+    this._updateList(this._sortView.getSortType());
   }
 
   _onViewChange() {

@@ -13,7 +13,7 @@ import UserProfileRatingPresenter from "./presenter/user-profile-rating-presente
 import {render} from "./utils/render-utils";
 import {NavigationItem} from "./const";
 
-const AUTHORIZATION = `Basic hhfseg`;
+const AUTHORIZATION = `Basic hhhdrawdawdhdrhseg`;
 const END_POINT = `https://13.ecmascript.pages.academy/cinemaddict`;
 
 const siteHeaderElement = document.querySelector(`.header`);
@@ -21,6 +21,7 @@ const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
 
 const renderPage = () => {
+  filmCardListPresenter.removePreloader();
   filmCardListPresenter.render();
   render(siteFooterElement, new FooterStatisticView(filmsModel.getAllFilms().length));
 };
@@ -61,7 +62,7 @@ navigationView.setOnChangeHandler((navigationItem) => {
 api.getFilms()
   .then((films) => {
     filmsModel.setFilms(films);
-    filmCardListPresenter.removePreloader();
+    // filmCardListPresenter.removePreloader();
     new UserProfileRatingPresenter(siteHeaderElement, filmsModel).render();
     renderPage();
   })
