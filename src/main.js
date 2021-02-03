@@ -1,7 +1,6 @@
 import API from "./api/api";
 
 import FooterStatisticView from "./view/footer-statistic-view";
-import UserProfileRatingView from "./view/user-profile-rating-view";
 import NavigationView from "./view/navigation-view";
 import StatisticView from "./view/statistic-view";
 
@@ -9,12 +8,12 @@ import FilmsModel from "./model/films-model";
 
 import FilterPresenter from "./presenter/filter-presenter";
 import FilmCardListPresenter from "./presenter/films-card-list-presenter";
+import UserProfileRatingPresenter from "./presenter/user-profile-rating-presenter";
 
 import {render} from "./utils/render-utils";
-import {getUserRank} from "./utils/user-rank-utils";
 import {NavigationItem} from "./const";
 
-const AUTHORIZATION = `Basic h7gwadawgshfseg`;
+const AUTHORIZATION = `Basic hhhrserhseg`;
 const END_POINT = `https://13.ecmascript.pages.academy/cinemaddict`;
 
 const siteHeaderElement = document.querySelector(`.header`);
@@ -22,6 +21,7 @@ const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
 
 const renderPage = () => {
+  filmCardListPresenter.removePreloader();
   filmCardListPresenter.render();
   render(siteFooterElement, new FooterStatisticView(filmsModel.getAllFilms().length));
 };
@@ -44,7 +44,6 @@ render(siteMainElement, statisticsView);
 const filmCardListPresenter = new FilmCardListPresenter(siteMainElement, filmsModel, api);
 filmCardListPresenter.showPreloader();
 
-
 navigationView.setOnChangeHandler((navigationItem) => {
 
   switch (navigationItem) {
@@ -63,8 +62,7 @@ navigationView.setOnChangeHandler((navigationItem) => {
 api.getFilms()
   .then((films) => {
     filmsModel.setFilms(films);
-    filmCardListPresenter.removePreloader();
-    render(siteHeaderElement, new UserProfileRatingView(getUserRank(filmsModel.getWatchedFilms().length)));
+    new UserProfileRatingPresenter(siteHeaderElement, filmsModel).render();
     renderPage();
   })
   .catch(() => {

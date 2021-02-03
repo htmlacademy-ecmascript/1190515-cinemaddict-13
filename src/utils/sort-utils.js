@@ -14,9 +14,6 @@ export const getSortedFilms = (films, filterType, from, to) => {
     case SortType.DEFAULT:
       sortedFilms = shownFilms;
       break;
-    case SortType.COMMENTS:
-      sortedFilms = shownFilms.sort((a, b) => b.comments.length - a.comments.length);
-      break;
   }
   return sortedFilms.slice(from, to);
 };

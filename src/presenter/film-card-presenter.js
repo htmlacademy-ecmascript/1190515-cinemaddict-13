@@ -22,10 +22,12 @@ const Field = {
 };
 
 export default class FilmCardPresenter {
-  constructor(film, container, onDataChange, onViewChange, api) {
+  constructor(film, container, onDataChange, onPopupDataChange, onCardDataChange, onViewChange, api) {
     this._film = film;
     this._container = container;
     this._onDataChange = onDataChange;
+    this._onCardDataChange = onCardDataChange;
+    this._onPopupDataChange = onPopupDataChange;
     this._onViewChange = onViewChange;
     this._api = api;
 
@@ -103,6 +105,7 @@ export default class FilmCardPresenter {
     this._filmDetailsNewCommentView.removeCommentHandler();
     this._mode = Mode.CLOSED;
     this._onDataChange(this, this._film, AdapterModel.clone(this._film));
+    this._onPopupDataChange();
   }
 
   _renderFilmCard(film) {
@@ -114,17 +117,17 @@ export default class FilmCardPresenter {
 
     this._filmCardView.setAddToWatchlistHandler((evt) => {
       evt.preventDefault();
-      this._changeData(film, Field.WATCHLIST);
+      this._changeData(film, Field.WATCHLIST, this._onCardDataChange);
     });
 
     this._filmCardView.setAlreadyWatchedHandler((evt) => {
       evt.preventDefault();
-      this._changeData(film, Field.HISTORY);
+      this._changeData(film, Field.HISTORY, this._onCardDataChange);
     });
 
     this._filmCardView.setAddToFavoritesHandler((evt) => {
       evt.preventDefault();
-      this._changeData(film, Field.FAVORITE);
+      this._changeData(film, Field.FAVORITE, this._onCardDataChange);
     });
 
     if (prevFilmCardView) {
@@ -162,17 +165,17 @@ export default class FilmCardPresenter {
 
     this._filmDetailsControlsView.setAddToWatchlistHandler((evt) => {
       evt.preventDefault();
-      this._changeData(film, Field.WATCHLIST);
+      this._changeData(film, Field.WATCHLIST, this._onDataChange);
     });
 
     this._filmDetailsControlsView.setAlreadyWatchedHandler((evt) => {
       evt.preventDefault();
-      this._changeData(film, Field.HISTORY);
+      this._changeData(film, Field.HISTORY, this._onDataChange);
     });
 
     this._filmDetailsControlsView.setAddToFavoritesHandler((evt) => {
       evt.preventDefault();
-      this._changeData(film, Field.FAVORITE);
+      this._changeData(film, Field.FAVORITE, this._onDataChange);
     });
   }
 
@@ -240,7 +243,7 @@ export default class FilmCardPresenter {
     }
   }
 
-  _changeData(film, field) {
+  _changeData(film, field, callback) {
     const newFilm = AdapterModel.clone(film);
     newFilm[field] = !newFilm[field];
 
@@ -250,6 +253,6 @@ export default class FilmCardPresenter {
       newFilm.watchingDate = null;
     }
 
-    this._onDataChange(this, film, newFilm);
+    callback(this, film, newFilm);
   }
 }
