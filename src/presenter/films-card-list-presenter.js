@@ -133,8 +133,8 @@ export default class FilmCardListPresenter {
       .then((film) => {
         this._filmsModel.updateFilms(film.id, film);
         filmPresenter.updateElement(film);
+        this._updateList(this._sortView.getSortType());
       });
-    this._updateList(this._sortView.getSortType());
   }
 
   _onViewChange() {
